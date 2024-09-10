@@ -1,24 +1,43 @@
 require('dotenv').config();
-const app = express();
+const mongoose = require('mongoose');
 const express = require('express');
+const app = express();
 const cors = require('cors');
-const http = require('http');
+
 app.use(express.json());
 app.use(cors());
 
-const errorHandler = (error, request, response, next) => {
-  console.error(error.message);
+// Ota yhteys MongoDB Atlas -tietokantaan
+const url = process.env.MONGODB_URI; // MongoDB URI ympäristömuuttujasta
 
-  if (error.name === 'CastError') {
-    return response.status(400).send({ error: 'malformatted id' });
-  } else if (error.name === 'ValidationError') {
-    return response.status(400).json({ error: error.message });
+mongoose
+  .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('Connected to MongoDB Atlas');
+  })
+  .catch((error) => {
+    console.log('Error connecting to MongoDB:', error.message);
+  });
+
+// Määrittele Mongoose-malli kokoelmalle 'test'
+const testSchema = new mongoose.Schema(
+  {
+    testi: String,
+  },
+  { collection: 'test' }
+);
+
+const Test = mongoose.model('Test', testSchema);
+
+// GET reitti kaikkien testikokoelman tietojen hakemiseen
+app.get('/api/test', async (req, res) => {
+  try {
+    const result = await Test.find({});
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-
-  response.status(500).json({ error: 'Something went wrong' });
-};
-
-app.use(errorHandler);
+});
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

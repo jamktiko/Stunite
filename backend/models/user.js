@@ -9,13 +9,28 @@ mongoose
     console.error('Error connecting to MongoDB:', error.message);
   });
 
-//Skeema
 const userSchema = new mongoose.Schema({
-  username: { type: String, unique: true, required: true },
-  password: { type: String, required: true },
-  isadmin: { type: Boolean, required: true },
-  isorganizer: { type: Boolean, required: true },
-  isstudent: { type: Boolean, required: true },
+  id: {
+    type: Number,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+    enum: ['admin', 'organizer', 'student'],
+    required: true,
+  },
+  major: {
+    type: String,
+    required: false,
+  },
 });
 
 userSchema.set('toJSON', {
