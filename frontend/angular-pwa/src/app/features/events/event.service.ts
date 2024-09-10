@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/internal/Observable';
   providedIn: 'root',
 })
 export class EventService {
-  private apiUrl = '.../fakedata.json';
+  private apiUrl = 'assets/fakedata.json';
 
   constructor(private http: HttpClient) {}
   getEvents(): Observable<any> {

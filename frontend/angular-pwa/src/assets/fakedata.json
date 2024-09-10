@@ -1,0 +1,41 @@
+{
+  "_comment": "Feikki dataa tapahtumista!",
+  "eventName": "Syyspippalot",
+  "date": "20.9.2024",
+  "startingTime": "19.00",
+  "location": {
+    "venue": "JAMK etupiha",
+    "city": "Jyväskylä",
+    "address": "Rajakatu 35 40100 Jyväskylä"
+  },
+  "participants": [
+    {
+      "id": 1,
+      "name": "Mikko Virtanen",
+      "age": 21,
+      "major": "Tietojenkäsittelytiede",
+      "email": "mikko.virtanen@jamk.com"
+    },
+    {
+      "id": 2,
+      "name": "Anna Korhonen",
+      "age": 22,
+      "major": "Kauppatieteet",
+      "email": "anna.korhonen@jamk.com"
+    },
+    {
+      "id": 3,
+      "name": "Lauri Lehtinen",
+      "age": 20,
+      "major": "Sosiologia",
+      "email": "lauri.lehtinen@jamk.com"
+    },
+    {
+      "id": 4,
+      "name": "Liisa Mäkelä",
+      "age": 23,
+      "major": "Teknillinen fysiikka",
+      "email": "liisa.makela@jamk.com"
+    }
+  ]
+}

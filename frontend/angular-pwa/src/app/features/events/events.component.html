@@ -1,8 +1,12 @@
 <h1>Tapahtumat</h1>
 <div>
-  <p> haku kenttä </p>
-  <p> haku suodatusket</p>
+  <p>haku kenttä</p>
+  <p>haku suodatusket</p>
 </div>
-<div>
-  <p>Tapahtumakortteja</p>
+
+<!-- @if(eventData) {
+<app-eventcard *ngFor="let event of eventData.events"></app-eventcard>
+} -->
+<div *ngIf="eventData">
+  <app-eventcard [event]="eventData"></app-eventcard>
 </div>
