@@ -1,2 +1,29 @@
-@import "primeng/resources/themes/lara-light-blue/theme.css";
-@import "primeng/resources/primeng.css";
+/* Google Fonts */
+h1,
+h2 {
+  font-family: "Annie Use Your Telescope", cursive;
+}
+
+body {
+  font-family: "Noto Sans", sans-serif;
+  margin: 0;
+}
+
+/* Google Fonts */
+.annie-use-your-telescope-regular {
+  font-family: "Annie Use Your Telescope", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+/* 
+<weight>: Use a value from 100 to 900
+ */
+.noto-sans {
+  font-family: "Noto Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+
