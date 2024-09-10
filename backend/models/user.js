@@ -1,19 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose
-  .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log('Connected to MongoDB');
-  })
-  .catch((error) => {
-    console.error('Error connecting to MongoDB:', error.message);
-  });
-
 const userSchema = new mongoose.Schema({
-  id: {
-    type: Number,
-    required: true,
-  },
   name: {
     type: String,
     required: true,
@@ -30,6 +17,10 @@ const userSchema = new mongoose.Schema({
   major: {
     type: String,
     required: false,
+  },
+  password: {
+    type: String,
+    required: true,
   },
 });
 

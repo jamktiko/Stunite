@@ -1,6 +1,9 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
+const signupRouter = require('./routes/signup');
+const loginRouter = require('./routes/login');
+
 const app = express();
 const cors = require('cors');
 
@@ -11,7 +14,11 @@ app.use(cors());
 const url = process.env.MONGODB_URI; // MongoDB URI ympäristömuuttujasta
 
 mongoose
-  .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(url, {
+    dbName: 'Stunite',
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log('Connected to MongoDB Atlas');
   })
@@ -19,25 +26,9 @@ mongoose
     console.log('Error connecting to MongoDB:', error.message);
   });
 
-// Määrittele Mongoose-malli kokoelmalle 'test'
-const testSchema = new mongoose.Schema(
-  {
-    testi: String,
-  },
-  { collection: 'test' }
-);
-
-const Test = mongoose.model('Test', testSchema);
-
-// GET reitti kaikkien testikokoelman tietojen hakemiseen
-app.get('/api/test', async (req, res) => {
-  try {
-    const result = await Test.find({});
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// Rekisteröinti- ja kirjautumisreitit
+app.use('/api/signup', signupRouter);
+app.use('/api/login', loginRouter);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
