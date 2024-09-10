@@ -10,12 +10,51 @@ mongoose
   });
 
 //Skeema
+const ParticipantSchema = new mongoose.Schema({
+  id: {
+    type: Number,
+    unique: true,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+});
+
 const eventSchema = new mongoose.Schema({
-  username: { type: String, unique: true, required: true },
-  password: { type: String, required: true },
-  isadmin: { type: Boolean, required: true },
-  isorganizer: { type: Boolean, required: true },
-  isstudent: { type: Boolean, required: true },
+  eventName: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
+  startingTime: {
+    type: String,
+    required: true,
+  },
+  location: {
+    venue: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+  },
+  participants: [ParticipantSchema],
 });
 
 eventSchema.set('toJSON', {
