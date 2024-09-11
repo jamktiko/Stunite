@@ -1,8 +1,14 @@
 <!-- Eventcard HTML -->
 
 <div class="eventcard">
-  <p>picture</p>
+  <img
+    [src]="event.imageUrl || 'assets/placeholder.png'"
+    alt="Event image"
+    class="eventimage"
+  />
   <h3>{{ event.eventName }}</h3>
-  <p>{{ event.date }}</p>
-  <p>{{ event.location.city }}</p>
+  <div class="eventcard-info">
+    <p>{{ event.date }}</p>
+    <p>{{ event.location.city }}</p>
+  </div>
 </div>

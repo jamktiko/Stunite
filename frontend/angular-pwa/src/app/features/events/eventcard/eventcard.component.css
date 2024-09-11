@@ -4,5 +4,18 @@
   border-radius: 20px;
   border-color: #ffc3d9;
   display: flex;
+  flex-direction: column;
+  margin: auto;
+  align-items: center;
+}
 
+.eventcard-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 36px;
+}
+
+.eventimage {
+  border-radius: 18px 18px 0px 0px;
 }

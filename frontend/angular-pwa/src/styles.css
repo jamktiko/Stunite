@@ -26,4 +26,14 @@ body {
   font-variation-settings: "wdth" 100;
 }
 
-
+#grad {
+  background-image: linear-gradient(
+    to right,
+    #f3afab,
+    #ebdfaf,
+    #c6f1ba,
+    #ace8f0,
+    #c9b6f0,
+    #f1b8e5
+  );
+}

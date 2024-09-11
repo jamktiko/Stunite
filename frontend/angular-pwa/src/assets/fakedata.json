@@ -1,41 +1,146 @@
-{
-  "_comment": "Feikki dataa tapahtumista!",
-  "eventName": "Syyspippalot",
-  "date": "20.9.2024",
-  "startingTime": "19.00",
-  "location": {
-    "venue": "JAMK etupiha",
-    "city": "Jyväskylä",
-    "address": "Rajakatu 35 40100 Jyväskylä"
+[
+  {
+    "eventName": "Syyspippalot",
+    "date": "20.9.2024",
+    "startingTime": "19.00",
+    "location": {
+      "venue": "JAMK etupiha",
+      "city": "Jyväskylä",
+      "address": "Rajakatu 35 40100 Jyväskylä"
+    },
+    "participants": [
+      {
+        "id": 1,
+        "name": "Mikko Virtanen",
+        "age": 21,
+        "major": "Tietojenkäsittelytiede",
+        "email": "mikko.virtanen@jamk.com"
+      },
+      {
+        "id": 2,
+        "name": "Anna Korhonen",
+        "age": 22,
+        "major": "Kauppatieteet",
+        "email": "anna.korhonen@jamk.com"
+      },
+      {
+        "id": 3,
+        "name": "Lauri Lehtinen",
+        "age": 20,
+        "major": "Sosiologia",
+        "email": "lauri.lehtinen@jamk.com"
+      },
+      {
+        "id": 4,
+        "name": "Liisa Mäkelä",
+        "age": 23,
+        "major": "Teknillinen fysiikka",
+        "email": "liisa.makela@jamk.com"
+      }
+    ]
   },
-  "participants": [
-    {
-      "id": 1,
-      "name": "Mikko Virtanen",
-      "age": 21,
-      "major": "Tietojenkäsittelytiede",
-      "email": "mikko.virtanen@jamk.com"
+  {
+    "eventName": "Kevätjuhla",
+    "date": "15.5.2025",
+    "startingTime": "18.00",
+    "location": {
+      "venue": "Kumpulakampus",
+      "city": "Helsinki",
+      "address": "Kumpulantie 1 00520 Helsinki"
     },
-    {
-      "id": 2,
-      "name": "Anna Korhonen",
-      "age": 22,
-      "major": "Kauppatieteet",
-      "email": "anna.korhonen@jamk.com"
+    "participants": [
+      {
+        "id": 5,
+        "name": "Sara Nieminen",
+        "age": 24,
+        "major": "Kulttuurintutkimus",
+        "email": "sara.nieminen@helsinki.fi"
+      },
+      {
+        "id": 6,
+        "name": "Jari Lahtinen",
+        "age": 25,
+        "major": "Historia",
+        "email": "jari.lahtinen@helsinki.fi"
+      }
+    ]
+  },
+  {
+    "eventName": "Syysmarkkinat",
+    "date": "10.10.2024",
+    "startingTime": "10.00",
+    "location": {
+      "venue": "Tampereen Keskustori",
+      "city": "Tampere",
+      "address": "Keskustori 2 33100 Tampere"
     },
-    {
-      "id": 3,
-      "name": "Lauri Lehtinen",
-      "age": 20,
-      "major": "Sosiologia",
-      "email": "lauri.lehtinen@jamk.com"
+    "participants": [
+      {
+        "id": 7,
+        "name": "Elina Koskinen",
+        "age": 28,
+        "major": "Liiketoiminta",
+        "email": "elina.koskinen@tampere.fi"
+      },
+      {
+        "id": 8,
+        "name": "Petri Rantanen",
+        "age": 30,
+        "major": "Matematiikka",
+        "email": "petri.rantanen@tampere.fi"
+      }
+    ]
+  },
+  {
+    "eventName": "Joulukonsertti",
+    "date": "24.12.2024",
+    "startingTime": "17.00",
+    "location": {
+      "venue": "Helsingin Tuomiokirkko",
+      "city": "Helsinki",
+      "address": "Katedralikirkkotie 1 00100 Helsinki"
     },
-    {
-      "id": 4,
-      "name": "Liisa Mäkelä",
-      "age": 23,
-      "major": "Teknillinen fysiikka",
-      "email": "liisa.makela@jamk.com"
-    }
-  ]
-}
+    "participants": [
+      {
+        "id": 9,
+        "name": "Matti Virtanen",
+        "age": 32,
+        "major": "Musiikki",
+        "email": "matti.virtanen@helsinki.fi"
+      },
+      {
+        "id": 10,
+        "name": "Laura Hämäläinen",
+        "age": 29,
+        "major": "Kulttuurihistoria",
+        "email": "laura.hamalainen@helsinki.fi"
+      }
+    ]
+  },
+  {
+    "eventName": "Kevätfestivaali",
+    "date": "5.6.2025",
+    "startingTime": "12.00",
+    "location": {
+      "venue": "Turun Yliopistokampus",
+      "city": "Turku",
+      "address": "Yliopistonkatu 1 20500 Turku"
+    },
+    "participants": [
+      {
+        "id": 11,
+        "name": "Ville Jokinen",
+        "age": 26,
+        "major": "Viestintä",
+        "email": "ville.jokinen@turku.fi"
+      },
+      {
+        "id": 12,
+        "name": "Hanna Saarinen",
+        "age": 27,
+        "major": "Yhteiskuntatiede",
+        "email": "hanna.saarinen@turku.fi"
+      }
+    ]
+  }
+]
