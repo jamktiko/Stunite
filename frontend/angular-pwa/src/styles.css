@@ -1,7 +1,18 @@
+/* Text Input Fields */
+input[type="text"] {
+  width: 40%;
+  margin: 12px;
+  border: 2px solid #b2b2b2;
+  padding: 12px;
+  border-radius: 20px;
+  background-color: #fff5f9;
+}
+
 /* Google Fonts */
 h1,
 h2 {
   font-family: "Annie Use Your Telescope", cursive;
+  margin: 12px;
 }
 
 body {

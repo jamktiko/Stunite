@@ -1,0 +1,27 @@
+<div class="modal">
+  <div class="modal-content">
+    <span (click)="onClose()" class="close">&times;</span>
+
+    <h2>stunite</h2>
+    <form (ngSubmit)="onSubmit()">
+      <input
+        id="email"
+        placeholder="Sähköposti"
+        [(ngModel)]="email"
+        name="email"
+        required
+      />
+      <input
+        id="password"
+        placeholder="Salasana"
+        [(ngModel)]="password"
+        name="password"
+        required
+      />
+
+      <button type="submit">Kirjaudu Sisään</button>
+    </form>
+
+    <p>Eikö sinulla ole tunnuksia? Voit rekisteröityä täällä.</p>
+  </div>
+</div>
