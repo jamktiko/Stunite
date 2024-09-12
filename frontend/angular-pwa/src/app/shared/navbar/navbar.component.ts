@@ -14,11 +14,15 @@ export class NavbarComponent {
   @Output() openLoginModal = new EventEmitter<void>();
 
   constructor(private authService: AuthService, private router: Router) {}
-  // Function that checks does navbars icon bring you to
-  // login modal or profile page
+  // Function that brings you to either userprofile or admin-view
+  // page, if you are logged in and click profile icon.
   onProfileClick() {
     if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/userprofile']);
+      if (this.authService.isUserAdmin()) {
+        this.router.navigate(['/admin-view']);
+      } else {
+        this.router.navigate(['/userprofile']);
+      }
     } else {
       this.triggerLoginModal();
     }
@@ -27,5 +31,4 @@ export class NavbarComponent {
   triggerLoginModal() {
     this.openLoginModal.emit();
   }
-
 }

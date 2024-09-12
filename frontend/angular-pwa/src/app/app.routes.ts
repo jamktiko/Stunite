@@ -10,7 +10,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'events', component: EventsComponent },
   { path: 'associations', component: AssociationsComponent },
-  { path: 'userprofile', component: UserprofileComponent },
+  { path: 'userprofile', component: UserprofileComponent},
   {
     path: 'admin-view',
     component: AdminViewComponent,

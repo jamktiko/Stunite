@@ -62,5 +62,6 @@ export class AuthService {
     this.isLoggedIn = false;
     this.isAdmin = false;
     this.currUser = null;
+    console.log('Logged out');
   }
 }
