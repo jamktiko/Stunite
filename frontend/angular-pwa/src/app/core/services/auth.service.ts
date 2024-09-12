@@ -10,6 +10,8 @@ export class AuthService {
   private usersUrl = 'assets/credentials.json';
   private isLoggedIn = false;
   private isAdmin = false;
+  // current Users data is stored in here for now
+  private currUser: any = null;
 
   constructor(private http: HttpClient) {}
 
@@ -22,6 +24,8 @@ export class AuthService {
         if (user) {
           this.isLoggedIn = true;
           this.isAdmin = user.isAdmin;
+          // stores current users data
+          this.currUser = { ...user };
           return true;
         } else {
           return false;
@@ -38,8 +42,25 @@ export class AuthService {
     return this.isLoggedIn;
   }
 
+  getCurrUser(): any {
+    return this.currUser;
+  }
+
+  // This function will be edited to send POST to backend
+  // when user edits its information
+  updateCurrUserDetails(newDetails: {
+    firstname: string;
+    lastname: string;
+  }): void {
+    if (this.currUser) {
+      this.currUser.firstname = newDetails.firstname;
+      this.currUser.lastname = newDetails.lastname;
+    }
+  }
+
   logout(): void {
     this.isLoggedIn = false;
     this.isAdmin = false;
+    this.currUser = null;
   }
 }

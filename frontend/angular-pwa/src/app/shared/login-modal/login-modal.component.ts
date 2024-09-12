@@ -28,11 +28,14 @@ export class LoginModalComponent {
   onSubmit() {
     this.authService.login(this.email, this.password).subscribe((isAuth) => {
       if (isAuth) {
+        // Close modal after login is successful
+        this.onClose();
         if (this.authService.isUserAdmin()) {
           this.router.navigate(['/admin-view']);
         } else {
           this.router.navigate(['/events']);
         }
+        console.log('Login successful')
       } else {
         this.errorMessage = 'Invalid email or password';
       }
