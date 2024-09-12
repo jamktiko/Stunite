@@ -1,6 +1,6 @@
 <!-- Eventcard HTML -->
 
-<div class="eventcard">
+<div class="eventcard" [routerLink]="['/events', event.id]">
   <img
     [src]="event.imageUrl || 'assets/placeholder.png'"
     alt="Event image"

@@ -5,12 +5,15 @@ import { AssociationsComponent } from './features/associations/associations.comp
 import { AdminViewComponent } from './features/admin-view/admin-view.component';
 import { adminGuard } from './core/admin-guard.guard';
 import { UserprofileComponent } from './features/userprofile/userprofile.component';
+import { EventDetailsComponent } from './features/events/event-details/event-details.component';
+
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'events', component: EventsComponent },
   { path: 'associations', component: AssociationsComponent },
-  { path: 'userprofile', component: UserprofileComponent},
+  { path: 'userprofile', component: UserprofileComponent },
+  { path: 'events/:id', component: EventDetailsComponent },
   {
     path: 'admin-view',
     component: AdminViewComponent,

@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "eventName": "Syyspippalot",
     "date": "20.9.2024",
     "startingTime": "19.00",
@@ -8,38 +9,11 @@
       "city": "Jyväskylä",
       "address": "Rajakatu 35 40100 Jyväskylä"
     },
-    "participants": [
-      {
-        "id": 1,
-        "name": "Mikko Virtanen",
-        "age": 21,
-        "major": "Tietojenkäsittelytiede",
-        "email": "mikko.virtanen@jamk.com"
-      },
-      {
-        "id": 2,
-        "name": "Anna Korhonen",
-        "age": 22,
-        "major": "Kauppatieteet",
-        "email": "anna.korhonen@jamk.com"
-      },
-      {
-        "id": 3,
-        "name": "Lauri Lehtinen",
-        "age": 20,
-        "major": "Sosiologia",
-        "email": "lauri.lehtinen@jamk.com"
-      },
-      {
-        "id": 4,
-        "name": "Liisa Mäkelä",
-        "age": 23,
-        "major": "Teknillinen fysiikka",
-        "email": "liisa.makela@jamk.com"
-      }
-    ]
+    "ticketprice": "3 €",
+    "details": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
   },
   {
+    "id": 2,
     "eventName": "Kevätjuhla",
     "date": "15.5.2025",
     "startingTime": "18.00",
@@ -48,24 +22,11 @@
       "city": "Helsinki",
       "address": "Kumpulantie 1 00520 Helsinki"
     },
-    "participants": [
-      {
-        "id": 5,
-        "name": "Sara Nieminen",
-        "age": 24,
-        "major": "Kulttuurintutkimus",
-        "email": "sara.nieminen@helsinki.fi"
-      },
-      {
-        "id": 6,
-        "name": "Jari Lahtinen",
-        "age": 25,
-        "major": "Historia",
-        "email": "jari.lahtinen@helsinki.fi"
-      }
-    ]
+    "ticketprice": "5 €",
+    "details": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
   },
   {
+    "id": 3,
     "eventName": "Syysmarkkinat",
     "date": "10.10.2024",
     "startingTime": "10.00",
@@ -74,24 +35,11 @@
       "city": "Tampere",
       "address": "Keskustori 2 33100 Tampere"
     },
-    "participants": [
-      {
-        "id": 7,
-        "name": "Elina Koskinen",
-        "age": 28,
-        "major": "Liiketoiminta",
-        "email": "elina.koskinen@tampere.fi"
-      },
-      {
-        "id": 8,
-        "name": "Petri Rantanen",
-        "age": 30,
-        "major": "Matematiikka",
-        "email": "petri.rantanen@tampere.fi"
-      }
-    ]
+    "ticketprice": "2 €",
+    "details": "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
   },
   {
+    "id": 4,
     "eventName": "Joulukonsertti",
     "date": "24.12.2024",
     "startingTime": "17.00",
@@ -100,24 +48,11 @@
       "city": "Helsinki",
       "address": "Katedralikirkkotie 1 00100 Helsinki"
     },
-    "participants": [
-      {
-        "id": 9,
-        "name": "Matti Virtanen",
-        "age": 32,
-        "major": "Musiikki",
-        "email": "matti.virtanen@helsinki.fi"
-      },
-      {
-        "id": 10,
-        "name": "Laura Hämäläinen",
-        "age": 29,
-        "major": "Kulttuurihistoria",
-        "email": "laura.hamalainen@helsinki.fi"
-      }
-    ]
+    "ticketprice": "7 €",
+    "details": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
   },
   {
+    "id": 5,
     "eventName": "Kevätfestivaali",
     "date": "5.6.2025",
     "startingTime": "12.00",
@@ -126,21 +61,7 @@
       "city": "Turku",
       "address": "Yliopistonkatu 1 20500 Turku"
     },
-    "participants": [
-      {
-        "id": 11,
-        "name": "Ville Jokinen",
-        "age": 26,
-        "major": "Viestintä",
-        "email": "ville.jokinen@turku.fi"
-      },
-      {
-        "id": 12,
-        "name": "Hanna Saarinen",
-        "age": 27,
-        "major": "Yhteiskuntatiede",
-        "email": "hanna.saarinen@turku.fi"
-      }
-    ]
+    "ticketprice": "6 €",
+    "details": "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
   }
 ]

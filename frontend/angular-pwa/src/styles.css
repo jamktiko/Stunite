@@ -24,6 +24,7 @@ button {
     #f1b8e5
   );
   font-family: "Noto Sans", sans-serif;
+
 }
 button:disabled {
   opacity: 0.6;
