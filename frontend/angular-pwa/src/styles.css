@@ -1,5 +1,5 @@
 /* Text Input Fields */
-input[type="text"] {
+input {
   width: 40%;
   margin: 12px;
   border: 2px solid #b2b2b2;
@@ -7,7 +7,27 @@ input[type="text"] {
   border-radius: 20px;
   background-color: #fff5f9;
 }
-
+/* Global button */
+button {
+  padding: 10px 16px;
+  border-radius: 18px;
+  border: solid #b2b2b2 2px;
+  text-align: center;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+  background-image: linear-gradient(
+    to right,
+    #f3afab,
+    #ebdfaf,
+    #c6f1ba,
+    #ace8f0,
+    #c9b6f0,
+    #f1b8e5
+  );
+  font-family: "Noto Sans", sans-serif;
+}
+button:disabled {
+  opacity: 0.6;
+}
 /* Google Fonts */
 h1,
 h2 {

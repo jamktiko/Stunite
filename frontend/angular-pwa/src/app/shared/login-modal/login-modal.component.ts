@@ -1,9 +1,13 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
+import { AuthService } from '../../core/services/auth.service';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login-modal',
   standalone: true,
-  imports: [],
+  imports: [FormsModule, CommonModule],
   templateUrl: './login-modal.component.html',
   styleUrl: './login-modal.component.css',
 })
@@ -12,12 +16,26 @@ export class LoginModalComponent {
 
   email: string = '';
   password: string = '';
+  errorMessage: string = '';
+  constructor(private authService: AuthService, private router: Router) {}
 
   onClose() {
     this.close.emit();
   }
-  // Login will be edited in the future when auth.service is done
+  // Login will be edited in the future when backend is ready
+  // For now we use basic Frontend login (httpClient gets login
+  // credentials from credentials.json)
   onSubmit() {
-    console.log('Login: ', this.email, this.password);
+    this.authService.login(this.email, this.password).subscribe((isAuth) => {
+      if (isAuth) {
+        if (this.authService.isUserAdmin()) {
+          this.router.navigate(['/admin-view']);
+        } else {
+          this.router.navigate(['/events']);
+        }
+      } else {
+        this.errorMessage = 'Invalid email or password';
+      }
+    });
   }
 }

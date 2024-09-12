@@ -2,7 +2,7 @@
   <div class="modal-content">
     <span (click)="onClose()" class="close">&times;</span>
 
-    <h2>stunite</h2>
+    <h1>stunite</h1>
     <form (ngSubmit)="onSubmit()">
       <input
         id="email"
@@ -16,6 +16,7 @@
         placeholder="Salasana"
         [(ngModel)]="password"
         name="password"
+        type="password"
         required
       />
 
