@@ -27,19 +27,17 @@ export class LoginModalComponent {
   // For now we use basic Frontend login (httpClient gets login
   // credentials from credentials.json)
   /**
-   * Calls authService login method and check if user is authenticated.
-   * If user is authenticated, the modal will close and
-   * onSubmit() will check if user is admin
-   * by calling authService isUserAdmin.
-   * If user is admin, the page will navigate to admin-view page.
+   *
    */
   onSubmit() {
     this.authService.login(this.email, this.password).subscribe((isAuth) => {
       if (isAuth) {
-        // Close modal after login is successful
         this.onClose();
-        if (this.authService.isUserAdmin()) {
+        const role = this.authService.getUserRole();
+        if (role === 'admin') {
           this.router.navigate(['/admin-view']);
+        } else if (role === 'organizer') {
+          this.router.navigate(['/organizer-view']);
         } else {
           this.router.navigate(['/events']);
         }

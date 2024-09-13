@@ -16,13 +16,16 @@ export class NavbarComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   /**
-   *Function that brings you to either userprofile or admin-view
-   * page, if you are logged in and click profile icon.
+   * Function that directs the user to the appropriate page
+   * based on their role (admin, organizer, or default user profile).
    */
   onProfileClick() {
     if (this.authService.isAuthenticated()) {
-      if (this.authService.isUserAdmin()) {
+      const role = this.authService.getUserRole();
+      if (role === 'admin') {
         this.router.navigate(['/admin-view']);
+      } else if (role === 'organizer') {
+        this.router.navigate(['/organizer-view']);
       } else {
         this.router.navigate(['/userprofile']);
       }

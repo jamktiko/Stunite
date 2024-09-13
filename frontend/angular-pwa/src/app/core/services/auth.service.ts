@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 export class AuthService {
   private usersUrl = 'assets/credentials.json';
   private isLoggedIn = false;
-  private isAdmin = false;
+  private role: string | null = null;
 
   // current Users data is stored in here for now
   private currUser: any = null;
@@ -22,6 +22,7 @@ export class AuthService {
    * Goes through credentials.json and tries to find email and password that
    * matches the given parameters.
    * If match is found, isLoggedIn will be changed to true and function will return true.
+   * This will also set user the role.
    * @returns boolean
    */
   login(email: string, password: string): Observable<boolean> {
@@ -32,7 +33,7 @@ export class AuthService {
         );
         if (user) {
           this.isLoggedIn = true;
-          this.isAdmin = user.isAdmin;
+          this.role = user.role;
           // stores current users data
           this.currUser = { ...user };
           return true;
@@ -44,16 +45,16 @@ export class AuthService {
   }
 
   /**
-   * Return users admin status (isAdmin: true/false)
-   * @returns
+   * Returns user role (admin/organizer/student)
+   * @returns string
    */
-  isUserAdmin(): boolean {
-    return this.isAdmin;
+  getUserRole(): string | null {
+    return this.role;
   }
 
   /**
-   * Returns isLoggedIn boolen
-   * @returns
+   * Returns isLoggedIn boolean
+   * @returns boolean
    */
   isAuthenticated(): boolean {
     return this.isLoggedIn;
@@ -81,7 +82,7 @@ export class AuthService {
    */
   logout(): void {
     this.isLoggedIn = false;
-    this.isAdmin = false;
+    this.role = null;
     this.currUser = null;
     console.log('Logged out');
   }
