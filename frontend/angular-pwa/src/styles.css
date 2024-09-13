@@ -24,7 +24,6 @@ button {
     #f1b8e5
   );
   font-family: "Noto Sans", sans-serif;
-
 }
 button:disabled {
   opacity: 0.6;
@@ -34,6 +33,14 @@ h1,
 h2 {
   font-family: "Annie Use Your Telescope", cursive;
   margin: 12px;
+}
+
+h1 {
+  font-size: 96px;
+}
+/* h2 used in navbar */
+h2 {
+  font-size: 64px;
 }
 
 body {
@@ -68,4 +75,13 @@ body {
     #c9b6f0,
     #f1b8e5
   );
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 64px;
+  }
+  h2 {
+    font-size: 48px;
+  }
 }
