@@ -10,11 +10,20 @@ export class AuthService {
   private usersUrl = 'assets/credentials.json';
   private isLoggedIn = false;
   private isAdmin = false;
+
   // current Users data is stored in here for now
   private currUser: any = null;
 
   constructor(private http: HttpClient) {}
 
+  /**
+   * @param email
+   * @param password
+   * Goes through credentials.json and tries to find email and password that
+   * matches the given parameters.
+   * If match is found, isLoggedIn will be changed to true and function will return true.
+   * @returns boolean
+   */
   login(email: string, password: string): Observable<boolean> {
     return this.http.get<any[]>(this.usersUrl).pipe(
       map((users) => {
@@ -34,10 +43,18 @@ export class AuthService {
     );
   }
 
+  /**
+   * Return users admin status (isAdmin: true/false)
+   * @returns
+   */
   isUserAdmin(): boolean {
     return this.isAdmin;
   }
 
+  /**
+   * Returns isLoggedIn boolen
+   * @returns
+   */
   isAuthenticated(): boolean {
     return this.isLoggedIn;
   }
@@ -58,6 +75,10 @@ export class AuthService {
     }
   }
 
+  /**
+   * Takes care of logging out (Frontend)
+   * Sets isLoggedIn false, isAdmin false and currUser null.
+   */
   logout(): void {
     this.isLoggedIn = false;
     this.isAdmin = false;

@@ -10,10 +10,20 @@ export class EventService {
 
   constructor(private http: HttpClient) {}
 
+  /**
+   * Returns event information fron fakedata.json file
+   * @returns
+   */
   getEvents(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
 
+  /**
+   * Returns event information from fakedata.json file
+   * by given id
+   * @param id
+   * @returns
+   */
   getEventById(id: string): Observable<any> {
     return this.http
       .get<any[]>(this.apiUrl)
