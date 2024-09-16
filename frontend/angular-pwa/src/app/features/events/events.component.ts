@@ -16,6 +16,7 @@ export class EventsComponent implements OnInit {
 
   filteredEventData: any[] = [];
   searchTerm: string = '';
+  newData: any;
 
   constructor(private eventService: EventService) {}
 
@@ -24,6 +25,14 @@ export class EventsComponent implements OnInit {
       this.eventData = data;
       this.filteredEventData = data;
       console.log('Tapahtumat ladattu:', this.eventData);
+    });
+
+    // This listens for new events
+    this.eventService.createEvents({}).subscribe((newEvent) => {
+      if (newEvent) {
+        this.newData.push(newEvent);
+        this.filteredEventData = [...this.eventData];
+      }
     });
   }
 
@@ -34,10 +43,8 @@ export class EventsComponent implements OnInit {
       this.filteredEventData = this.eventData.filter((event) =>
         event.eventName.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
-      console.log('Suodatetut tapahtumat:', this.filteredEventData);
     } else {
       this.filteredEventData = this.eventData;
-      console.log('Näytetään kaikki tapahtumat');
     }
   }
 }

@@ -15,4 +15,8 @@ export class OrganizerViewComponent {
     this.authService.logout();
     this.router.navigate(['/home']);
   }
+
+  goToCreateEvent() {
+    this.router.navigate(['/organizer-view/create-event'])
+  }
 }

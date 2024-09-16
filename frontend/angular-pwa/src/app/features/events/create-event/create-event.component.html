@@ -1,0 +1,32 @@
+<h1>Luo uusi tapahtuma</h1>
+<div>
+  <form (ngSubmit)="onSubmit()">
+    <input
+      type="text"
+      placeholder="Tapahtuman nimi"
+      [(ngModel)]="eventName"
+      name="eventName"
+      required
+    />
+    <input
+      type="date"
+      placeholder="Päivämäärä"
+      [(ngModel)]="eventDate"
+      name="eventDate"
+      required
+    />
+    <input
+      type="time"
+      placeholder="Aloitusaika"
+      [(ngModel)]="eventTime"
+      name="eventTime"
+      required
+    />
+    <select [(ngModel)]="eventCity" name="eventCity" required>
+      <option value="" disabled selected>Valitse kaupunki</option>
+      <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+    </select>
+
+    <button type="submit">Luo tapahtuma</button>
+  </form>
+</div>

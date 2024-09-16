@@ -8,6 +8,7 @@ import { organizerGuard } from './core/guards/organizer-guard.guard';
 import { UserprofileComponent } from './features/userprofile/userprofile.component';
 import { EventDetailsComponent } from './features/events/event-details/event-details.component';
 import { OrganizerViewComponent } from './features/organizer-view/organizer-view.component';
+import { CreateEventComponent } from './features/events/create-event/create-event.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -26,4 +27,5 @@ export const routes: Routes = [
     component: OrganizerViewComponent,
     canActivate: [organizerGuard],
   },
+  { path: 'organizer-view/create-event', component: CreateEventComponent },
 ];
