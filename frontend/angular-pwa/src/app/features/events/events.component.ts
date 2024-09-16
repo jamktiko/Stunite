@@ -16,7 +16,7 @@ export class EventsComponent implements OnInit {
 
   filteredEventData: any[] = [];
   searchTerm: string = '';
-  newData: any;
+  newData: any[] = []
 
   constructor(private eventService: EventService) {}
 
