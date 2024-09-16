@@ -1,4 +1,7 @@
 <app-navbar (openLoginModal)="openLoginModal()"></app-navbar>
-<app-login-modal *ngIf="showLoginModal" (close)="closeLoginModal()"></app-login-modal>
+<app-login-modal
+  *ngIf="showLoginModal"
+  (close)="closeLoginModal()"
+></app-login-modal>
 <router-outlet></router-outlet>
 <app-footer></app-footer>
