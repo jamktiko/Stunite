@@ -10,6 +10,7 @@ h1 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   margin: 12px;
+  padding: 16px;
   gap: 20px;
 }
 
@@ -30,9 +31,9 @@ h1 {
 }
 .events-section {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Two equal columns inside */
-  grid-template-rows: repeat(2, 1fr); /* Two equal rows inside */
-  gap: 20px; /* Space between the smaller boxes */
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 15px;
 }
 .calendar-section {
   display: flex;

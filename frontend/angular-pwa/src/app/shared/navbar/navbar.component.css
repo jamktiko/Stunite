@@ -5,7 +5,6 @@ nav {
   padding: 10px;
   width: 100%;
   max-width: 100vw;
-
 }
 
 ul {
@@ -52,7 +51,6 @@ div {
 
 .menu-desktop {
   display: flex;
-
 }
 
 .menu-mobile {
@@ -62,10 +60,13 @@ div {
   position: absolute;
   width: 100%;
   left: 0;
-  top: 60px;
+  top: 90px;
   padding: 20px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+}
+.menu-mobile li {
+  padding: 12px;
 }
 
 @media (max-width: 768px) {

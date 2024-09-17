@@ -1,13 +1,13 @@
 <!-- Eventcard HTML -->
 
-<div class="eventcard" [routerLink]="['/events', event.id]">
+<div class="eventcard" [ngClass]="{'image-only': onlyImage}" [routerLink]="['/events', event.id]">
   <img
     [src]="event.imageUrl || 'assets/placeholder.png'"
     alt="Event image"
     class="eventimage"
   />
-  <h3>{{ event.eventName }}</h3>
-  <div class="eventcard-info">
+  <h3 *ngIf="!onlyImage">{{ event.eventName }}</h3>
+  <div *ngIf="!onlyImage" class="eventcard-info">
     <p>{{ event?.date }}</p>
     <p>{{ event?.location?.city }}</p>
   </div>
