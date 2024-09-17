@@ -38,7 +38,7 @@ h2 {
 h1 {
   font-size: 96px;
 }
-/* h2 used in navbar */
+
 h2 {
   font-size: 64px;
 }
@@ -47,7 +47,12 @@ body {
   font-family: "Noto Sans", sans-serif;
   margin: 0;
 }
-
+html,
+body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
 /* Google Fonts */
 .annie-use-your-telescope-regular {
   font-family: "Annie Use Your Telescope", cursive;

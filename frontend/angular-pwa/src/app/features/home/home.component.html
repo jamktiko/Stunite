@@ -1,23 +1,21 @@
 <h1>students unite, tonite, in the night!</h1>
 
 <div class="featured-events">
-  <div>
+  <div class="events-section">
     <h3>Kuuminta juuri nyt</h3>
-    <div>
-      <p>tähän tulee tapahtumia</p>
-    </div>
+    <p>tähän tulee tapahtumia</p>
     <button>Katso kaikki tapahtumat</button>
+  </div>
+  <div class="calendar-section">
     <!-- ngSkipHydration skips Angular's hydration process
- for this part of the DOM. (necessary wgen rendering components
- that can have discrepancies between server-side and client-side rendering)
- In here it's used because we want to ensure that igx-clandar component
- operates correctly without Angular trying to reconcile differences during hydration-->
+      for this part of the DOM. (necessary wgen rendering components
+      that can have discrepancies between server-side and client-side rendering)
+      In here it's used because we want to ensure that igx-clandar component
+      operates correctly without Angular trying to reconcile differences during hydration-->
     <app-calendar ngSkipHydration></app-calendar>
   </div>
 </div>
 
-<p>selaa foorumia</p>
-<p>tututstu paikallisyhdistyksiin</p>
-
-<!-- For testing button CSS -->
-<button>Testi nappi</button>
+<div class="featured-associations">
+  <p>tututstu paikallisyhdistyksiin</p>
+</div>

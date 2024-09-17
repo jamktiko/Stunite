@@ -13,12 +13,10 @@ import { AuthService } from '../../core/services/auth.service';
 export class NavbarComponent {
   @Output() openLoginModal = new EventEmitter<void>();
 
+  menuOpen = false;
+
   constructor(private authService: AuthService, private router: Router) {}
 
-  /**
-   * Function that directs the user to the appropriate page
-   * based on their role (admin, organizer, or default user profile).
-   */
   onProfileClick() {
     if (this.authService.isAuthenticated()) {
       const role = this.authService.getUserRole();
@@ -33,10 +31,12 @@ export class NavbarComponent {
       this.triggerLoginModal();
     }
   }
-  /**
-   * Calls openLoginModal, which opens Login Modal.
-   */
+
   triggerLoginModal() {
     this.openLoginModal.emit();
+  }
+
+  onMenuClick() {
+    this.menuOpen = !this.menuOpen;
   }
 }
