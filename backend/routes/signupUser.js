@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 const router = express.Router();
 
-router.post('/signup/user', async (req, res) => {
+router.post('/', async (req, res) => {
   const {
     firstName,
     lastName,

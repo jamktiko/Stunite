@@ -1,14 +1,17 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
-const signupRouter = require('./routes/signup');
-const loginRouter = require('./routes/login');
+
+const signupUserRouter = require('./routes/signupUser');
+const loginUserRouter = require('./routes/loginUser');
+const signupOrganizerRouter = require('./routes/signupOrganizer');
+const loginOrganizerRouter = require('./routes/loginOrganizer');
+const createEventRouter = require('./routes/eventCreate');
+const getEventsRouter = require('./routes/getEvents');
 
 const app = express();
-const cors = require('cors');
 
 app.use(express.json());
-app.use(cors());
 
 // Ota yhteys MongoDB Atlas -tietokantaan
 const url = process.env.MONGODB_URI; // MongoDB URI ympäristömuuttujasta
@@ -27,8 +30,14 @@ mongoose
   });
 
 // Rekisteröinti- ja kirjautumisreitit
-app.use('/api/signup', signupRouter);
-app.use('/api/login', loginRouter);
+app.use('/signup/user', signupUserRouter);
+app.use('/login/user', loginUserRouter);
+app.use('/signup/organizer', signupOrganizerRouter);
+app.use('/login/organizer', loginOrganizerRouter);
+
+// Tapahtumareitit
+app.use('/create/event', createEventRouter); // POST route for creating events
+app.use('/events', getEventsRouter); // GET route for fetching events
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

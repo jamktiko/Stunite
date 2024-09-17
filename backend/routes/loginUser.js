@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 const router = express.Router();
 
-router.post('/login/user', async (req, res) => {
+router.post('/', async (req, res) => {
   const { email, password } = req.body;
 
   // Tarkista, että sähköposti ja salasana on annettu
@@ -21,7 +21,12 @@ router.post('/login/user', async (req, res) => {
     }
 
     // Tarkista, vastaako annettu salasana hashattua salasanaa
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    const passwordMatch = await bcrypt
+      .compare(password, user.password)
+      .catch((err) => {
+        console.error('Error comparing passwords:', err);
+        return false;
+      });
 
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Invalid email or password' });
