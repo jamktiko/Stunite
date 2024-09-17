@@ -4,7 +4,7 @@ const Organizer = require('../models/organizer');
 
 const router = express.Router();
 
-router.post('/signup/organizer', async (req, res) => {
+router.post('/', async (req, res) => {
   const {
     firstName,
     lastName,
