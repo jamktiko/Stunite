@@ -1,12 +1,15 @@
 .calendar-wrapper {
   max-width: 500px;
   min-width: 200px;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
   margin: 8px;
 }
 
 .igx-calendar {
   --ig-size: 2;
-  border-radius: 4px;
+  border: solid 3px #b2b2b2;
+  border-radius: 24px;
+}
+
+:host ::ng-deep .igx-calendar .igx-calendar__header {
+  display: none;
 }

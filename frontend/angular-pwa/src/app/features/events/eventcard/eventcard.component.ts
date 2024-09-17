@@ -10,4 +10,5 @@ import { RouterLink } from '@angular/router';
 })
 export class EventcardComponent {
   @Input() event: any;
+  @Input() onlyImage: boolean = false;
 }

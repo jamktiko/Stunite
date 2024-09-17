@@ -7,13 +7,12 @@ h1 {
   border-style: solid;
   border-radius: 20px;
   border-color: #ffc3d9;
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   margin: 12px;
-  align-items: center;
   gap: 20px;
-  padding: 24px;
 }
+
 .featured-associations {
   background-color: #fff5f9;
   border-style: solid;
@@ -23,12 +22,22 @@ h1 {
   padding: 24px;
   margin: 12px;
 }
+
 .events-section,
 .calendar-section {
-  flex: 1;
   display: flex;
   flex-direction: column;
+}
+.events-section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two equal columns inside */
+  grid-template-rows: repeat(2, 1fr); /* Two equal rows inside */
+  gap: 20px; /* Space between the smaller boxes */
+}
+.calendar-section {
+  display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 app-calendar {

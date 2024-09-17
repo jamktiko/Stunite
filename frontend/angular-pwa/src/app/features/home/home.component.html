@@ -2,9 +2,11 @@
 
 <div class="featured-events">
   <div class="events-section">
-    <h3>Kuuminta juuri nyt</h3>
-    <p>tähän tulee tapahtumia</p>
-    <button>Katso kaikki tapahtumat</button>
+    <app-eventcard
+      *ngFor="let event of featuredEvents"
+      [event]="event"
+      [onlyImage]="true"
+    ></app-eventcard>
   </div>
   <div class="calendar-section">
     <!-- ngSkipHydration skips Angular's hydration process
