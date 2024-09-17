@@ -7,8 +7,13 @@
       <p>tähän tulee tapahtumia</p>
     </div>
     <button>Katso kaikki tapahtumat</button>
+    <!-- ngSkipHydration skips Angular's hydration process
+ for this part of the DOM. (necessary wgen rendering components
+ that can have discrepancies between server-side and client-side rendering)
+ In here it's used because we want to ensure that igx-clandar component
+ operates correctly without Angular trying to reconcile differences during hydration-->
+    <app-calendar ngSkipHydration></app-calendar>
   </div>
-  <app-calendar></app-calendar>
 </div>
 
 <p>selaa foorumia</p>
