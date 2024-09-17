@@ -1,68 +1,28 @@
 const mongoose = require('mongoose');
 
-mongoose
-  .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log('Connected to MongoDB');
-  })
-  .catch((error) => {
-    console.error('Error connecting to MongoDB:', error.message);
-  });
-
-//Skeema
-const ParticipantSchema = new mongoose.Schema({
-  id: {
-    type: Number,
-    unique: true,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-  },
-});
-
 const eventSchema = new mongoose.Schema({
-  eventName: {
+  eventName: { type: String, required: true },
+  eventDateTime: { type: Date, required: true },
+  address: { type: String, required: true },
+  city: { type: String, required: true },
+  price: { type: Number, required: true },
+  themeOrDressCode: { type: String },
+  addToFavorites: { type: Boolean, default: false }, // Toggle for adding to favorites
+  description: { type: String },
+  ticketSaleLink: { type: String },
+  ticketSalePeriod: {
+    startDate: { type: Date },
+    endDate: { type: Date },
+  },
+  isPreliminaryOrInProduction: {
     type: String,
+    enum: ['Varattu', 'Tuotannossa'],
     required: true,
   },
-  date: {
-    type: Date,
-    required: true,
-  },
-  startingTime: {
-    type: String,
-    required: true,
-  },
-  location: {
-    venue: {
-      type: String,
-      required: true,
-    },
-    city: {
-      type: String,
-      required: true,
-    },
-    address: {
-      type: String,
-      required: true,
-    },
-  },
-  participants: [ParticipantSchema],
+  ticketTypes: [String], // Array of different ticket types
+  checklist: [String], // Checklist items for the event
 });
 
-eventSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__v;
-  },
-});
+const Event = mongoose.model('Event', eventSchema);
 
-module.exports = mongoose.model('Event', eventSchema);
+module.exports = Event;
