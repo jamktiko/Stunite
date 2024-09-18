@@ -13,6 +13,24 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET reitti yhden organizerin hakemiseen ID:n perusteella
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Hakee organizerin ID:n perusteella
+    const organizer = await Organizer.findById(id);
+
+    if (!organizer) {
+      return res.status(404).json({ error: 'Organizer not found' });
+    }
+
+    res.status(200).json(organizer);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // DELETE reitti järjestäjän poistamiseksi ID:n perusteella
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
@@ -24,12 +42,10 @@ router.delete('/:id', async (req, res) => {
       return res.status(404).json({ error: 'Organizer not found' });
     }
 
-    res
-      .status(200)
-      .json({
-        message: 'Organizer deleted successfully',
-        organizer: deletedOrganizer,
-      });
+    res.status(200).json({
+      message: 'Organizer deleted successfully',
+      organizer: deletedOrganizer,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -50,12 +66,10 @@ router.put('/:id', async (req, res) => {
       return res.status(404).json({ error: 'Organizer not found' });
     }
 
-    res
-      .status(200)
-      .json({
-        message: 'Organizer updated successfully',
-        organizer: updatedOrganizer,
-      });
+    res.status(200).json({
+      message: 'Organizer updated successfully',
+      organizer: updatedOrganizer,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
