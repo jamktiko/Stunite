@@ -7,7 +7,6 @@ const loginUserRouter = require('./routes/loginUser');
 const signupOrganizerRouter = require('./routes/signupOrganizer');
 const loginOrganizerRouter = require('./routes/loginOrganizer');
 const createEventRouter = require('./routes/eventCreate');
-const getEventsRouter = require('./routes/getEvents');
 const manageEventRouter = require('./routes/manageEvent');
 const manageUserRouter = require('./routes/manageUser');
 
@@ -42,8 +41,7 @@ app.use('/manage/user', manageUserRouter);
 
 // Tapahtumareitit
 app.use('/create/event', createEventRouter); // POST route for creating events
-app.use('/events', getEventsRouter); // GET route for fetching events
-app.use('/manage/event', manageEventRouter); // DELETE route for deleting events or PUT route for edits
+app.use('/manage/event', manageEventRouter); // GET for getting all events or DELETE route for deleting events or PUT route for edits
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

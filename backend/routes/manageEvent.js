@@ -3,6 +3,16 @@ const Event = require('../models/event'); // Malli tiedostosta, johon skeema on 
 
 const router = express.Router();
 
+// GET route to fetch all events
+router.get('/', async (req, res) => {
+  try {
+    const events = await Event.find();
+    res.status(200).json(events);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // DELETE reitti tapahtuman poistamiseksi ID:n perusteella
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
