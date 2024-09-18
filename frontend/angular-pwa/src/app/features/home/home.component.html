@@ -1,13 +1,17 @@
 <h1>students unite, tonite, in the night!</h1>
 
 <div class="featured-events">
-  <div class="events-section">
-    <app-eventcard
-      *ngFor="let event of featuredEvents"
-      [event]="event"
-      [onlyImage]="true"
-    ></app-eventcard>
+  <div class="featured-events-left">
+    <p>Kuuminta juuri nyt</p>
+    <div class="events-section">
+      <app-eventcard
+        *ngFor="let event of featuredEvents"
+        [event]="event"
+        [onlyImage]="true"
+      ></app-eventcard>
+    </div>
   </div>
+
   <div class="calendar-section">
     <!-- ngSkipHydration skips Angular's hydration process
       for this part of the DOM. (necessary wgen rendering components
