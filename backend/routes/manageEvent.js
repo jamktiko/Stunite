@@ -13,6 +13,24 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET reitti yhden tapahtuman hakemiseen ID:n perusteella
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Hakee tapahtuman ID:n perusteella
+    const event = await Event.findById(id);
+
+    if (!event) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+
+    res.status(200).json(event);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // DELETE reitti tapahtuman poistamiseksi ID:n perusteella
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
