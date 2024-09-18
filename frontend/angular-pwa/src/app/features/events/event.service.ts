@@ -11,6 +11,9 @@ export class EventService {
 
   constructor(private http: HttpClient) {
     // This gets the events at the start
+    this.loadEvents();
+  }
+  private loadEvents() {
     this.http.get<any[]>(this.apiUrl).subscribe((events) => {
       this.eventsSubject.next(events);
     });

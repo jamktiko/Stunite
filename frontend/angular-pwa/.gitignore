@@ -47,3 +47,4 @@ Thumbs.db
 # JSON files
 src/assets/credentials.json
 src/assets/fakedata.json
+src/assets/fakedata2.json

@@ -1,6 +1,7 @@
 <h1>Luo uusi tapahtuma</h1>
 <div>
   <form (ngSubmit)="onSubmit()">
+    <!-- Tapahtuman nimi -->
     <input
       type="text"
       placeholder="Tapahtuman nimi"
@@ -8,6 +9,8 @@
       name="eventName"
       required
     />
+
+    <!-- Tapahtuma-aika (Päivämäärä ja Aloitusaika) -->
     <input
       type="date"
       placeholder="Päivämäärä"
@@ -22,10 +25,102 @@
       name="eventTime"
       required
     />
-    <select [(ngModel)]="eventCity" name="eventCity" required>
-      <option value="" disabled selected>Valitse kaupunki</option>
-      <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
-    </select>
+
+    <!-- Sijainti ja osoite -->
+    <input
+      type="text"
+      placeholder="Sijainti (esim. JAMK etupiha)"
+      [(ngModel)]="venue"
+      name="venue"
+      required
+    />
+    <input
+      type="text"
+      placeholder="Kaupunki"
+      [(ngModel)]="city"
+      name="city"
+      required
+    />
+    <input
+      type="text"
+      placeholder="Osoite"
+      [(ngModel)]="address"
+      name="address"
+      required
+    />
+
+    <!-- Hinta -->
+    <input
+      type="text"
+      placeholder="Hinta"
+      [(ngModel)]="ticketprice"
+      name="ticketprice"
+      required
+    />
+
+    <!-- Teema/Pukukoodi -->
+    <input
+      type="text"
+      placeholder="Teema/Pukukoodi"
+      [(ngModel)]="theme"
+      name="theme"
+    />
+
+    <!-- Lisää suosikkeihin nappi -->
+    <label>
+      <input type="checkbox" [(ngModel)]="isFavorite" name="isFavorite" /> Lisää
+      suosikkeihin
+    </label>
+
+    <!-- Tapahtuman kuvaus -->
+    <textarea
+      placeholder="Tapahtuman kuvaus"
+      [(ngModel)]="details"
+      name="details"
+      rows="4"
+    ></textarea>
+
+    <!-- Linkki lipunmyyntiin ja myyntiaika -->
+    <input
+      type="text"
+      placeholder="Lipunmyynnin linkki"
+      [(ngModel)]="ticketLink"
+      name="ticketLink"
+    />
+    <input
+      type="datetime-local"
+      placeholder="Lipunmyynnin aloitusaika"
+      [(ngModel)]="ticketSaleStart"
+      name="ticketSaleStart"
+    />
+
+    <!-- Vain järjestäjän näkymässä -->
+    <h2>Vain järjestäjän näkymässä</h2>
+    <!-- Myyntiaika -->
+    <input
+      type="datetime-local"
+      placeholder="Myyntiaika"
+      [(ngModel)]="salesTime"
+      name="salesTime"
+    />
+
+    <!-- Julkaisupäivä ja kellonaika -->
+     
+    <input
+      type="datetime-local"
+      placeholder="Julkaisupäivä ja kellonaika"
+      [(ngModel)]="publishDateTime"
+      name="publishDateTime"
+    />
+
+    <!-- Onko tapahtuma alustava varaus vai tuotannossa? -->
+    <label>
+      Onko tapahtuma:
+      <select [(ngModel)]="status" name="status" required>
+        <option value="preliminary">Alustava varaus</option>
+        <option value="production">Tuotannossa</option>
+      </select>
+    </label>
 
     <button type="submit">Luo tapahtuma</button>
   </form>

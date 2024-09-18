@@ -17,8 +17,12 @@ export class NavbarComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
+  get authenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
   onProfileClick() {
-    if (this.authService.isAuthenticated()) {
+    if (this.authenticated) {
       const role = this.authService.getUserRole();
       if (role === 'admin') {
         this.router.navigate(['/admin-view']);

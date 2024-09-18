@@ -24,10 +24,23 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventService.getEvents().subscribe((events) => {
-      this.eventDates = events.map(
-        (event) => new Date(event.date.split('.').reverse().join('-')) // Format date
-      );
+      // Filter out events with missing or invalid dates
+      this.eventDates = events
+        .map((event) => {
+          const dateStr = event.date;
+          // Check if dateStr is valid
+          if (dateStr && typeof dateStr === 'string') {
+            const parts = dateStr.split('.');
+            if (parts.length === 3) {
+              // Convert to Date object
+              return new Date(parts.reverse().join('-'));
+            }
+          }
+          return null; // Return null for invalid dates
+        })
+        .filter((date): date is Date => date !== null); // Remove null values
 
+      // Update the calendar with special dates
       this.calendar.specialDates = this.eventDates.map((date) => {
         return {
           type: DateRangeType.Specific,

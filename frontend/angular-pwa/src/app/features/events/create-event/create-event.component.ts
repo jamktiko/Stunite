@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { EventService } from '../event.service';
 import { CalendarComponent } from '../../../shared/calendar/calendar.component';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-event',
@@ -13,28 +14,51 @@ import { CommonModule } from '@angular/common';
 })
 export class CreateEventComponent {
   eventName: string = '';
-  eventDate: Date | undefined;
+  eventDate: string = '';
   eventTime: string = '';
-  eventCity: string = '';
+  venue: string = '';
+  city: string = '';
+  address: string = '';
+  ticketprice: string = '';
+  theme: string = '';
+  isFavorite: boolean = false;
+  details: string = '';
+  ticketLink: string = '';
+  ticketSaleStart: string = '';
+  salesTime: string = '';
+  publishDateTime: string = '';
+  status: string = 'preliminary';
 
   cities: string[] = ['Helsinki', 'Tampere', 'Turku', 'Oulu', 'Jyväskylä'];
 
-  constructor(private eventService: EventService) {}
+  constructor(private eventService: EventService, private router: Router) {}
 
   onSubmit() {
     const newEvent = {
-      id: Math.floor(Math.random() * 1000), // creates random id number (for now)
+      id: Math.floor(Math.random() * 1000), // Creates a random ID (for now)
       eventName: this.eventName,
       date: this.eventDate,
-      time: this.eventTime,
+      startingTime: this.eventTime,
       location: {
-        city: this.eventCity,
+        venue: this.venue,
+        city: this.city,
+        address: this.address,
       },
+      ticketprice: this.ticketprice,
+      theme: this.theme,
+      isFavorite: this.isFavorite,
+      details: this.details,
+      ticketLink: this.ticketLink,
+      ticketSaleStart: this.ticketSaleStart,
+      salesTime: this.salesTime,
+      publishDateTime: this.publishDateTime,
+      status: this.status,
     };
 
     // calls EventService's createEvents
     this.eventService.createEvents(newEvent).subscribe((event) => {
       console.log('Luotu tapahtuma:', event);
+      this.router.navigate(['/events', event.id]);
     });
   }
 }

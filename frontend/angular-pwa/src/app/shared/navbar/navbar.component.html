@@ -12,24 +12,32 @@
       <li><a routerLink="/home" routerLinkActive="active">ETUSIVU</a></li>
       <li><a routerLink="/events" routerLinkActive="active">TAPAHTUMAT</a></li>
       <li>
-        <a routerLink="/associations" routerLinkActive="active">PAIKALLISYHDISTYKSET</a>
+        <a routerLink="/associations" routerLinkActive="active"
+          >PAIKALLISYHDISTYKSET</a
+        >
       </li>
     </ul>
-
 
     <ul class="menu-mobile" *ngIf="menuOpen">
       <li><a routerLink="/home" routerLinkActive="active">ETUSIVU</a></li>
       <li><a routerLink="/events" routerLinkActive="active">TAPAHTUMAT</a></li>
       <li>
-        <a routerLink="/associations" routerLinkActive="active">PAIKALLISYHDISTYKSET</a>
+        <a routerLink="/associations" routerLinkActive="active"
+          >PAIKALLISYHDISTYKSET</a
+        >
       </li>
-    </ul>
 
+      <ng-container *ngIf="authenticated; else login">
+        <li><a (click)="onProfileClick()">Profiili</a></li>
+      </ng-container>
+      <ng-template #login>
+        <li><a (click)="onProfileClick()">Kirjaudu sisään</a></li>
+      </ng-template>
+    </ul>
 
     <a class="login-icon" (click)="onProfileClick()">
       <span class="material-symbols-outlined"> account_circle </span>
     </a>
-
 
     <span class="material-symbols-outlined menu" (click)="onMenuClick()">
       menu
