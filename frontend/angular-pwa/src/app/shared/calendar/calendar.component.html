@@ -3,7 +3,11 @@
   href="https://fonts.googleapis.com/icon?family=Material+Icons"
 />
 <article class="calendar-wrapper">
-  <igx-calendar>
-    
+  <igx-calendar #MyCalendar>
+    <ng-template igxDay let-day>
+      <div class="calendar-day">
+        {{ day.date.getDate() }}
+      </div>
+    </ng-template>
   </igx-calendar>
 </article>
