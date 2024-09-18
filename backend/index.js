@@ -9,6 +9,7 @@ const loginOrganizerRouter = require('./routes/loginOrganizer');
 const createEventRouter = require('./routes/eventCreate');
 const manageEventRouter = require('./routes/manageEvent');
 const manageUserRouter = require('./routes/manageUser');
+const manageOrganizerRouter = require('./routes/manageOrganizer');
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use('/login/organizer', loginOrganizerRouter);
 
 // Käyttäjien muokkaamisreitit
 app.use('/manage/user', manageUserRouter);
+app.use('/manage/organizer', manageOrganizerRouter);
 
 // Tapahtumareitit
 app.use('/create/event', createEventRouter); // POST route for creating events
