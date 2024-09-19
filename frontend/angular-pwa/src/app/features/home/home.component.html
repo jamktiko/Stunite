@@ -24,5 +24,12 @@
 </div>
 
 <div class="featured-associations">
-  <p>tututstu paikallisyhdistyksiin</p>
+  <p>Tututstu paikallisyhdistyksiin</p>
+  <div class="associations">
+    <app-associationcard
+      *ngFor="let association of feturedAssociations"
+      [association]="association"
+    >
+    </app-associationcard>
+  </div>
 </div>

@@ -1,4 +1,4 @@
-.eventcard {
+.associationcard {
   background-color: #fff5f9;
   border-style: solid;
   border-radius: 20px;
@@ -6,31 +6,20 @@
   display: flex;
   flex-direction: column;
   margin: auto;
+  margin-left: 12px;
   margin-bottom: 12px;
   align-items: center;
+  width: 200px;
 }
 
-.eventcard-info {
+.associationcard-info {
   display: flex;
   flex-direction: row;
   justify-content: center;
   gap: 36px;
 }
-
-.eventimage {
+.associationimage {
   border-radius: 18px 18px 0px 0px;
   width: 100%;
   height: auto;
-}
-
-.image-only {
-  width: 100%;
-  height: 100%;
-  max-width: 200px;
-  max-height: 200px;
-  border-style: none;
-}
-.image-only .eventcard-info,
-.image-only h3 {
-  display: none;
 }

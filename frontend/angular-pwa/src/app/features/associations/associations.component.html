@@ -1,2 +1,20 @@
 <h1>Paikallisyhdistykset</h1>
+<div>
+  <input
+    type="text"
+    placeholder="Hae paikallisyhdistyksiä"
+    [(ngModel)]="searchTerm"
+  />
+  <button (click)="onSearch()">Haku</button>
+</div>
 
+<div *ngIf="filteredAssociationData.length" class="associations">
+  <app-associationcard
+    *ngFor="let association of filteredAssociationData"
+    [association]="association"
+  ></app-associationcard>
+</div>
+
+<div *ngIf="!filteredAssociationData.length">
+  <p>Paikallisyhdistyksiä ei löytynyt.</p>
+</div>

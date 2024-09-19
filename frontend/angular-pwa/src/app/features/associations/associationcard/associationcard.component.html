@@ -1,0 +1,13 @@
+<!-- Associations dont have their own pages yet, 
+ but after they are than, route association card 
+ to association details page -->
+<div class="associationcard">
+  <img
+    [src]="association.imageUrl || 'assets/placeholder.png'"
+    alt="Association image"
+    class="associationimage"
+  />
+  <div class="associationcard-info">
+    <h3>{{ association.organizationPublicInfo.name }}</h3>
+  </div>
+</div>
