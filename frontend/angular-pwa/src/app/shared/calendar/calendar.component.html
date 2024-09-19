@@ -13,15 +13,14 @@
   </igx-calendar>
 </article>
 
-<div class="event-info">
-  <div *ngIf="selectedEvents.length > 0">
-    <p><strong>{{ selectedDate }}</strong></p>
+<div class="event-info" *ngIf="selectedEvents.length > 0">
+  <div>
+    <p>
+      <strong>{{ selectedDate }}</strong>
+    </p>
+    <hr />
     <div *ngFor="let event of selectedEvents">
-      <p>{{ event.eventName }}</p>
-      <p> &#64;{{ event.location.city }}</p>
+      <p>{{ event.eventName }} &#64; {{ event.location.city }}</p>
     </div>
-  </div>
-  <div *ngIf="selectedEvents.length === 0">
-    <p>No event selected.</p>
   </div>
 </div>

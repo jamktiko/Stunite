@@ -9,6 +9,7 @@
         [event]="event"
         [onlyImage]="true"
       ></app-eventcard>
+      <button (click)="goToEvents()">Katso kaikki tapahtumat!</button>
     </div>
   </div>
 
@@ -20,7 +21,6 @@
       operates correctly without Angular trying to reconcile differences during hydration-->
     <app-calendar ngSkipHydration></app-calendar>
   </div>
-  <button (click)="goToEvents()">Katso kaikki tapahtumat!</button>
 </div>
 
 <div class="featured-associations">
