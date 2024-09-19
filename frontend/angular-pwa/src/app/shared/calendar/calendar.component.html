@@ -2,8 +2,9 @@
   rel="stylesheet"
   href="https://fonts.googleapis.com/icon?family=Material+Icons"
 />
+
 <article class="calendar-wrapper">
-  <igx-calendar #MyCalendar>
+  <igx-calendar #MyCalendar selection="single" (selected)="onSelection($event)">
     <ng-template igxDay let-day>
       <div class="calendar-day">
         {{ day.date.getDate() }}
@@ -11,3 +12,16 @@
     </ng-template>
   </igx-calendar>
 </article>
+
+<div class="event-info">
+  <div *ngIf="selectedEvents.length > 0">
+    <p><strong>{{ selectedDate }}</strong></p>
+    <div *ngFor="let event of selectedEvents">
+      <p>{{ event.eventName }}</p>
+      <p> &#64;{{ event.location.city }}</p>
+    </div>
+  </div>
+  <div *ngIf="selectedEvents.length === 0">
+    <p>No event selected.</p>
+  </div>
+</div>

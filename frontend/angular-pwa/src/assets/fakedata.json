@@ -63,5 +63,18 @@
     },
     "ticketprice": "6 €",
     "details": "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
+  },
+  {
+    "id": 6,
+    "eventName": "Kevätfestivaali jatkot",
+    "date": "5.6.2025",
+    "startingTime": "18.00",
+    "location": {
+      "venue": "Turun Yliopistokampus",
+      "city": "Turku",
+      "address": "Yliopistonkatu 1 20500 Turku"
+    },
+    "ticketprice": "2 €",
+    "details": "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
   }
 ]
