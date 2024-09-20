@@ -40,4 +40,7 @@ export class HomeComponent {
   goToEvents(): void {
     this.router.navigate(['/events']);
   }
+  goToAssociations():void {
+    this.router.navigate(['/associations'])
+  }
 }

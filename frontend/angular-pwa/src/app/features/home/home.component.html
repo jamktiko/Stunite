@@ -25,11 +25,13 @@
 
 <div class="featured-associations">
   <p>Tututstu paikallisyhdistyksiin</p>
-  <div class="associations">
-    <app-associationcard
-      *ngFor="let association of feturedAssociations"
-      [association]="association"
-    >
-    </app-associationcard>
+  <div class="associations-container">
+    <div class="associations">
+      <app-associationcard
+        *ngFor="let association of feturedAssociations"
+        [association]="association"
+      ></app-associationcard>
+    </div>
+    <div class="toAssociationPage" (click)="goToAssociations()">&#8250;</div>
   </div>
 </div>
