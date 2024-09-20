@@ -4,7 +4,7 @@
   <div class="featured-events-left">
     <p>Kuuminta juuri nyt</p>
     <div class="events-section">
-      <app-eventcard
+      <app-eventcard 
         *ngFor="let event of featuredEvents"
         [event]="event"
         [onlyImage]="true"

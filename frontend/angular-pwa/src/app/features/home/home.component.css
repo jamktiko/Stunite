@@ -18,6 +18,10 @@ p {
   gap: 20px;
 }
 
+:host ::ng-deep .eventimage {
+  border-radius: 18px 18px 18px 18px !important;
+}
+
 .left-side {
   display: flex;
   flex-direction: column;
