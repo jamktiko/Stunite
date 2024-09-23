@@ -7,6 +7,14 @@ input {
   border-radius: 20px;
   background-color: #fff5f9;
 }
+
+textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 20px;
+  background-color: #fff5f9;
+
+}
 /* Global button */
 button {
   padding: 10px 16px;

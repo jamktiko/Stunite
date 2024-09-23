@@ -1,0 +1,23 @@
+<div
+class="drop-zone"
+(dragover)="onDragOver($event)"
+(dragleave)="onDragLeave($event)"
+(drop)="onDrop($event)"
+[class.dragover]="isDragging"
+>
+  <p>Raahaa ja pudota kuva tähän</p>
+  <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+  <button (click)="fileInput.click()">Valitse kuva</button>
+  <input
+    type="file"
+    #fileInput
+    style="display: none"
+    (change)="onFileSelected($event)"
+    accept="image/*"
+  />
+</div>
+
+<div *ngIf="previewUrl">
+  <h3>Esikatselu:</h3>
+  <img [src]="previewUrl" alt="Image preview" width="300" />
+</div>

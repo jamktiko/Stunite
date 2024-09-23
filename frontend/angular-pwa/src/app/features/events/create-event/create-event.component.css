@@ -1,0 +1,16 @@
+.create-event {
+  display: flex;
+  flex-direction: column;
+  margin: 0px 24px 0px 24px;
+}
+.form-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+:host ::ng-deep input {
+  width: 100% !important;
+}
+:host ::ng-deep textarea {
+  margin-right: 12px !important;
+}

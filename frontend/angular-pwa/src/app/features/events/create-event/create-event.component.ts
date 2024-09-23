@@ -19,7 +19,8 @@ export class CreateEventComponent {
   venue: string = '';
   city: string = '';
   address: string = '';
-  ticketprice: string = '';
+  maxticketprice: number | null = null;
+  minticketprice: number | null = null;
   theme: string = '';
   isFavorite: boolean = false;
   details: string = '';
@@ -44,7 +45,10 @@ export class CreateEventComponent {
         city: this.city,
         address: this.address,
       },
-      ticketprice: this.ticketprice,
+      ticketprice: {
+        min: this.minticketprice,
+        max: this.maxticketprice,
+      },
       theme: this.theme,
       isFavorite: this.isFavorite,
       details: this.details,
