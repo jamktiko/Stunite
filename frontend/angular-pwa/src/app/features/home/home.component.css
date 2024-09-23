@@ -1,6 +1,12 @@
 h1 {
   text-align: center;
 }
+.banner-img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 28px;
+}
 p {
   font-size: 24px;
   text-align: center;
@@ -20,6 +26,8 @@ p {
 
 :host ::ng-deep .eventimage {
   border-radius: 18px 18px 18px 18px !important;
+  width: 100% !important;
+  height: auto !important;
 }
 
 .left-side {
@@ -146,7 +154,11 @@ app-calendar {
 @media (max-width: 768px) {
   .featured-events {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
+  }
+  .banner-img {
+    max-width: 500px;
+    margin-top: 20px;
   }
 }

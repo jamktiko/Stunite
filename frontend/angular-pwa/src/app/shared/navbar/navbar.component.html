@@ -20,7 +20,7 @@
 
     <ul class="menu-mobile" *ngIf="menuOpen" (click)="onMenuClick()">
       <ng-container *ngIf="authenticated">
-        <li>Terve </li>
+        <li>Terve {{ getUser() }}</li>
       </ng-container>
       <li><a routerLink="/home" routerLinkActive="active">ETUSIVU</a></li>
       <hr width="100%" size="2" />

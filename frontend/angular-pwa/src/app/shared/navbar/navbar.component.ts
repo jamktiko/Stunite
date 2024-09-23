@@ -14,14 +14,16 @@ export class NavbarComponent {
   @Output() openLoginModal = new EventEmitter<void>();
 
   menuOpen = false;
-
+  username = '';
   constructor(private authService: AuthService, private router: Router) {}
 
   get authenticated(): boolean {
     return this.authService.isAuthenticated();
   }
-
-  
+  getUser() {
+    this.username = this.authService.getCurrUser().firstname;
+    return this.username;
+  }
   onProfileClick() {
     if (this.authenticated) {
       const role = this.authService.getUserRole();
@@ -37,9 +39,8 @@ export class NavbarComponent {
     }
   }
 
-
-  logOut(){
-    this.authService.logout()
+  logOut() {
+    this.authService.logout();
   }
 
   triggerLoginModal() {
