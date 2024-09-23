@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal, WritableSignal, computed } from '@angular/core';
 import { EventService } from './event.service';
 import { EventcardComponent } from './eventcard/eventcard.component';
 import { CommonModule } from '@angular/common';

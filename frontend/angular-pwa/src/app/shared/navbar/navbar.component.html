@@ -19,19 +19,33 @@
     </ul>
 
     <ul class="menu-mobile" *ngIf="menuOpen" (click)="onMenuClick()">
+      <ng-container *ngIf="authenticated">
+        <li>Terve </li>
+      </ng-container>
       <li><a routerLink="/home" routerLinkActive="active">ETUSIVU</a></li>
+      <hr width="100%" size="2" />
       <li><a routerLink="/events" routerLinkActive="active">TAPAHTUMAT</a></li>
+      <hr width="100%" size="2" />
       <li>
         <a routerLink="/associations" routerLinkActive="active"
           >PAIKALLISYHDISTYKSET</a
         >
       </li>
+      <hr width="100%" size="2" />
 
       <ng-container *ngIf="authenticated; else login">
-        <li><a (click)="onProfileClick()">Profiili</a></li>
+        <li><a (click)="onProfileClick()">PROFIILI</a></li>
+        <hr width="100%" size="2" />
+        <li><a (click)="logOut()">KIRJAUDU ULOS</a></li>
+        <hr width="100%" size="2" />
+        <li><a>ASETUKSET?</a></li>
+        <hr width="100%" size="2" />
       </ng-container>
       <ng-template #login>
-        <li><a (click)="onProfileClick()">Kirjaudu sisään</a></li>
+        <li>
+          <a (click)="onProfileClick()">KIRJAUDU SISÄÄN</a>
+        </li>
+        <hr width="100%" size="2" />
       </ng-template>
     </ul>
 

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { BehaviorSubject, map, Observable, of } from 'rxjs';
 
 @Injectable({
@@ -7,6 +7,7 @@ import { BehaviorSubject, map, Observable, of } from 'rxjs';
 })
 export class EventService {
   private apiUrl = 'assets/fakedata.json';
+
   private eventsSubject = new BehaviorSubject<any[]>([]);
 
   constructor(private http: HttpClient) {

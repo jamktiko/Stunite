@@ -21,6 +21,7 @@ export class NavbarComponent {
     return this.authService.isAuthenticated();
   }
 
+  
   onProfileClick() {
     if (this.authenticated) {
       const role = this.authService.getUserRole();
@@ -34,6 +35,11 @@ export class NavbarComponent {
     } else {
       this.triggerLoginModal();
     }
+  }
+
+
+  logOut(){
+    this.authService.logout()
   }
 
   triggerLoginModal() {
