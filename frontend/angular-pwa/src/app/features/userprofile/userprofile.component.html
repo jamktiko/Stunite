@@ -1,2 +1,92 @@
-<h1>Käyttäjäprofiili</h1>
-<button (click)="logout()">Kirjaudu ulos</button>
+<div class="profile-container">
+  <h1>Käyttäjäprofiili</h1>
+  <button (click)="logout()" class="logout-button">Kirjaudu ulos</button>
+
+  <h2>Profiili</h2>
+  <form [formGroup]="lomake" (ngSubmit)="onSubmit()">
+    <!-- Omat tiedot osio -->
+    <div class="profile-details">
+      <div class="info-fields">
+        <label for="nimi">Nimi:</label>
+        <input
+          id="nimi"
+          formControlName="nimi"
+          type="text"
+          placeholder="Syötä nimi"
+        />
+
+        <label for="sahkoposti">Sähköposti:</label>
+        <input
+          id="sahkoposti"
+          formControlName="sahkoposti"
+          type="email"
+          placeholder="Syötä sähköposti"
+        />
+
+        <label for="puhelin">Puhelinnumero:</label>
+        <input
+          id="puhelin"
+          formControlName="puhelin"
+          type="tel"
+          placeholder="Syötä numero"
+        />
+
+        <label for="koulu">Koulu:</label>
+        <input
+          id="koulu"
+          formControlName="koulu"
+          type="text"
+          placeholder="Syötä koulu"
+        />
+
+        <label for="ala">Ala:</label>
+        <input
+          id="ala"
+          formControlName="ala"
+          type="text"
+          placeholder="Syötä ala"
+        />
+
+        <label for="paikallisyhdistys">Paikallisyhdistys:</label>
+        <input
+          id="paikallisyhdistys"
+          formControlName="paikallisyhdistys"
+          type="text"
+          placeholder="Syötä paikallisyhdistys"
+        />
+      </div>
+
+      <!-- Profiilikuva ja foorumin nimi -->
+      <div class="profile-image">
+        <img src="../../../assets/unicorn.webp" alt="Profiilikuva" />
+        <p>Foorumilla näkyvä nimi: <strong>Turklesahmo</strong></p>
+      </div>
+    </div>
+
+    <!-- Muokkauspainike -->
+    <button type="submit" class="edit-button">Muokkaa</button>
+    <!-- Mielenkiinnon kohteet -->
+    <div class="interests-section">
+      <label>Mielenkiinnon kohteet:</label>
+      <div class="button-group">
+        <button type="button" (click)="selectKohde('yhdistys')">
+          Yhdistys
+        </button>
+        <button type="button" (click)="selectKohde('bileet')">Bileet</button>
+        <button type="button" (click)="selectKohde('urheilu')">Urheilu</button>
+        <button type="button" (click)="selectKohde('opiskelu')">
+          Opiskelu
+        </button>
+        <button type="button" (click)="selectKohde('deittailu')">
+          Deittailu
+        </button>
+        <button type="button" (click)="selectKohde('luonto')">Luonto</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Valitut mielenkiinnon kohteet -->
+  <p *ngIf="valitutKohteet.length > 0">
+    Valitsit mielenkiinnon kohteiksi: {{ valitutKohteet.join(", ") }}
+  </p>
+</div>

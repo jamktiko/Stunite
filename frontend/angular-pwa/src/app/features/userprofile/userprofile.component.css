@@ -1,0 +1,113 @@
+/* Asettelut profiilisivulle */
+.profile-container {
+  width: 60%;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h2 {
+  text-align: center;
+}
+
+.logout-button {
+  float: right;
+  background-color: #ffcccc;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+.logout-button:hover {
+  background-color: #ff9999;
+}
+
+.profile-details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.info-fields {
+  width: 60%;
+}
+
+.info-fields label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+}
+
+.info-fields input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.profile-image {
+  text-align: center;
+  width: 30%;
+}
+
+.profile-image img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.edit-button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  background: linear-gradient(45deg, #ccffcc, #ffccff);
+  color: #333;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  background: linear-gradient(45deg, #99ff99, #ff99ff);
+}
+
+.interests-section {
+  margin-top: 30px;
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.button-group button {
+  background-color: #eeeeee;
+  border-radius: 20px;
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.button-group button:hover {
+  background-color: #cccccc;
+}
+
+p {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 20px;
+}
