@@ -1,6 +1,5 @@
 <div class="profile-container">
   <h1>Käyttäjäprofiili</h1>
-  <button (click)="logout()" class="logout-button">Kirjaudu ulos</button>
 
   <h2>Profiili</h2>
   <form [formGroup]="lomake" (ngSubmit)="onSubmit()">
@@ -89,4 +88,5 @@
   <p *ngIf="valitutKohteet.length > 0">
     Valitsit mielenkiinnon kohteiksi: {{ valitutKohteet.join(", ") }}
   </p>
+  <button (click)="logout()" class="logout-button">Kirjaudu ulos</button>
 </div>
