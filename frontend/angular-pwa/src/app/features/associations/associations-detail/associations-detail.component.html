@@ -1,0 +1,16 @@
+<div class="association-page">
+  <h1>Tulevat tapahtumat</h1>
+  <div *ngIf="association">
+    <h2>{{ association.organizationPublicInfo.name }}</h2>
+    <p>{{ association.organizationPublicInfo.description }}</p>
+    <p>{{ association.organizationPublicInfo.address }}</p>
+    <p>{{ association.organizationPublicInfo.website }}</p>
+
+    <h2>Yhteystiedot</h2>
+    <p>
+      {{ association.organizerRegistration.contactPerson.firstName }}
+      {{ association.organizerRegistration.contactPerson.lastName }}
+    </p>
+    <p>{{ association.organizerRegistration.email }}</p>
+  </div>
+</div>

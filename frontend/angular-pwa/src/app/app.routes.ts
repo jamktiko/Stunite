@@ -9,6 +9,7 @@ import { UserprofileComponent } from './features/userprofile/userprofile.compone
 import { EventDetailsComponent } from './features/events/event-details/event-details.component';
 import { OrganizerViewComponent } from './features/organizer-view/organizer-view.component';
 import { CreateEventComponent } from './features/events/create-event/create-event.component';
+import { AssociationsDetailComponent } from './features/associations/associations-detail/associations-detail.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -28,4 +29,5 @@ export const routes: Routes = [
     canActivate: [organizerGuard],
   },
   { path: 'organizer-view/create-event', component: CreateEventComponent },
+  { path: 'association/:id', component: AssociationsDetailComponent },
 ];
