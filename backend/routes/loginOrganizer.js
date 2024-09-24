@@ -48,6 +48,7 @@ router.post('/', async (req, res) => {
         businessId: organizer.businessId,
         billingAddress: organizer.billingAddress,
         paymentAddress: organizer.paymentAddress,
+        fieldsOfStudy: organizer.fieldsOfStudy,
       },
     });
   } catch (error) {
