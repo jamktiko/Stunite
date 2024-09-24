@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { BehaviorSubject, map, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +7,8 @@ import { BehaviorSubject, map, Observable, of } from 'rxjs';
 export class EventService {
   private apiUrl = 'assets/fakedata.json';
 
-  private eventsSubject = new BehaviorSubject<any[]>([]);
+  // private eventsSubject = new BehaviorSubject<any[]>([]);
+  private eventsSignal: WritableSignal<any[]> = signal([]);
 
   constructor(private http: HttpClient) {
     // This gets the events at the start
@@ -16,7 +16,8 @@ export class EventService {
   }
   private loadEvents() {
     this.http.get<any[]>(this.apiUrl).subscribe((events) => {
-      this.eventsSubject.next(events);
+      // this.eventsSubject.next(events);
+      this.eventsSignal.set(events);
     });
   }
 
@@ -29,8 +30,8 @@ export class EventService {
   // }
 
   // Return Observable, that listens changes in events
-  getEvents(): Observable<any[]> {
-    return this.eventsSubject.asObservable();
+  getEvents(): WritableSignal<any[]> {
+    return this.eventsSignal;
   }
   /**
    * Returns event information from fakedata.json file
@@ -38,19 +39,20 @@ export class EventService {
    * @param id
    * @returns
    */
-  getEventById(id: string): Observable<any> {
-    return this.http
-      .get<any[]>(this.apiUrl)
-      .pipe(
-        map((events) => events.find((event) => event.id.toString() === id))
-      );
+  getEventById(id: string) {
+    const events = this.eventsSignal();
+    return events.find((event) => event.id.toString() === id);
   }
 
   // When backend ready, this will be edited to sen a POST request to backend
-  createEvents(newEvent: any): Observable<any> {
-    const currentEvents = this.eventsSubject.value;
-    const updatedEvents = [...currentEvents, newEvent];
-    this.eventsSubject.next(updatedEvents);
-    return of(newEvent);
+  // createEvents(newEvent: any): Observable<any> {
+  //   const currentEvents = this.eventsSubject.value;
+  //   const updatedEvents = [...currentEvents, newEvent];
+  //   this.eventsSubject.next(updatedEvents);
+  //   return of(newEvent);
+  // }
+  createEvent(newEvent: any) {
+    const currentEvents = this.eventsSignal();
+    this.eventsSignal.set([...currentEvents, newEvent]);
   }
 }

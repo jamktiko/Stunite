@@ -1,26 +1,29 @@
 <div *ngIf="event">
-  <h1>{{ event.eventName }}</h1>
+  <h1>{{ event().eventName }}</h1>
   <div class="grid-container">
     <div class="grid-item">
       <img
-        [src]="event.imageUrl || 'assets/placeholder.png'"
+        [src]="event().imageUrl || 'assets/placeholder.png'"
         alt="Event image"
         class="eventimage"
       />
     </div>
     <div class="grid-item info-box">
       <div class="event-infobox">
-        <p><strong>Date:</strong> {{ event.date }}</p>
-        <p><strong>Time:</strong> {{ event.startingTime }}</p>
+        <p><strong>Päivämäärä:</strong> {{ event().date }}</p>
+        <p><strong>Aloitusaika:</strong> {{ event().startingTime }}</p>
         <p>
-          <strong>Location:</strong> {{ event.location.venue }},
-          {{ event.location.city }}, {{ event.location.address }}
+          <strong>Sijainti:</strong> {{ event().location.venue }},
+          {{ event().location.city }}, {{ event().location.address }}
         </p>
-        <p><strong>Ticket Price:</strong> {{ event.ticketprice }}</p>
+        <p>
+          <strong>Lippujen hinta:</strong> {{ event().ticketprice.min }} -
+          {{ event().ticketprice.max }} €
+        </p>
       </div>
     </div>
     <div class="grid-item">
-      <p><strong>Details:</strong> {{ event.details }}</p>
+      <p><strong>Lisätietoa:</strong> {{ event().details }}</p>
     </div>
     <div class="grid-item">
       <button>Osta liput</button>

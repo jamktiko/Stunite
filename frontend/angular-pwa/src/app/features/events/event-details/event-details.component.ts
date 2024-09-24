@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed, Signal } from '@angular/core';
 import { EventService } from '../event.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './event-details.component.css',
 })
 export class EventDetailsComponent implements OnInit {
-  event: any;
+  event!: Signal<any | undefined>;
   constructor(
     private eventService: EventService,
     private activatedRoute: ActivatedRoute
@@ -20,14 +20,10 @@ export class EventDetailsComponent implements OnInit {
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id) {
-      this.eventService.getEventById(id).subscribe(
-        (data) => {
-          console.log('Event data:', data);
-          this.event = data;
-        },
-        (error) => {
-          console.error('Error fetching event data:', error);
-        }
+      this.event = computed(() =>
+        this.eventService
+          .getEvents()()
+          .find((e) => e.id.toString() === id)
       );
     }
   }

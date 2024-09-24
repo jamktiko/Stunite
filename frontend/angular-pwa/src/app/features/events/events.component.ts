@@ -1,4 +1,11 @@
-import { Component, OnInit, signal, WritableSignal, computed } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  signal,
+  Signal,
+  WritableSignal,
+  computed,
+} from '@angular/core';
 import { EventService } from './event.service';
 import { EventcardComponent } from './eventcard/eventcard.component';
 import { CommonModule } from '@angular/common';
@@ -12,39 +19,19 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./events.component.css'],
 })
 export class EventsComponent implements OnInit {
-  eventData: any[] = [];
-
-  filteredEventData: any[] = [];
-  searchTerm: string = '';
-  newData: any[] = []
+  searchTerm = signal('');
+  eventsSignal!: Signal<any[]>;
+  filteredEventData!: Signal<any[]>;
 
   constructor(private eventService: EventService) {}
 
   ngOnInit(): void {
-    this.eventService.getEvents().subscribe((data) => {
-      this.eventData = data;
-      this.filteredEventData = data;
-      console.log('Tapahtumat ladattu:', this.eventData);
-    });
-
-    // This listens for new events
-    this.eventService.createEvents({}).subscribe((newEvent) => {
-      if (newEvent) {
-        this.newData.push(newEvent);
-        this.filteredEventData = [...this.eventData];
-      }
-    });
-  }
-
-  onSearch() {
-    console.log('Hakutermi:', this.searchTerm);
-
-    if (this.searchTerm) {
-      this.filteredEventData = this.eventData.filter((event) =>
-        event.eventName.toLowerCase().includes(this.searchTerm.toLowerCase())
+    this.eventsSignal = this.eventService.getEvents();
+    this.filteredEventData = computed(() => {
+      const search = this.searchTerm().toLowerCase();
+      return this.eventsSignal().filter((event) =>
+        event.eventName.toLowerCase().includes(search)
       );
-    } else {
-      this.filteredEventData = this.eventData;
-    }
+    });
   }
 }

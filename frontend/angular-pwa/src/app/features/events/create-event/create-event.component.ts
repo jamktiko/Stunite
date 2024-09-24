@@ -26,7 +26,7 @@ export class CreateEventComponent {
   details: string = '';
   ticketLink: string = '';
   ticketSaleStart: string = '';
-  salesTime: string = '';
+  ticketSaleEnd: string = '';
   publishDateTime: string = '';
   status: string = 'preliminary';
 
@@ -54,15 +54,16 @@ export class CreateEventComponent {
       details: this.details,
       ticketLink: this.ticketLink,
       ticketSaleStart: this.ticketSaleStart,
-      salesTime: this.salesTime,
+      ticketSaleEnd: this.ticketSaleEnd,
       publishDateTime: this.publishDateTime,
       status: this.status,
     };
 
-    // calls EventService's createEvents
-    this.eventService.createEvents(newEvent).subscribe((event) => {
-      console.log('Luotu tapahtuma:', event);
-      this.router.navigate(['/events', event.id]);
-    });
+    this.eventService.createEvent(newEvent);
+    console.log('Luotu tapahtuma:', newEvent);
+
+    // this.router.navigate(['/events', newEvent.id]);
+    // this is for testing
+    this.router.navigate(['/events']);
   }
 }

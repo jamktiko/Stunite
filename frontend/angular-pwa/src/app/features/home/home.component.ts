@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed, Signal } from '@angular/core';
 import { CalendarComponent } from '../../shared/calendar/calendar.component';
 import { EventService } from '../events/event.service';
 import { CommonModule } from '@angular/common';
@@ -20,27 +20,27 @@ import { AssociationcardComponent } from '../associations/associationcard/associ
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  featuredEvents: any[] = [];
-  feturedAssociations: any[] = [];
+  featuredEvents!: Signal<any[]>;
+  featuredAssociations: any[] = [];
   constructor(
     private eventService: EventService,
     private associationService: AssociationService,
     private router: Router
   ) {}
   ngOnInit(): void {
-    this.eventService.getEvents().subscribe((events) => {
-      this.featuredEvents = events.slice(0, 4);
-    });
-
+    // Use signals and call them as functions to access values, then apply array methods
+    this.featuredEvents = computed(() =>
+      this.eventService.getEvents()().slice(0, 4)
+    ); // Call the signal with `()`
     this.associationService.getAssociations().subscribe((associations) => {
-      this.feturedAssociations = associations;
+      this.featuredAssociations = associations; // Store associations
     });
   }
 
   goToEvents(): void {
     this.router.navigate(['/events']);
   }
-  goToAssociations():void {
-    this.router.navigate(['/associations'])
+  goToAssociations(): void {
+    this.router.navigate(['/associations']);
   }
 }

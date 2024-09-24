@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, computed, Signal } from '@angular/core';
 import {
   IgxCalendarModule,
   IgxCalendarComponent,
@@ -24,38 +24,35 @@ export class CalendarComponent implements OnInit {
   public selectedEvents: any[] = []; // Store the currently selected events
   selectedDate: string = '';
 
+  events!: Signal<any[]>;
   constructor(private eventService: EventService) {}
 
   ngOnInit(): void {
-    this.eventService.getEvents().subscribe((events) => {
-      // Clear the map and process events
-      this.eventsMap.clear();
+    this.events = this.eventService.getEvents();
 
-      events.forEach((event) => {
-        const dateStr = event.date;
-        const date = this.parseDate(dateStr);
+    this.eventsMap.clear();
+    this.events().forEach((event) => {
+      const dateStr = event.date;
+      const date = this.parseDate(dateStr);
 
-        if (date) {
-          const dateStr = date.toDateString();
-          if (!this.eventsMap.has(dateStr)) {
-            this.eventsMap.set(dateStr, []);
-          }
-          this.eventsMap.get(dateStr)?.push(event);
+      if (date) {
+        const dateStr = date.toDateString();
+        if (!this.eventsMap.has(dateStr)) {
+          this.eventsMap.set(dateStr, []);
         }
-      });
-
-      // Set special dates in the calendar
-      this.calendar.specialDates = Array.from(this.eventsMap.keys()).map(
-        (key) => {
-          return {
-            type: DateRangeType.Specific,
-            dateRange: [new Date(key)],
-          } as DateRangeDescriptor;
-        }
-      );
-
-      console.log('Special Dates:', Array.from(this.eventsMap.keys()));
+        this.eventsMap.get(dateStr)?.push(event);
+      }
     });
+
+    // Setting special dates in the calendar
+    this.calendar.specialDates = Array.from(this.eventsMap.keys()).map(
+      (key) => {
+        return {
+          type: DateRangeType.Specific,
+          dateRange: [new Date(key)],
+        } as DateRangeDescriptor;
+      }
+    );
   }
 
   public onSelection(dates: Date | Date[]) {
@@ -74,7 +71,7 @@ export class CalendarComponent implements OnInit {
       }
     });
   }
-
+  // Formatting date to Finnish dates
   private formatDateInFinnish(date: Date): string {
     const formatter = new Intl.DateTimeFormat('fi-FI', {
       day: 'numeric',

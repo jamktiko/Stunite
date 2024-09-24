@@ -6,7 +6,7 @@
     <p>Kuuminta juuri nyt</p>
     <div class="events-section">
       <app-eventcard
-        *ngFor="let event of featuredEvents"
+        *ngFor="let event of featuredEvents()"
         [event]="event"
         [onlyImage]="true"
       ></app-eventcard>
@@ -29,7 +29,7 @@
   <div class="associations-container">
     <div class="associations">
       <app-associationcard
-        *ngFor="let association of feturedAssociations"
+        *ngFor="let association of featuredAssociations"
         [association]="association"
       ></app-associationcard>
     </div>
