@@ -1,20 +1,41 @@
 <div class="association-page">
-  <h1>Tulevat tapahtumat</h1>
-  <div *ngIf="association">
-    <h2>{{ association.organizationPublicInfo.name }}</h2>
+  <h2 class="name">{{ association.organizationPublicInfo.name }}</h2>
+  <div *ngIf="association" class="association-container">
+    <div class="pic">
+      <img
+        [src]="'../assets/konkurssi.png'"
+        alt="Association image"
+        class="associationimage"
+      />
+    </div>
+    <div class="association-info">
+      <p>
+        {{ association.organizationPublicInfo.address.street }}
+        {{ association.organizationPublicInfo.address.city }}
+        {{ association.organizationPublicInfo.address.postalCode }}
+      </p>
+      <p>{{ association.organizationPublicInfo.website }}</p>
+      <p>{{ association.organizerRegistration.email }}</p>
+    </div>
+  </div>
+  <div>
+    <h2>Kuvaus</h2>
     <p>{{ association.organizationPublicInfo.description }}</p>
-    <p>
-      {{ association.organizationPublicInfo.address.street }}
-      {{ association.organizationPublicInfo.address.city }}
-      {{ association.organizationPublicInfo.address.postalCode }}
-    </p>
-    <p>{{ association.organizationPublicInfo.website }}</p>
-
-    <h2>Yhteystiedot</h2>
-    <p>
-      {{ association.organizerRegistration.contactPerson.firstName }}
-      {{ association.organizerRegistration.contactPerson.lastName }}
-    </p>
-    <p>{{ association.organizerRegistration.email }}</p>
+  </div>
+  <div>
+    <h2>Koulutusalat</h2>
+    <ul>
+      <li
+        *ngFor="let field of association.organizationPublicInfo.fieldsOfStudy"
+      >
+        {{ field }}
+      </li>
+    </ul>
+  </div>
+  <div>
+    <h2>Tulevat tapahtumat</h2>
+  </div>
+  <div>
+    <h2>Menneet tapahtumat</h2>
   </div>
 </div>
