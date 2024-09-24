@@ -3,7 +3,11 @@
   <div *ngIf="association">
     <h2>{{ association.organizationPublicInfo.name }}</h2>
     <p>{{ association.organizationPublicInfo.description }}</p>
-    <p>{{ association.organizationPublicInfo.address }}</p>
+    <p>
+      {{ association.organizationPublicInfo.address.street }}
+      {{ association.organizationPublicInfo.address.city }}
+      {{ association.organizationPublicInfo.address.postalCode }}
+    </p>
     <p>{{ association.organizationPublicInfo.website }}</p>
 
     <h2>Yhteystiedot</h2>
