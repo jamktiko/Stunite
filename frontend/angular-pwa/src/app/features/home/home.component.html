@@ -16,7 +16,7 @@
 
   <div class="calendar-section">
     <!-- ngSkipHydration skips Angular's hydration process
-      for this part of the DOM. (necessary wgen rendering components
+      for this part of the DOM. (necessary when rendering components
       that can have discrepancies between server-side and client-side rendering)
       In here it's used because we want to ensure that igx-clandar component
       operates correctly without Angular trying to reconcile differences during hydration-->
@@ -29,9 +29,10 @@
   <div class="associations-container">
     <div class="associations">
       <app-associationcard
-        *ngFor="let association of featuredAssociations"
+        *ngFor="let association of featuredAssociations()"
         [association]="association"
-      ></app-associationcard>
+      >
+      </app-associationcard>
     </div>
     <div class="toAssociationPage" (click)="goToAssociations()">&#8250;</div>
   </div>

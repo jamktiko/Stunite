@@ -17,29 +17,33 @@ import { AssociationcardComponent } from '../associations/associationcard/associ
     AssociationcardComponent,
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+  styleUrls: ['./home.component.css'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   featuredEvents!: Signal<any[]>;
-  featuredAssociations: any[] = [];
+  featuredAssociations!: Signal<any[]>;
+
   constructor(
     private eventService: EventService,
     private associationService: AssociationService,
     private router: Router
   ) {}
+
   ngOnInit(): void {
-    // Use signals and call them as functions to access values, then apply array methods
+
     this.featuredEvents = computed(() =>
       this.eventService.getEvents()().slice(0, 4)
-    ); // Call the signal with `()`
-    this.associationService.getAssociations().subscribe((associations) => {
-      this.featuredAssociations = associations; // Store associations
-    });
+    );
+
+    this.featuredAssociations = computed(() =>
+      this.associationService.getAssociations()()
+    );
   }
 
   goToEvents(): void {
     this.router.navigate(['/events']);
   }
+
   goToAssociations(): void {
     this.router.navigate(['/associations']);
   }

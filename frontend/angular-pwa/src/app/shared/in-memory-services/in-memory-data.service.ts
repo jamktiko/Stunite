@@ -1,15 +1,24 @@
-import { Injectable, Inject, PLATFORM_ID, signal, WritableSignal } from '@angular/core';
+import {
+  Injectable,
+  Inject,
+  PLATFORM_ID,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { Event } from './event.model';
+import { Event } from '../models/event.model';
+import { Organizer } from '../models/organization.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InMemoryDataService {
   private eventsSignal: WritableSignal<Event[]>;
+  private organizersSignal: WritableSignal<Organizer[]>;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.eventsSignal = signal(this.loadEvents());
+    this.organizersSignal = signal(this.loadOrganizers());
   }
 
   private loadEvents(): Event[] {
@@ -22,10 +31,26 @@ export class InMemoryDataService {
           console.error('Error parsing events from localStorage:', error);
         }
       }
-      console.log("ei tapahtumia local storagessa");
+      console.log('ei tapahtumia local storagessa');
     }
 
     return this.getInitialEvents();
+  }
+
+  private loadOrganizers(): Organizer[] {
+    if (isPlatformBrowser(this.platformId)) {
+      const organizers = localStorage.getItem('organizers');
+      if (organizers) {
+        try {
+          return JSON.parse(organizers) as Organizer[];
+        } catch (error) {
+          console.error('Error parsing organizers from localStorage:', error);
+        }
+      }
+      console.log('ei järjestäjiä local storagessa');
+    }
+
+    return this.getInitialOrganizers();
   }
 
   private saveEvents() {
@@ -33,7 +58,14 @@ export class InMemoryDataService {
       localStorage.setItem('events', JSON.stringify(this.eventsSignal()));
     }
   }
-
+  private saveOrganizers() {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(
+        'organizers',
+        JSON.stringify(this.organizersSignal())
+      );
+    }
+  }
   private getInitialEvents(): Event[] {
     return [
       {
@@ -52,6 +84,15 @@ export class InMemoryDataService {
         },
         details:
           'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam...',
+        isFavorite: false,
+        ticketLink: '',
+        ticketSaleStart: '',
+        ticketSaleEnd: '',
+        theme: '',
+        imageUrl: '',
+        publishDateTime: '',
+        status: '',
+        organizerId: 1,
       },
       {
         id: 2,
@@ -69,6 +110,15 @@ export class InMemoryDataService {
         },
         details:
           'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur?',
+        isFavorite: false,
+        ticketLink: '',
+        ticketSaleStart: '',
+        ticketSaleEnd: '',
+        theme: '',
+        imageUrl: '',
+        publishDateTime: '',
+        status: '',
+        organizerId: 1,
       },
       {
         id: 3,
@@ -86,6 +136,15 @@ export class InMemoryDataService {
         },
         details:
           'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?',
+        isFavorite: false,
+        ticketLink: '',
+        ticketSaleStart: '',
+        ticketSaleEnd: '',
+        theme: '',
+        imageUrl: '',
+        publishDateTime: '',
+        status: '',
+        organizerId: 1,
       },
       {
         id: 4,
@@ -103,6 +162,15 @@ export class InMemoryDataService {
         },
         details:
           'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.',
+        isFavorite: false,
+        ticketLink: '',
+        ticketSaleStart: '',
+        ticketSaleEnd: '',
+        theme: '',
+        imageUrl: '',
+        publishDateTime: '',
+        status: '',
+        organizerId: 1,
       },
       {
         id: 5,
@@ -120,6 +188,15 @@ export class InMemoryDataService {
         },
         details:
           'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?',
+        isFavorite: false,
+        ticketLink: '',
+        ticketSaleStart: '',
+        ticketSaleEnd: '',
+        theme: '',
+        imageUrl: '',
+        publishDateTime: '',
+        status: '',
+        organizerId: 1,
       },
       {
         id: 6,
@@ -137,6 +214,15 @@ export class InMemoryDataService {
         },
         details:
           'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?',
+        isFavorite: false,
+        ticketLink: '',
+        ticketSaleStart: '',
+        ticketSaleEnd: '',
+        theme: '',
+        imageUrl: '',
+        publishDateTime: '',
+        status: '',
+        organizerId: 1,
       },
       {
         id: 7,
@@ -154,6 +240,15 @@ export class InMemoryDataService {
         },
         details:
           'Kesäfestivaali tarjoaa monenlaista viihdettä ja musiikkia. Tule mukaan nauttimaan auringosta ja hyvästä seurasta!',
+        isFavorite: false,
+        ticketLink: '',
+        ticketSaleStart: '',
+        ticketSaleEnd: '',
+        theme: '',
+        imageUrl: '',
+        publishDateTime: '',
+        status: '',
+        organizerId: 1,
       },
       {
         id: 8,
@@ -171,6 +266,15 @@ export class InMemoryDataService {
         },
         details:
           'Talvijuhla on perinteinen tapahtuma, jossa voit nauttia talven kauneudesta, markkinoista ja lämpimästä ruoasta.',
+        isFavorite: false,
+        ticketLink: '',
+        ticketSaleStart: '',
+        ticketSaleEnd: '',
+        theme: '',
+        imageUrl: '',
+        publishDateTime: '',
+        status: '',
+        organizerId: 1,
       },
       {
         id: 9,
@@ -188,6 +292,15 @@ export class InMemoryDataService {
         },
         details:
           'Vappujuhla on perinteinen juhla, jossa juhlistamme kevään tuloa iloisessa seurassa. Tervetuloa mukaan!',
+        isFavorite: false,
+        ticketLink: '',
+        ticketSaleStart: '',
+        ticketSaleEnd: '',
+        theme: '',
+        imageUrl: '',
+        publishDateTime: '',
+        status: '',
+        organizerId: 1,
       },
       {
         id: 10,
@@ -205,6 +318,90 @@ export class InMemoryDataService {
         },
         details:
           'Syysretki Nuuksioon tarjoaa upeita maisemia ja luonnon rauhaa. Tule mukaan nauttimaan syksyn väreistä!',
+        isFavorite: false,
+        ticketLink: '',
+        ticketSaleStart: '',
+        ticketSaleEnd: '',
+        theme: '',
+        imageUrl: '',
+        publishDateTime: '',
+        status: '',
+        organizerId: 1,
+      },
+    ];
+  }
+
+  private getInitialOrganizers(): Organizer[] {
+    return [
+      {
+        id: 1,
+        organizerRegistration: {
+          email: 'contact@testuniversitysu.com',
+          contactPerson: {
+            firstName: 'Test',
+            lastName: 'User',
+            phone: '+358401234567',
+          },
+        },
+        organizationPublicInfo: {
+          name: 'Test University Student Union',
+          customerServiceEmail: 'service@testuniversitysu.com',
+          phone: '+358400000000',
+          website: 'http://www.testuniversitysu.com',
+          description:
+            'The Test University Student Union represents the students and organizes various activities and services to enhance student life.',
+          address: {
+            street: 'Campus Drive 1',
+            postalCode: '00100',
+            city: 'Jyväskylä',
+          },
+        },
+        organizationAdditionalInfo: {
+          officialName: 'Test University Student Union Ltd.',
+          organizationType: 'Student Union',
+          registrationNumber: '9876543-2',
+          billingAddress: {
+            street: 'Billing Street 12',
+            postalCode: '00101',
+            city: 'Jyväskylä',
+          },
+          invoiceAddress: 'Billing Street 12, 00101 Jyväskylä',
+        },
+      },
+      {
+        id: 2,
+        organizerRegistration: {
+          email: 'contact@helsinkistudentsu.com',
+          contactPerson: {
+            firstName: 'Mika',
+            lastName: 'Niemi',
+            phone: '+358401234568',
+          },
+        },
+        organizationPublicInfo: {
+          name: 'Helsinki Student Union',
+          customerServiceEmail: 'service@helsinkistudentsu.com',
+          phone: '+358400000001',
+          website: 'http://www.helsinkistudentsu.com',
+          description:
+            'Helsinki Student Union aims to improve student welfare and offers various events and services.',
+          address: {
+            street: 'Student Square 2',
+            postalCode: '00200',
+            city: 'Helsinki',
+          },
+        },
+        organizationAdditionalInfo: {
+          officialName: 'Helsinki Student Union Ltd.',
+          organizationType: 'Student Union',
+          registrationNumber: '1234567-8',
+          billingAddress: {
+            street: 'Billing Avenue 3',
+            postalCode: '00201',
+            city: 'Helsinki',
+          },
+          invoiceAddress: 'Billing Avenue 3, 00201 Helsinki',
+        },
       },
     ];
   }
@@ -212,15 +409,26 @@ export class InMemoryDataService {
   getEvents(): WritableSignal<Event[]> {
     return this.eventsSignal;
   }
-
-  createEvent(newEvent: Event) {
+  getOrganizers(): WritableSignal<Organizer[]> {
+    return this.organizersSignal;
+  }
+  createEvent(newEvent: Event, organizerId: number) {
     newEvent.date = this.formatDate(newEvent.date);
-
+    newEvent.organizerId = organizerId;
     const currentEvents = this.eventsSignal();
     this.eventsSignal.set([...currentEvents, newEvent]);
     this.saveEvents();
   }
 
+  getEventsByOrganizer(organizerId: number): Event[] {
+    const currentEvents = this.eventsSignal();
+    return currentEvents.filter((event) => event.organizerId === organizerId);
+  }
+  createOrganizer(newOrganizer: Organizer) {
+    const currentOrganizers = this.organizersSignal();
+    this.organizersSignal.set([...currentOrganizers, newOrganizer]);
+    this.saveOrganizers();
+  }
 
   private formatDate(dateStr: string): string {
     const parts = dateStr.split('.');

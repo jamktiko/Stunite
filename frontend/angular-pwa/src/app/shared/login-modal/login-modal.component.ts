@@ -34,12 +34,15 @@ export class LoginModalComponent {
       if (isAuth) {
         this.onClose();
         const role = this.authService.getUserRole();
+
         if (role === 'admin') {
           this.router.navigate(['/admin-view']);
         } else if (role === 'organizer') {
           this.router.navigate(['/organizer-view']);
-        } else {
+        } else if (role === 'student') {
           this.router.navigate(['/events']);
+        } else {
+          console.warn('Unknown role:', role);
         }
         console.log('Login successful');
       } else {

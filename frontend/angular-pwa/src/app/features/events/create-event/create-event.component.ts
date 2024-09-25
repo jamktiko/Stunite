@@ -4,14 +4,16 @@ import { EventService } from '../event.service';
 import { CalendarComponent } from '../../../shared/calendar/calendar.component';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { Event } from '../../../shared/event.model';
+import { Event } from '../../../shared/models/event.model';
+import { InMemoryUserService } from '../../../shared/in-memory-services/in-memory-user.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-create-event',
   standalone: true,
   imports: [FormsModule, CalendarComponent, CommonModule],
   templateUrl: './create-event.component.html',
-  styleUrl: './create-event.component.css',
+  styleUrls: ['./create-event.component.css'],
 })
 export class CreateEventComponent {
   eventName: string = '';
@@ -30,14 +32,22 @@ export class CreateEventComponent {
   ticketSaleEnd: string = '';
   publishDateTime: string = '';
   status: string = 'preliminary';
-  imgageUrl: string = '';
+  imageUrl: string = '';
   cities: string[] = ['Helsinki', 'Tampere', 'Turku', 'Oulu', 'Jyväskylä'];
+  organizerId: number = 1;
 
-  constructor(private eventService: EventService, private router: Router) {}
+  constructor(
+    private eventService: EventService,
+    private router: Router,
+    private userService: InMemoryUserService,
+    private authService: AuthService
+  ) {}
 
   onSubmit() {
-    const newEvent = {
-      id: Math.floor(Math.random() * 1000), // Creates a random ID (for now)
+    const currentUser = this.getCurrentUser();
+    console.log('current user', currentUser);
+    const newEvent: Event = {
+      id: Math.floor(Math.random() * 1000),
       eventName: this.eventName,
       date: this.formatDate(this.eventDate),
       startingTime: this.eventTime,
@@ -53,21 +63,19 @@ export class CreateEventComponent {
       theme: this.theme,
       isFavorite: this.isFavorite,
       details: this.details,
-      imageUrl: this.imgageUrl,
+      imageUrl: this.imageUrl,
       ticketLink: this.ticketLink,
       ticketSaleStart: this.ticketSaleStart,
       ticketSaleEnd: this.ticketSaleEnd,
       publishDateTime: this.publishDateTime,
       status: this.status,
+      organizerId: this.organizerId,
     };
 
-    this.eventService.createEvent(newEvent);
-    console.log('Luotu tapahtuma:', newEvent);
-
-    // this.router.navigate(['/events', newEvent.id]);
-    // this is for testing
+    this.eventService.createEvent(newEvent, this.organizerId);
     this.router.navigate(['/events']);
   }
+
   private formatDate(dateStr: string): string {
     const parts = dateStr.split('-');
     if (parts.length === 3) {
@@ -78,5 +86,10 @@ export class CreateEventComponent {
     }
     console.warn(`Invalid date format: ${dateStr}`);
     return dateStr;
+  }
+
+  private getCurrentUser() {
+    const email = this.authService.getCurrUser()?.email;
+    return email ? this.userService.getCurrentUser(email) : null;
   }
 }

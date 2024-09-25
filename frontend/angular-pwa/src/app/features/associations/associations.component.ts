@@ -3,6 +3,7 @@ import { AssociationcardComponent } from './associationcard/associationcard.comp
 import { AssociationService } from './association.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Organizer } from '../../shared/models/organization.model';
 
 @Component({
   selector: 'app-associations',
@@ -12,31 +13,28 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './associations.component.css',
 })
 export class AssociationsComponent implements OnInit {
-  associationData: any[] = [];
+  associationData: Organizer[] = [];
 
-  filteredAssociationData: any[] = [];
+  filteredAssociationData: Organizer[] = [];
   searchTerm: string = '';
+
   newData: any[] = [];
   constructor(private associationService: AssociationService) {}
+
   ngOnInit(): void {
-    this.associationService.getAssociations().subscribe((data) => {
-      this.associationData = data;
-      this.filteredAssociationData = data;
-      console.log('Ladatut paikallisyhdistykse: ', this.associationData);
-    });
+    this.associationData = this.associationService.getAssociations()();
+    this.filteredAssociationData = this.associationData;
+    console.log('Ladatut paikallisyhdistykset: ', this.associationData);
   }
+
   onSearch() {
     console.log('Hakutermi:', this.searchTerm);
-
-    if (this.searchTerm) {
-      this.filteredAssociationData = this.associationData.filter(
-        (association) =>
+    this.filteredAssociationData = this.searchTerm
+      ? this.associationData.filter((association) =>
           association.organizationPublicInfo.name
             .toLowerCase()
             .includes(this.searchTerm.toLowerCase())
-      );
-    } else {
-      this.filteredAssociationData = this.associationData;
-    }
+        )
+      : this.associationData;
   }
 }

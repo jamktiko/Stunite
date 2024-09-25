@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AssociationService } from '../association.service';
+import { Organizer } from '../../../shared/models/organization.model';
 
 @Component({
   selector: 'app-associations-detail',
@@ -11,8 +12,8 @@ import { AssociationService } from '../association.service';
   styleUrls: ['./associations-detail.component.css'],
 })
 export class AssociationsDetailComponent implements OnInit {
-  association: any = null;
-  associations: any[] = [];
+  association: Organizer | null = null;
+
   constructor(
     private route: ActivatedRoute,
     private associationService: AssociationService
@@ -21,11 +22,14 @@ export class AssociationsDetailComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     console.log('Hae ID:', id);
+    
     if (id) {
-      this.associationService.getAssociationsById(id).subscribe((data) => {
-        console.log('Ladattu data:', data);
-        this.association = data;
-      });
+      const associations = this.associationService.getAssociations()();
+      this.association = associations.find(
+        (association) => association.id.toString() === id
+      ) || null;
+
+      console.log('Ladattu data:', this.association);
     }
   }
 }

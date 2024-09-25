@@ -1,17 +1,17 @@
 <div class="association-page">
-  <h2 class="name">{{ association.organizationPublicInfo.name }}</h2>
+  <h2 class="name">{{ association?.organizationPublicInfo?.name }}</h2>
   <div *ngIf="association" class="association-container">
     <div class="pic">
       <img
-        [src]="'../assets/konkurssi.png'"
+        src="../assets/konkurssi.png"
         alt="Association image"
         class="associationimage"
       />
     </div>
     <div class="association-info">
       <p>
-        {{ association.organizationPublicInfo.address.street }}
-        {{ association.organizationPublicInfo.address.city }}
+        {{ association.organizationPublicInfo.address.street }},
+        {{ association.organizationPublicInfo.address.city }},
         {{ association.organizationPublicInfo.address.postalCode }}
       </p>
       <p>{{ association.organizationPublicInfo.website }}</p>
@@ -20,17 +20,10 @@
   </div>
   <div>
     <h2>Kuvaus</h2>
-    <p>{{ association.organizationPublicInfo.description }}</p>
+    <p>{{ association?.organizationPublicInfo?.description }}</p>
   </div>
   <div>
     <h2>Koulutusalat</h2>
-    <ul>
-      <li
-        *ngFor="let field of association.organizationPublicInfo.fieldsOfStudy"
-      >
-        {{ field }}
-      </li>
-    </ul>
   </div>
   <div>
     <h2>Tulevat tapahtumat</h2>

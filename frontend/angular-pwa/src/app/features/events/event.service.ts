@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, WritableSignal } from '@angular/core';
-import { InMemoryDataService } from '../../shared/in-memory-data.service';
-import { Event } from '../../shared/event.model';
+import { InMemoryDataService } from '../../shared/in-memory-services/in-memory-data.service';
+import { Event } from '../../shared/models/event.model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +28,7 @@ export class EventService {
     return events.find((event) => event.id === id);
   }
 
-  createEvent(newEvent: Event) {
-    this.inMemoryService.createEvent(newEvent);
+  createEvent(newEvent: Event, organizerId: number) {
+    this.inMemoryService.createEvent(newEvent, organizerId);
   }
 }

@@ -1,15 +1,9 @@
-import {
-  Component,
-  OnInit,
-  signal,
-  Signal,
-  computed,
-} from '@angular/core';
+import { Component, OnInit, signal, Signal, computed } from '@angular/core';
 import { EventService } from './event.service';
 import { EventcardComponent } from './eventcard/eventcard.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Event } from '../../shared/event.model';
+import { Event } from '../../shared/models/event.model';
 
 @Component({
   selector: 'app-events',
@@ -38,6 +32,5 @@ export class EventsComponent implements OnInit {
       console.log('Filtered Events:', filteredEvents);
       return filteredEvents;
     });
-    
   }
 }

@@ -1,33 +1,35 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { Injectable, signal, WritableSignal } from '@angular/core';
+import { Organizer } from '../../shared/models/organization.model';
+import { InMemoryDataService } from '../../shared/in-memory-services/in-memory-data.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AssociationService {
-  private apiUrl = 'assets/fakedata2.json';
-  private associationSubject = new BehaviorSubject<any[]>([]);
-  constructor(private http: HttpClient) {
-    this.loadAssociations();
+  private associationsSignal: WritableSignal<Organizer[]>;
+
+  constructor(private inMemoryDataService: InMemoryDataService) {
+
+    this.associationsSignal = signal(this.loadAssociations());
   }
 
-  private loadAssociations() {
-    this.http.get<any[]>(this.apiUrl).subscribe((associations) => {
-      this.associationSubject.next(associations);
-    });
-  }
-  getAssociations(): Observable<any[]> {
-    return this.associationSubject.asObservable();
+  private loadAssociations(): Organizer[] {
+    return this.inMemoryDataService.getOrganizers()();
   }
 
-  getAssociationsById(id: string) {
-    return this.http
-      .get<any[]>(this.apiUrl)
-      .pipe(
-        map((associations) =>
-          associations.find((association) => association.id.toString() === id)
-        )
-      );
+  getAssociations(): WritableSignal<Organizer[]> {
+    return this.associationsSignal;
+  }
+
+  getAssociationById(id: string): Organizer | undefined {
+    return this.associationsSignal().find(
+      (assoc) => assoc.id.toString() === id
+    );
+  }
+
+  createOrganizer(newOrganizer: Organizer) {
+    const currentAssociations = this.associationsSignal();
+    this.associationsSignal.set([...currentAssociations, newOrganizer]);
+    this.inMemoryDataService.createOrganizer(newOrganizer);
   }
 }

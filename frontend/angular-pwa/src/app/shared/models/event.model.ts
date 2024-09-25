@@ -1,3 +1,4 @@
+
 export interface Event {
   id: number;
   eventName: string;
@@ -12,6 +13,14 @@ export interface Event {
     minticketprice: number;
     maxticketprice: number;
   };
+  theme: string;
+  isFavorite: boolean;
   details: string;
-  imageUrl?: string;
+  imageUrl: string;
+  ticketLink: string;
+  ticketSaleStart: string;
+  ticketSaleEnd: string;
+  publishDateTime: string;
+  status: string;
+  organizerId: number; 
 }

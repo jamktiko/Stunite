@@ -1,7 +1,20 @@
 <h1>Tervetuloa järjestäjänäkymään</h1>
 <button (click)="goToCreateEvent()">Luo uusi tapahtuma</button>
 
-<h2>Sinun tapahtumasi:</h2>
+<div>
+  <h2>Sinun tapahtumasi:</h2>
+  <div *ngIf="events.length > 0; else noEvents">
+    <div *ngFor="let event of events">
+      <p>{{ event.eventName }}</p>
+      <!-- <button (click)="editEvent(event.id)">Muokkaa tapahtumaa</button>
+      <button (click)="deleteEvent(event.id)">Poista tapahtuma</button> -->
+    </div>
+  </div>
+  <ng-template #noEvents>
+    <p>Ei tapahtumia.</p>
+  </ng-template>
+</div>
+
 <p>Tapahtuman nimi</p>
 <button>Muokkaa tapahtumaa</button> <button>Poista tapahtuma</button>
 <button (click)="logout()">Kirjaudu ulos</button>
