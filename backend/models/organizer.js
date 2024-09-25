@@ -33,6 +33,10 @@ const organizerSchema = new mongoose.Schema({
   billingAddress: { type: String, required: true },
   paymentAddress: { type: String, required: true },
   password: { type: String, required: true },
+  fieldsOfStudy: {
+    type: [String],
+    required: true,
+  },
 });
 
 const Organizer = mongoose.model('Organizer', organizerSchema);

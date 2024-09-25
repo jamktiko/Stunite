@@ -24,6 +24,7 @@ router.post('/', async (req, res) => {
     billingAddress,
     paymentAddress,
     password,
+    fieldsOfStudy,
   } = req.body;
 
   // Tarkista pakolliset kentät
@@ -42,7 +43,8 @@ router.post('/', async (req, res) => {
     !businessId ||
     !billingAddress ||
     !paymentAddress ||
-    !password
+    !password ||
+    !fieldsOfStudy
   ) {
     return res
       .status(400)
@@ -74,6 +76,7 @@ router.post('/', async (req, res) => {
       billingAddress,
       paymentAddress,
       password: hashedPassword,
+      fieldsOfStudy,
     });
 
     await newOrganizer.save();
