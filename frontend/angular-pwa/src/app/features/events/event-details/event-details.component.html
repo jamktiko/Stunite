@@ -1,9 +1,9 @@
 <div *ngIf="event">
-  <h1>{{ event().eventName }}</h1>
+  <h1>{{ event()?.eventName }}</h1>
   <div class="grid-container">
     <div class="grid-item">
       <img
-        [src]="event().imageUrl || 'assets/placeholder.png'"
+        [src]="event()?.imageUrl || 'assets/placeholder.png'"
         alt="Event image"
         class="eventimage"
       />
@@ -17,8 +17,9 @@
           {{ event().location.city }}, {{ event().location.address }}
         </p>
         <p>
-          <strong>Lippujen hinta:</strong> {{ event().ticketprice.min }} -
-          {{ event().ticketprice.max }} €
+          <strong>Lippujen hinta:</strong>
+          {{ event().ticketprice.minticketprice }} -
+          {{ event().ticketprice.maxticketprice }} €
         </p>
       </div>
     </div>

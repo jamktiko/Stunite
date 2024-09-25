@@ -19,4 +19,9 @@ export class OrganizerViewComponent {
   goToCreateEvent() {
     this.router.navigate(['/organizer-view/create-event'])
   }
+  
+  // !!! delete this later
+  deletelocalstorage(){
+    localStorage.clear();
+  }
 }

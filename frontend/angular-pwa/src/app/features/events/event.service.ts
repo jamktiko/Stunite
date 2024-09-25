@@ -1,58 +1,34 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { Injectable, WritableSignal } from '@angular/core';
+import { InMemoryDataService } from '../../shared/in-memory-data.service';
+import { Event } from '../../shared/event.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventService {
-  private apiUrl = 'assets/fakedata.json';
+  // private apiUrl = 'assets/fakedata.json';
 
-  // private eventsSubject = new BehaviorSubject<any[]>([]);
-  private eventsSignal: WritableSignal<any[]> = signal([]);
+  // !! Events use angualr signals and in memory data service at the moment
+  private eventsSignal: WritableSignal<Event[]>;
 
-  constructor(private http: HttpClient) {
-    // This gets the events at the start
-    this.loadEvents();
-  }
-  private loadEvents() {
-    this.http.get<any[]>(this.apiUrl).subscribe((events) => {
-      // this.eventsSubject.next(events);
-      this.eventsSignal.set(events);
-    });
+  constructor(
+    private inMemoryService: InMemoryDataService,
+    private http: HttpClient
+  ) {
+    this.eventsSignal = this.inMemoryService.getEvents();
   }
 
-  /**
-   * Returns event information fron fakedata.json file
-   * @returns
-   */
-  // getEvents(): Observable<any[]> {
-  //   return this.http.get<any[]>(this.apiUrl);
-  // }
-
-  // Return Observable, that listens changes in events
-  getEvents(): WritableSignal<any[]> {
+  getEvents(): WritableSignal<Event[]> {
     return this.eventsSignal;
   }
-  /**
-   * Returns event information from fakedata.json file
-   * by given id
-   * @param id
-   * @returns
-   */
-  getEventById(id: string) {
+
+  getEventById(id: number): Event | undefined {
     const events = this.eventsSignal();
-    return events.find((event) => event.id.toString() === id);
+    return events.find((event) => event.id === id);
   }
 
-  // When backend ready, this will be edited to sen a POST request to backend
-  // createEvents(newEvent: any): Observable<any> {
-  //   const currentEvents = this.eventsSubject.value;
-  //   const updatedEvents = [...currentEvents, newEvent];
-  //   this.eventsSubject.next(updatedEvents);
-  //   return of(newEvent);
-  // }
-  createEvent(newEvent: any) {
-    const currentEvents = this.eventsSignal();
-    this.eventsSignal.set([...currentEvents, newEvent]);
+  createEvent(newEvent: Event) {
+    this.inMemoryService.createEvent(newEvent);
   }
 }

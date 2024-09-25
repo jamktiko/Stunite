@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { Event } from '../../../shared/event.model';
 @Component({
   selector: 'app-eventcard',
   standalone: true,
@@ -10,6 +10,6 @@ import { CommonModule } from '@angular/common';
   styleUrl: './eventcard.component.css',
 })
 export class EventcardComponent {
-  @Input() event: any;
+  @Input() event!: Event;
   @Input() onlyImage: boolean = false;
 }
