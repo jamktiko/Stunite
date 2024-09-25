@@ -4,8 +4,12 @@
 <div>
   <h2>Sinun tapahtumasi:</h2>
   <div *ngIf="events.length > 0; else noEvents">
-    <div *ngFor="let event of events">
-      <p>{{ event.eventName }}</p>
+    <div *ngFor="let event of events" class="your-events">
+      <p>
+        <strong>{{ event.eventName }}</strong>
+      </p>
+      <button (click)="editEvent(event)">Muokkaa tapahtuman tietoja</button>
+      <button>Siirry tapahtuman sivulle</button>
       <!-- <button (click)="editEvent(event.id)">Muokkaa tapahtumaa</button>
       <button (click)="deleteEvent(event.id)">Poista tapahtuma</button> -->
     </div>
@@ -15,8 +19,6 @@
   </ng-template>
 </div>
 
-<p>Tapahtuman nimi</p>
-<button>Muokkaa tapahtumaa</button> <button>Poista tapahtuma</button>
 <button (click)="logout()">Kirjaudu ulos</button>
 
 <!-- delete this later -->

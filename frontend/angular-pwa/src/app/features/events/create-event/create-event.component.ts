@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { EventService } from '../event.service';
 import { CalendarComponent } from '../../../shared/calendar/calendar.component';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Event } from '../../../shared/models/event.model';
 import { InMemoryUserService } from '../../../shared/in-memory-services/in-memory-user.service';
 import { AuthService } from '../../../core/services/auth.service';
@@ -34,11 +34,13 @@ export class CreateEventComponent {
   status: string = 'preliminary';
   imageUrl: string = '';
   cities: string[] = ['Helsinki', 'Tampere', 'Turku', 'Oulu', 'Jyväskylä'];
-  organizerId: number = 1;
+  organizerId: number = 1; // this should be edited !
+  isEditMode: boolean = false;
 
   constructor(
     private eventService: EventService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private userService: InMemoryUserService,
     private authService: AuthService
   ) {}

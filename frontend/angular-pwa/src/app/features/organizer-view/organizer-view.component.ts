@@ -31,6 +31,9 @@ export class OrganizerViewComponent {
       console.log(this.events);
     }
   }
+  editEvent(event: Event) {
+    this.router.navigate(['/organizer-view/edit-event', event.id]);
+  }
 
   logout() {
     this.authService.logout();

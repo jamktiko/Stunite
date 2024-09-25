@@ -419,6 +419,21 @@ export class InMemoryDataService {
     this.eventsSignal.set([...currentEvents, newEvent]);
     this.saveEvents();
   }
+  editEvent(updatedEvent: Event) {
+    const currentEvents = this.eventsSignal();
+    const eventIndex = currentEvents.findIndex(
+      (event) => event.id === updatedEvent.id
+    );
+
+    if (eventIndex !== -1) {
+
+      currentEvents[eventIndex] = updatedEvent;
+      this.eventsSignal.set(currentEvents);
+      this.saveEvents();
+    } else {
+      console.error(`Event with ID ${updatedEvent.id} not found.`);
+    }
+  }
 
   getEventsByOrganizer(organizerId: number): Event[] {
     const currentEvents = this.eventsSignal();
