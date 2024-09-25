@@ -1,9 +1,14 @@
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
 .grid-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
   margin: 12px;
   justify-items: center;
+  align-items: stretch;
 }
 
 .grid-item {
@@ -32,10 +37,6 @@
 button {
   width: 100%;
   padding: 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: #ffc3d9;
-  color: #fff;
   cursor: pointer;
 }
 

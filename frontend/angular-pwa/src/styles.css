@@ -13,7 +13,6 @@ textarea {
   padding: 12px;
   border-radius: 20px;
   background-color: #fff5f9;
-
 }
 /* Global button */
 button {
@@ -49,6 +48,9 @@ h1 {
 
 h2 {
   font-size: 64px;
+}
+.page-container {
+  margin: 0px 12px;
 }
 
 body {

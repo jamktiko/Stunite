@@ -1,38 +1,23 @@
-<!-- <h1>Tapahtumat</h1>
-<div>
-  <input type="text" placeholder="Hae tapahtumia" [(ngModel)]="searchTerm" />
-  <button (click)="onSearch()">Haku</button>
+<div class="page-container">
+  <h1>Tapahtumat</h1>
+
+  <div class="searchbar">
+    <input
+      type="text"
+      placeholder="Hae tapahtumia"
+      [ngModel]="searchTerm()"
+      (ngModelChange)="searchTerm.set($event)"
+    />
+  </div>
+
+  <div *ngIf="filteredEventData().length" class="events">
+    <app-eventcard
+      *ngFor="let event of filteredEventData()"
+      [event]="event"
+    ></app-eventcard>
+  </div>
+
+  <div *ngIf="!filteredEventData().length">
+    <p>Tapahtumia ei löytynyt.</p>
+  </div>
 </div>
-
-<div *ngIf="filteredEventData.length" class="events">
-  <app-eventcard
-    *ngFor="let event of filteredEventData"
-    [event]="event"
-  ></app-eventcard>
-</div>
-
-<div *ngIf="!filteredEventData.length">
-  <p>Tapahtumia ei löytynyt.</p>
-</div> -->
-<h1>Tapahtumat</h1>
-
-<div>
-  <input
-    type="text"
-    placeholder="Hae tapahtumia"
-    [ngModel]="searchTerm()"
-    (ngModelChange)="searchTerm.set($event)"
-  />
-</div>
-
-<div *ngIf="filteredEventData().length" class="events">
-  <app-eventcard
-    *ngFor="let event of filteredEventData()"
-    [event]="event"
-  ></app-eventcard>
-</div>
-
-<div *ngIf="!filteredEventData().length">
-  <p>Tapahtumia ei löytynyt.</p>
-</div>
-
