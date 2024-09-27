@@ -26,7 +26,7 @@ export class NavbarComponent {
   }
   onProfileClick() {
     if (this.authenticated) {
-      const role = this.authService.getUserRole();
+      const role = this.authService.getCurrentUserRole();
       if (role === 'admin') {
         this.router.navigate(['/admin-view']);
       } else if (role === 'organizer') {

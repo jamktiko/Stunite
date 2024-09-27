@@ -41,9 +41,14 @@
         <li><a>ASETUKSET?</a></li>
         <hr width="100%" size="2" />
       </ng-container>
+
       <ng-template #login>
         <li>
           <a (click)="onProfileClick()">KIRJAUDU SISÄÄN</a>
+        </li>
+        <hr width="100%" size="2" />
+        <li>
+          <a routerLink="/register" routerLinkActive="active">REKISTERÖIDY</a>
         </li>
         <hr width="100%" size="2" />
       </ng-template>

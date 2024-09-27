@@ -1,21 +1,20 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { EventService } from '../event.service';
-import { CalendarComponent } from '../../../shared/calendar/calendar.component';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { EventService } from '../event.service';
 import { Event } from '../../../shared/models/event.model';
-import { InMemoryUserService } from '../../../shared/in-memory-services/in-memory-user.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-create-event',
   standalone: true,
-  imports: [FormsModule, CalendarComponent, CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './create-event.component.html',
   styleUrls: ['./create-event.component.css'],
 })
-export class CreateEventComponent {
+export class CreateEventComponent implements OnInit {
   eventName: string = '';
   eventDate: string = '';
   eventTime: string = '';
@@ -34,22 +33,63 @@ export class CreateEventComponent {
   status: string = 'preliminary';
   imageUrl: string = '';
   cities: string[] = ['Helsinki', 'Tampere', 'Turku', 'Oulu', 'Jyväskylä'];
-  organizerId: number = 1; // this should be edited !
+  organizerId: number = 1;
   isEditMode: boolean = false;
+  eventId: number | null = null;
 
   constructor(
     private eventService: EventService,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private userService: InMemoryUserService,
-    private authService: AuthService
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private location: Location
   ) {}
 
+  ngOnInit() {
+    const eventId = this.route.snapshot.paramMap.get('id');
+    if (eventId) {
+      this.isEditMode = true;
+      this.eventId = +eventId;
+      const event = this.eventService.getEventById(this.eventId);
+      if (event) {
+        this.populateFormFields(event);
+      }
+    }
+  }
+
+  private populateFormFields(event: Event) {
+    this.eventName = event.eventName;
+    this.eventDate = this.formatDateForInput(event.date);
+    this.eventTime = event.startingTime;
+    this.venue = event.location.venue;
+    this.city = event.location.city;
+    this.address = event.location.address;
+    this.minticketprice = event.ticketprice.minticketprice;
+    this.maxticketprice = event.ticketprice.maxticketprice;
+    this.theme = event.theme;
+    this.isFavorite = event.isFavorite;
+    this.details = event.details;
+    this.ticketLink = event.ticketLink;
+    this.ticketSaleStart = event.ticketSaleStart;
+    this.ticketSaleEnd = event.ticketSaleEnd;
+    this.publishDateTime = event.publishDateTime;
+    this.status = event.status;
+    this.imageUrl = event.imageUrl;
+  }
+
+  private formatDateForInput(dateStr: string): string {
+    const parts = dateStr.split('.');
+    if (parts.length === 3) {
+      return `${parts[2]}-${parts[1]}-${parts[0]}`;
+    }
+    return dateStr;
+  }
+  onCancel() {
+    this.location.back();
+  }
   onSubmit() {
-    const currentUser = this.getCurrentUser();
-    console.log('current user', currentUser);
-    const newEvent: Event = {
-      id: Math.floor(Math.random() * 1000),
+    const updatedEvent: Event = {
+      id: this.isEditMode ? this.eventId! : Math.floor(Math.random() * 1000),
       eventName: this.eventName,
       date: this.formatDate(this.eventDate),
       startingTime: this.eventTime,
@@ -74,8 +114,13 @@ export class CreateEventComponent {
       organizerId: this.organizerId,
     };
 
-    this.eventService.createEvent(newEvent, this.organizerId);
-    this.router.navigate(['/events']);
+    if (this.isEditMode) {
+      this.eventService.editEvent(updatedEvent);
+    } else {
+      this.eventService.createEvent(updatedEvent, this.organizerId);
+    }
+
+    this.router.navigate(['/organizer-view']);
   }
 
   private formatDate(dateStr: string): string {
@@ -86,12 +131,6 @@ export class CreateEventComponent {
       const year = parts[0];
       return `${day}.${month}.${year}`;
     }
-    console.warn(`Invalid date format: ${dateStr}`);
     return dateStr;
-  }
-
-  private getCurrentUser() {
-    const email = this.authService.getCurrUser()?.email;
-    return email ? this.userService.getCurrentUser(email) : null;
   }
 }

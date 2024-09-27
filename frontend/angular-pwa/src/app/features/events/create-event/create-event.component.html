@@ -1,4 +1,4 @@
-<h1>Uusi tapahtuma</h1>
+<h1>{{ isEditMode ? 'Muokkaa tapahtumaa' : 'Uusi tapahtuma' }}</h1>
 <div class="create-event">
   <form (ngSubmit)="onSubmit()">
     <div class="form-field">
@@ -6,7 +6,6 @@
       <input type="text" [(ngModel)]="eventName" name="eventName" required />
     </div>
     <div class="form-field">
-      <!-- Tapahtuma-aika (Päivämäärä ja Aloitusaika) -->
       <label>Päivämäärä ja aloitusaika</label>
       <input
         type="date"
@@ -24,7 +23,6 @@
       />
     </div>
     <div class="form-field">
-      <!-- Sijainti ja osoite -->
       <label>Kaupunki</label>
       <input type="text" [(ngModel)]="city" name="city" required />
     </div>
@@ -32,9 +30,7 @@
       <label>Osoite</label>
       <input type="text" [(ngModel)]="address" name="address" required />
     </div>
-
     <div class="form-field">
-      <!-- Hinta (min-max) -->
       <label>Lipun hinta (min-max)</label>
       <input
         type="text"
@@ -51,14 +47,7 @@
         required
       />
     </div>
-
-    <!-- Lisää suosikkeihin nappi -->
-    <!-- <label>
-      <input type="checkbox" [(ngModel)]="isFavorite" name="isFavorite" /> Lisää
-      suosikkeihin
-    </label> -->
-    <div class="form-field">
-      <!-- Tapahtuman kuvaus -->
+        <div class="form-field">
       <label>Tapahtuman kuvaus</label>
       <textarea
         placeholder="Tapahtuman kuvaus"
@@ -67,19 +56,15 @@
         rows="4"
       ></textarea>
     </div>
-
     <p>Alla olevat eivät tee vielä mitään, eivät ole pakollisia kenttiä dev vaiheessa </p>
     <div class="form-field">
-      <!-- Teema/Pukukoodi -->
       <label>Teema/Pukukoodi</label>
       <input type="text" [(ngModel)]="theme" name="theme" />
     </div>
     <div class="form-field">
-      <!-- Linkki lipunmyyntiin -->
       <label>Linkki lipunmyyntiin</label>
       <input type="text" [(ngModel)]="ticketLink" name="ticketLink" />
     </div>
-
     <div class="form-field">
       <label>Lipunmyynnin aloitusaika</label>
       <input
@@ -89,9 +74,6 @@
         name="ticketSaleStart"
       />
     </div>
-
-    <!-- Vain järjestäjän näkymässä -->
-
     <div class="form-field">
       <label>Lipunmyynnin loppumisaika </label>
       <input
@@ -102,7 +84,6 @@
       />
     </div>
     <div class="form-field">
-      <!-- Julkaisupäivä ja kellonaika -->
       <label>Tapahtuman julkaisupäivä ja kellonaika</label>
       <input
         type="datetime-local"
@@ -112,7 +93,6 @@
       />
     </div>
     <div class="form-field">
-      <!-- Onko tapahtuma alustava varaus vai tuotannossa? -->
       <label>
         Onko tapahtuma alustava varaus vai tuotannossa?:
         <select [(ngModel)]="status" name="status" required>
@@ -121,9 +101,7 @@
         </select>
       </label>
     </div>
-    <div class="form-field">
-      <label>Kuvan liittäminen tulee myöhemmin</label>
-    </div>
-    <button type="submit">Luo tapahtuma</button>
+    <button>Peruuta</button>
+    <button type="submit">{{ isEditMode ? 'Tallenna muutokset' : 'Luo tapahtuma' }}</button>
   </form>
 </div>

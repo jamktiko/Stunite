@@ -23,31 +23,29 @@ export class LoginModalComponent {
     this.close.emit();
   }
 
-  // Login will be edited in the future when backend is ready
-  // For now we use basic Frontend login (httpClient gets login
-  // credentials from credentials.json)
-  /**
-   *
-   */
+  goRegister() {
+    this.onClose();
+    this.router.navigate(['/register']);
+  }
   onSubmit() {
-    this.authService.login(this.email, this.password).subscribe((isAuth) => {
-      if (isAuth) {
-        this.onClose();
-        const role = this.authService.getUserRole();
+    const success = this.authService.login(this.email, this.password);
 
-        if (role === 'admin') {
-          this.router.navigate(['/admin-view']);
-        } else if (role === 'organizer') {
-          this.router.navigate(['/organizer-view']);
-        } else if (role === 'student') {
-          this.router.navigate(['/events']);
-        } else {
-          console.warn('Unknown role:', role);
-        }
-        console.log('Login successful');
+    if (success) {
+      this.onClose();
+      const role = this.authService.getCurrentUserRole();
+
+      if (role === 'admin') {
+        this.router.navigate(['/admin-view']);
+      } else if (role === 'organizer') {
+        this.router.navigate(['/organizer-view']);
+      } else if (role === 'student') {
+        this.router.navigate(['/events']);
       } else {
-        this.errorMessage = 'Invalid email or password';
+        console.warn('Unknown role:', role);
       }
-    });
+      console.log('Login successful');
+    } else {
+      this.errorMessage = 'Invalid email or password';
+    }
   }
 }

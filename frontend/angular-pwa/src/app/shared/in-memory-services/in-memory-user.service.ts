@@ -51,6 +51,12 @@ export class InMemoryUserService {
     return this.usersSignal;
   }
 
+  getUserRole(currentUserId: number): string | null {
+    const currentUsers = this.usersSignal();
+    const currentUser = currentUsers.find((user) => user.id === currentUserId);
+    return currentUser ? currentUser.role : null;
+  }
+
   addUser(newUser: User) {
     const currentUsers = this.usersSignal();
     this.usersSignal.set([...currentUsers, newUser]);
@@ -70,8 +76,8 @@ export class InMemoryUserService {
     );
   }
   // should maybe be using id to get current users but lets use this for now(because it works...)
-  getCurrentUser(email: string): User | null {
+  getCurrentUserById(id: number): User | null {
     const currentUsers = this.usersSignal();
-    return currentUsers.find((user) => user.email === email) || null;
+    return currentUsers.find((user) => user.id === id) || null;
   }
 }

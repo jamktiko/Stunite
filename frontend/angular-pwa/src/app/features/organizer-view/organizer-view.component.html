@@ -1,4 +1,5 @@
 <h1>Tervetuloa järjestäjänäkymään</h1>
+
 <button (click)="goToCreateEvent()">Luo uusi tapahtuma</button>
 
 <div>
@@ -9,9 +10,8 @@
         <strong>{{ event.eventName }}</strong>
       </p>
       <button (click)="editEvent(event)">Muokkaa tapahtuman tietoja</button>
-      <button>Siirry tapahtuman sivulle</button>
-      <!-- <button (click)="editEvent(event.id)">Muokkaa tapahtumaa</button>
-      <button (click)="deleteEvent(event.id)">Poista tapahtuma</button> -->
+
+      <button (click)="goToEventPage(event)">Siirry tapahtuman sivulle</button>
     </div>
   </div>
   <ng-template #noEvents>

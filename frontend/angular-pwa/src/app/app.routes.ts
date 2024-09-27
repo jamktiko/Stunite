@@ -10,11 +10,13 @@ import { EventDetailsComponent } from './features/events/event-details/event-det
 import { OrganizerViewComponent } from './features/organizer-view/organizer-view.component';
 import { CreateEventComponent } from './features/events/create-event/create-event.component';
 import { AssociationsDetailComponent } from './features/associations/associations-detail/associations-detail.component';
+import { RegisterComponent } from './features/register/register.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'events', component: EventsComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'associations', component: AssociationsComponent },
   { path: 'userprofile', component: UserprofileComponent },
   { path: 'events/:id', component: EventDetailsComponent },
@@ -29,5 +31,6 @@ export const routes: Routes = [
     canActivate: [organizerGuard],
   },
   { path: 'organizer-view/create-event', component: CreateEventComponent },
+  { path: 'organizer-view/edit-event/:id', component: CreateEventComponent },
   { path: 'association/:id', component: AssociationsDetailComponent },
 ];

@@ -38,7 +38,7 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 2rem
+  margin: 2rem;
 }
 
 input {
@@ -46,11 +46,10 @@ input {
   max-width: 400px;
   padding: 10px;
   margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 8px;
 }
-
-
+button {
+  margin-top: 24px;
+}
 
 p {
   text-align: center;

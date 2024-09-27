@@ -31,4 +31,7 @@ export class EventService {
   createEvent(newEvent: Event, organizerId: number) {
     this.inMemoryService.createEvent(newEvent, organizerId);
   }
+  editEvent(updatedEvent: Event) {
+    this.inMemoryService.editEvent(updatedEvent);
+  }
 }

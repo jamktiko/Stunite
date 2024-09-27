@@ -1,7 +1,13 @@
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import {
+  Injectable,
+  Inject,
+  PLATFORM_ID,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
 import { InMemoryUserService } from '../../shared/in-memory-services/in-memory-user.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -13,13 +19,15 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private userService: InMemoryUserService
-  ) {}
+    private userService: InMemoryUserService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkUserSession();
+    }
+  }
 
-  login(
-    email: string,
-    password: string
-  ): Observable<{ success: boolean; message?: string }> {
+  login(email: string, password: string): boolean {
     const users = this.userService.getUsers()();
     const user = users.find(
       (u) => u.email === email && u.password === password
@@ -28,15 +36,44 @@ export class AuthService {
     if (user) {
       this.isLoggedIn.set(true);
       this.role.set(user.role);
-      this.currUser.set({ ...user }); // This should already include the organizerId if the user is an organizer
-      return of({ success: true });
+      this.currUser.set({ ...user });
+
+      if (isPlatformBrowser(this.platformId)) {
+        localStorage.setItem(
+          'currentUser',
+          JSON.stringify({
+            id: user.id,
+            role: user.role,
+            firstname: user.firstname,
+            lastname: user.lastname,
+          })
+        );
+      }
+
+      console.log(`Logged in as: ${user.role}`);
+      return true;
     } else {
-      return of({ success: false, message: 'Invalid credentials' });
+      console.log('Login failed: Invalid credentials');
+      return false;
     }
   }
 
-  getUserRole(): string | null {
-    return this.role();
+  checkUserSession() {
+    if (isPlatformBrowser(this.platformId)) {
+      const storedUser = localStorage.getItem('currentUser');
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        this.isLoggedIn.set(true);
+        this.role.set(user.role);
+        this.currUser.set(user);
+        console.log(`Restored user session as: ${user.role}`);
+      }
+    }
+  }
+
+  getCurrentUserRole(): string | null {
+    const user = this.currUser();
+    return user ? user.role : null;
   }
 
   isAuthenticated(): boolean {
@@ -44,25 +81,21 @@ export class AuthService {
   }
 
   getCurrUser(): any {
-    return this.currUser();
-  }
-
-  updateCurrUserDetails(newDetails: {
-    firstname: string;
-    lastname: string;
-  }): void {
     const user = this.currUser();
-    if (user) {
-      user.firstname = newDetails.firstname;
-      user.lastname = newDetails.lastname;
-      this.currUser.set(user);
+    if (!user && isPlatformBrowser(this.platformId)) {
+      const storedUser = localStorage.getItem('currentUser');
+      return storedUser ? JSON.parse(storedUser) : null;
     }
+    return user;
   }
 
   logout(): void {
     this.isLoggedIn.set(false);
     this.role.set(null);
     this.currUser.set(null);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('currentUser');
+    }
     console.log('Logged out');
   }
 }

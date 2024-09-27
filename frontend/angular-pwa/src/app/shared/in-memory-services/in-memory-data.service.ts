@@ -419,6 +419,7 @@ export class InMemoryDataService {
     this.eventsSignal.set([...currentEvents, newEvent]);
     this.saveEvents();
   }
+
   editEvent(updatedEvent: Event) {
     const currentEvents = this.eventsSignal();
     const eventIndex = currentEvents.findIndex(
@@ -430,6 +431,7 @@ export class InMemoryDataService {
       currentEvents[eventIndex] = updatedEvent;
       this.eventsSignal.set(currentEvents);
       this.saveEvents();
+      console.log("Event has been edited")
     } else {
       console.error(`Event with ID ${updatedEvent.id} not found.`);
     }

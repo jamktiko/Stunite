@@ -1,1 +1,63 @@
-<p>register works!</p>
+<div class="page-container">
+  <h1>Rekisteröityminen</h1>
+  <form (ngSubmit)="onSubmit()" class="register-form">
+    <div class="form-field">
+      <label for="firstName">Etunimi</label>
+      <input
+        type="text"
+        id="firstName"
+        name="firstName"
+        [(ngModel)]="firstName"
+        required
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="lastName">Sukunimi</label>
+      <input
+        type="text"
+        id="lastName"
+        name="lastName"
+        [(ngModel)]="lastName"
+        required
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="email">Sähköposti</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        [(ngModel)]="email"
+        required
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="password">Salasana</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        [(ngModel)]="password"
+        required
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="phoneNumber">Puhelinnumero</label>
+      <input
+        type="text"
+        id="phoneNumber"
+        name="phoneNumber"
+        [(ngModel)]="phoneNumber"
+        required
+      />
+    </div>
+
+    <div class="form-buttons">
+      <button type="submit">Rekisteröidy</button>
+    </div>
+  </form>
+</div>
