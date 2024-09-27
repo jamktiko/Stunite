@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { Event } from '../../shared/models/event.model';
@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './organizer-view.component.html',
   styleUrl: './organizer-view.component.css',
 })
-export class OrganizerViewComponent {
+export class OrganizerViewComponent implements OnInit {
   events: Event[] = [];
 
   constructor(
@@ -21,14 +21,14 @@ export class OrganizerViewComponent {
   ) {
     this.loadOrganizerEvents();
   }
+  ngOnInit(): void {}
   loadOrganizerEvents() {
     const currentUser = this.authService.getCurrUser();
     if (currentUser) {
       const currentEvents = this.eventService.getEvents()();
-      this.events = currentEvents.filter(
-        (event) => event.organizerId === currentUser.organizerId
-      );
-      console.log(this.events);
+      this.events = currentEvents.filter((event) => {
+        return event.organizerId === currentUser.organizerId;
+      });
     }
   }
   editEvent(event: Event) {

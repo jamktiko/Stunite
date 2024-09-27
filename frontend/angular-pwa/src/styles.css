@@ -32,6 +32,12 @@ button {
   );
   font-family: "Noto Sans", sans-serif;
 }
+.important-button {
+  padding: 30px;
+  font-size: 24px;
+  width: 70%;
+}
+
 button:disabled {
   opacity: 0.6;
 }

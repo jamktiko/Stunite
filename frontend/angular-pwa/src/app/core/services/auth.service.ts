@@ -46,6 +46,7 @@ export class AuthService {
             role: user.role,
             firstname: user.firstname,
             lastname: user.lastname,
+            organizerId: user.organizerId,
           })
         );
       }

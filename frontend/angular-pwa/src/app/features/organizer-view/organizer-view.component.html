@@ -1,25 +1,32 @@
-<h1>Tervetuloa järjestäjänäkymään</h1>
+<div class="page-container">
+  <h1>Tervetuloa järjestäjänäkymään</h1>
 
-<button (click)="goToCreateEvent()">Luo uusi tapahtuma</button>
+  <button class="important-button" (click)="goToCreateEvent()">
+    Luo uusi tapahtuma
+  </button>
 
-<div>
-  <h2>Sinun tapahtumasi:</h2>
-  <div *ngIf="events.length > 0; else noEvents">
-    <div *ngFor="let event of events" class="your-events">
-      <p>
-        <strong>{{ event.eventName }}</strong>
-      </p>
-      <button (click)="editEvent(event)">Muokkaa tapahtuman tietoja</button>
+  <div>
+    <h2>Sinun tapahtumasi:</h2>
+    <hr />
+    <div *ngIf="events.length > 0; else noEvents">
+      <div *ngFor="let event of events" class="your-events">
+        <p>
+          <strong>{{ event.eventName }}</strong>
+        </p>
+        <button (click)="editEvent(event)">Muokkaa tapahtuman tietoja</button>
 
-      <button (click)="goToEventPage(event)">Siirry tapahtuman sivulle</button>
+        <button (click)="goToEventPage(event)">
+          Siirry tapahtuman sivulle <span class="arrow">&#8250;</span>
+        </button>
+      </div>
     </div>
+    <ng-template #noEvents>
+      <p>Ei tapahtumia.</p>
+    </ng-template>
   </div>
-  <ng-template #noEvents>
-    <p>Ei tapahtumia.</p>
-  </ng-template>
+
+  <button (click)="logout()">Kirjaudu ulos</button>
+
+  <!-- delete this later -->
+  <button (click)="deletelocalstorage()">local storage delete dev</button>
 </div>
-
-<button (click)="logout()">Kirjaudu ulos</button>
-
-<!-- delete this later -->
-<button (click)="deletelocalstorage()">local storage delete dev</button>

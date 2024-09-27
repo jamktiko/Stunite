@@ -7,11 +7,17 @@ import {
 } from 'igniteui-angular';
 import { EventService } from '../../features/events/event.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [IgxCalendarModule, IgxCalendarComponent, CommonModule],
+  imports: [
+    RouterModule,
+    IgxCalendarModule,
+    IgxCalendarComponent,
+    CommonModule,
+  ],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
 })
