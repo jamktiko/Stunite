@@ -73,11 +73,9 @@ export class InMemoryDataService {
         eventName: 'Syyspippalot',
         date: '20.9.2024',
         startingTime: '19.00',
-        location: {
-          venue: 'JAMK etupiha',
-          city: 'Jyväskylä',
-          address: 'Rajakatu 35 40100 Jyväskylä',
-        },
+        venue: 'JAMK etupiha',
+        city: 'Jyväskylä',
+        address: 'Rajakatu 35 40100 Jyväskylä',
         ticketprice: {
           minticketprice: 5,
           maxticketprice: 7,
@@ -99,11 +97,9 @@ export class InMemoryDataService {
         eventName: 'Kevätjuhla',
         date: '15.5.2025',
         startingTime: '18.00',
-        location: {
-          venue: 'Kumpulakampus',
-          city: 'Helsinki',
-          address: 'Kumpulantie 1 00520 Helsinki',
-        },
+        venue: 'Kumpulakampus',
+        city: 'Helsinki',
+        address: 'Kumpulantie 1 00520 Helsinki',
         ticketprice: {
           minticketprice: 5,
           maxticketprice: 7,
@@ -125,11 +121,9 @@ export class InMemoryDataService {
         eventName: 'Syysmarkkinat',
         date: '10.10.2024',
         startingTime: '10.00',
-        location: {
-          venue: 'Tampereen Keskustori',
-          city: 'Tampere',
-          address: 'Keskustori 2 33100 Tampere',
-        },
+        venue: 'Tampereen Keskustori',
+        city: 'Tampere',
+        address: 'Keskustori 2 33100 Tampere',
         ticketprice: {
           minticketprice: 5,
           maxticketprice: 7,
@@ -151,11 +145,9 @@ export class InMemoryDataService {
         eventName: 'Joulukonsertti',
         date: '24.12.2024',
         startingTime: '17.00',
-        location: {
-          venue: 'Helsingin Tuomiokirkko',
-          city: 'Helsinki',
-          address: 'Katedralikirkkotie 1 00100 Helsinki',
-        },
+        venue: 'Helsingin Tuomiokirkko',
+        city: 'Helsinki',
+        address: 'Katedralikirkkotie 1 00100 Helsinki',
         ticketprice: {
           minticketprice: 5,
           maxticketprice: 7,
@@ -177,11 +169,9 @@ export class InMemoryDataService {
         eventName: 'Kevätfestivaali',
         date: '5.6.2025',
         startingTime: '12.00',
-        location: {
-          venue: 'Turun Yliopistokampus',
-          city: 'Turku',
-          address: 'Yliopistonkatu 1 20500 Turku',
-        },
+        venue: 'Turun Yliopistokampus',
+        city: 'Turku',
+        address: 'Yliopistonkatu 1 20500 Turku',
         ticketprice: {
           minticketprice: 5,
           maxticketprice: 7,
@@ -203,11 +193,9 @@ export class InMemoryDataService {
         eventName: 'Kevätfestivaali jatkot',
         date: '5.6.2025',
         startingTime: '18.00',
-        location: {
-          venue: 'Turun Yliopistokampus',
-          city: 'Turku',
-          address: 'Yliopistonkatu 1 20500 Turku',
-        },
+        venue: 'Turun Yliopistokampus',
+        city: 'Turku',
+        address: 'Yliopistonkatu 1 20500 Turku',
         ticketprice: {
           minticketprice: 5,
           maxticketprice: 7,
@@ -229,11 +217,9 @@ export class InMemoryDataService {
         eventName: 'Kesäfestivaali',
         date: '15.7.2025',
         startingTime: '15.00',
-        location: {
-          venue: 'Pasilan Urheiluhalli',
-          city: 'Helsinki',
-          address: 'Pasilanraitio 1 00520 Helsinki',
-        },
+        venue: 'Pasilan Urheiluhalli',
+        city: 'Helsinki',
+        address: 'Pasilanraitio 1 00520 Helsinki',
         ticketprice: {
           minticketprice: 5,
           maxticketprice: 7,
@@ -255,11 +241,9 @@ export class InMemoryDataService {
         eventName: 'Talvijuhla',
         date: '12.12.2024',
         startingTime: '16.00',
-        location: {
-          venue: 'Oulun Kausala',
-          city: 'Oulu',
-          address: 'Kausalanportti 4 90100 Oulu',
-        },
+        venue: 'Oulun Kausala',
+        city: 'Oulu',
+        address: 'Kausalanportti 4 90100 Oulu',
         ticketprice: {
           minticketprice: 5,
           maxticketprice: 7,
@@ -281,11 +265,9 @@ export class InMemoryDataService {
         eventName: 'Vappujuhla',
         date: '30.4.2025',
         startingTime: '14.00',
-        location: {
-          venue: 'Helsingin Keskustori',
-          city: 'Helsinki',
-          address: 'Keskustori 00100 Helsinki',
-        },
+        venue: 'Helsingin Keskustori',
+        city: 'Helsinki',
+        address: 'Keskustori 00100 Helsinki',
         ticketprice: {
           minticketprice: 5,
           maxticketprice: 7,
@@ -307,11 +289,9 @@ export class InMemoryDataService {
         eventName: 'Syysretki',
         date: '1.11.2024',
         startingTime: '09.00',
-        location: {
-          venue: 'Nuuksion kansallispuisto',
-          city: 'Espoo',
-          address: 'Nuuksiontie 84 02820 Espoo',
-        },
+        venue: 'Nuuksion kansallispuisto',
+        city: 'Espoo',
+        address: 'Nuuksiontie 84 02820 Espoo',
         ticketprice: {
           minticketprice: 5,
           maxticketprice: 7,
@@ -427,11 +407,10 @@ export class InMemoryDataService {
     );
 
     if (eventIndex !== -1) {
-
       currentEvents[eventIndex] = updatedEvent;
       this.eventsSignal.set(currentEvents);
       this.saveEvents();
-      console.log("Event has been edited")
+      console.log('Event has been edited');
     } else {
       console.error(`Event with ID ${updatedEvent.id} not found.`);
     }

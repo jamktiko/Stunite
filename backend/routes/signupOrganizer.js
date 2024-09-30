@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
   const {
+    organizerId,
     firstName,
     lastName,
     email,
@@ -29,6 +30,7 @@ router.post('/', async (req, res) => {
 
   // Tarkista pakolliset kentät
   if (
+    !organizerId ||
     !firstName ||
     !lastName ||
     !email ||
@@ -43,8 +45,7 @@ router.post('/', async (req, res) => {
     !businessId ||
     !billingAddress ||
     !paymentAddress ||
-    !password ||
-    !fieldsOfStudy
+    !password
   ) {
     return res
       .status(400)
@@ -58,6 +59,7 @@ router.post('/', async (req, res) => {
 
     // Luo uusi järjestäjä
     const newOrganizer = new Organizer({
+      organizerId,
       firstName,
       lastName,
       email,

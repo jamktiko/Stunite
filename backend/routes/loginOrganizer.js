@@ -31,6 +31,7 @@ router.post('/', async (req, res) => {
     res.status(200).json({
       message: 'Login successful',
       organizer: {
+        id: organizer._id,
         firstName: organizer.firstName,
         lastName: organizer.lastName,
         email: organizer.email,

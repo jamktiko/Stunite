@@ -1,6 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
+const cors = require('cors');
 
 const signupUserRouter = require('./routes/signupUser');
 const loginUserRouter = require('./routes/loginUser');
@@ -14,6 +15,13 @@ const manageOrganizerRouter = require('./routes/manageOrganizer');
 const app = express();
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: 'http://localhost:4200', // Allow requests from your frontend
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify the allowed HTTP methods
+  })
+);
+app.use(express.static('dist'));
 
 // Ota yhteys MongoDB Atlas -tietokantaan
 const url = process.env.MONGODB_URI; // MongoDB URI ympäristömuuttujasta

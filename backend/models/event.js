@@ -1,26 +1,43 @@
 const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema({
+  id: { type: Number, required: true, unique: true },
   eventName: { type: String, required: true },
-  eventDateTime: { type: Date, required: true },
+  date: { type: String, required: true },
+  startingTime: { type: String, required: true },
   address: { type: String, required: true },
+  venue: { type: String, required: true },
   city: { type: String, required: true },
-  price: { type: Number, required: true },
-  themeOrDressCode: { type: String },
-  addToFavorites: { type: Boolean, default: false }, // Toggle for adding to favorites
-  description: { type: String },
-  ticketSaleLink: { type: String },
-  ticketSalePeriod: {
-    startDate: { type: Date },
-    endDate: { type: Date },
+  ticketprice: {
+    minticketprice: {
+      type: Number,
+      required: true,
+    },
+    maxticketprice: {
+      type: Number,
+      required: true,
+    },
   },
-  isPreliminaryOrInProduction: {
+  theme: { type: String },
+  isFavorite: { type: Boolean }, // Toggle for adding to favorites
+  details: { type: String },
+  imageUrl: { type: String },
+  ticketLink: { type: String },
+  ticketSaleStart: {
+    type: String,
+  },
+  ticketSaleEnd: {
+    type: String,
+  },
+  publishDateTime: {
+    type: String,
+  },
+  status: {
     type: String,
     enum: ['Varattu', 'Tuotannossa'],
     required: true,
   },
-  ticketTypes: [String], // Array of different ticket types
-  checklist: [String], // Checklist items for the event
+  organizerId: { type: Number, required: true },
 });
 
 const Event = mongoose.model('Event', eventSchema);

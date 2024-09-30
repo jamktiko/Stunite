@@ -20,11 +20,12 @@ export class EventDetailsComponent implements OnInit {
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id) {
-      this.event = computed(() =>
-        this.eventService
-          .getEvents()()
-          .find((e) => e.id.toString() === id)
-      );
+      this.event = computed(() => {
+        const events = this.eventService.getEvents()();
+        const foundEvent = events.find((e) => e.id === +id);
+        console.log(foundEvent); // Tarkista, että löytyi tapahtuma
+        return foundEvent;
+      });
     }
   }
 }

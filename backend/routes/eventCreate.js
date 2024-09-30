@@ -5,29 +5,38 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
   const {
+    id,
     eventName,
-    eventDateTime,
+    date,
+    startingTime,
     address,
+    venue,
     city,
-    price,
-    themeOrDressCode,
-    addToFavorites,
-    description,
-    ticketSaleLink,
-    ticketSalePeriod,
-    isPreliminaryOrInProduction,
-    ticketTypes,
-    checklist,
+    ticketprice,
+    theme,
+    isFavorite,
+    details,
+    imageUrl,
+    ticketLink,
+    ticketSaleStart,
+    ticketSaleEnd,
+    publishDateTime,
+    status,
+    organizerId,
   } = req.body;
 
   // Tarkista pakolliset kentät
   if (
+    !id ||
     !eventName ||
-    !eventDateTime ||
+    !date ||
+    !startingTime ||
     !address ||
+    !venue ||
     !city ||
-    !price ||
-    !isPreliminaryOrInProduction
+    !ticketprice ||
+    !status ||
+    !organizerId
   ) {
     return res
       .status(400)
@@ -37,19 +46,24 @@ router.post('/', async (req, res) => {
   try {
     // Luo uusi tapahtuma
     const newEvent = new Event({
+      id,
       eventName,
-      eventDateTime,
+      date,
+      startingTime,
       address,
+      venue,
       city,
-      price,
-      themeOrDressCode,
-      addToFavorites: addToFavorites || false, // Oletusarvo false
-      description,
-      ticketSaleLink,
-      ticketSalePeriod,
-      isPreliminaryOrInProduction,
-      ticketTypes,
-      checklist,
+      ticketprice,
+      theme,
+      isFavorite: isFavorite || false, // Oletusarvo false
+      details,
+      imageUrl,
+      ticketLink,
+      ticketSaleStart,
+      ticketSaleEnd,
+      publishDateTime,
+      status,
+      organizerId,
     });
 
     await newEvent.save();

@@ -32,7 +32,7 @@ export class CreateEventComponent implements OnInit {
   publishDateTime: string = '';
   status: string = 'preliminary';
   imageUrl: string = '';
-  cities: string[] = ['Helsinki', 'Tampere', 'Turku', 'Oulu', 'Jyväskylä'];
+  cities: string = '';
   organizerId: number = 1;
   isEditMode: boolean = false;
   eventId: number | null = null;
@@ -61,9 +61,9 @@ export class CreateEventComponent implements OnInit {
     this.eventName = event.eventName;
     this.eventDate = this.formatDateForInput(event.date);
     this.eventTime = event.startingTime;
-    this.venue = event.location.venue;
-    this.city = event.location.city;
-    this.address = event.location.address;
+    this.venue = event.venue;
+    this.city = event.city;
+    this.address = event.address;
     this.minticketprice = event.ticketprice.minticketprice;
     this.maxticketprice = event.ticketprice.maxticketprice;
     this.theme = event.theme;
@@ -93,11 +93,9 @@ export class CreateEventComponent implements OnInit {
       eventName: this.eventName,
       date: this.formatDate(this.eventDate),
       startingTime: this.eventTime,
-      location: {
-        venue: this.venue,
-        city: this.city,
-        address: this.address,
-      },
+      venue: this.venue,
+      city: this.city,
+      address: this.address,
       ticketprice: {
         minticketprice: this.minticketprice || 0,
         maxticketprice: this.maxticketprice || 0,
@@ -117,7 +115,7 @@ export class CreateEventComponent implements OnInit {
     if (this.isEditMode) {
       this.eventService.editEvent(updatedEvent);
     } else {
-      this.eventService.createEvent(updatedEvent, this.organizerId);
+      this.eventService.createEvent(updatedEvent);
     }
 
     this.router.navigate(['/organizer-view']);

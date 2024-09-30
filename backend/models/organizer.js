@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const organizerSchema = new mongoose.Schema({
+  organizerId: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
@@ -35,7 +36,6 @@ const organizerSchema = new mongoose.Schema({
   password: { type: String, required: true },
   fieldsOfStudy: {
     type: [String],
-    required: true,
   },
 });
 
