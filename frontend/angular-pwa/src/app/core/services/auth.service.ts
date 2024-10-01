@@ -33,17 +33,13 @@ export class AuthService {
 
   login(email: string, password: string): void {
     this.http
-      .post<{ message: string; user: any }>(
-        'http://localhost:3001/login/user',
-        { email, password }
-      )
+      .post<{ message: string; user: any }>(this.apiUrl, { email, password })
       .subscribe({
         next: (response) => {
           this.isLoggedIn.set(true);
-          this.role.set(response.user.role);
+          // this.role.set(response.user.role);  // huom rooli jutut pitää kattoo yhessä että mitä tehään
           this.currUser.set(response.user);
-
-          // Tallennetaan käyttäjän tiedot localStorageen
+          console.log(this.currUser);
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem('currentUser', JSON.stringify(response.user));
           }
@@ -52,7 +48,7 @@ export class AuthService {
         },
         error: () => {
           console.log('Login failed: Invalid credentials');
-          this.isLoggedIn.set(false); // Aseta false, jos sisäänkirjautuminen epäonnistuu
+          this.isLoggedIn.set(false);
         },
       });
   }
