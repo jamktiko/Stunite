@@ -1,5 +1,6 @@
 <div class="profile-container">
   <h2>Profiili</h2>
+  <p *ngIf="lomake.get('etunimi')?.value">{{ lomake.get("etunimi")?.value }}</p>
   <form [formGroup]="lomake" (ngSubmit)="onSubmit()">
     <!-- Omat tiedot osio -->
     <div class="profile-details">

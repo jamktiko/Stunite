@@ -37,23 +37,26 @@ export class UserprofileComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Hae käyttäjän profiilitiedot palvelusta
-    const userId = this.authService.getCurrUser()?.id; // Oletetaan, että käyttäjän ID on saatavilla
-    if (userId) {
-      this.userService.getUserProfile(userId); // Hae käyttäjän tiedot
+    const userId = this.authService.getCurrUser()?.id;
 
-      // Päivitetään lomake signaalista
-      const userProfileSignal = this.userService.getUserProfileSignal();
-      // Huomioi, että signaalin arvo on suoraan saatavilla
-      this.lomake.patchValue({
-        etunimi: userProfileSignal()?.firstName,
-        sukunimi: userProfileSignal()?.lastName,
-        sahkoposti: userProfileSignal()?.email,
-        puhelin: userProfileSignal()?.phoneNumber,
-        koulu: userProfileSignal()?.koulu,
-        ala: userProfileSignal()?.ala,
-        paikallisyhdistys: userProfileSignal()?.paikallisyhdistys,
-      });
+    if (userId) {
+      this.userService.getUserProfile(userId).subscribe(
+        (userData) => {
+          console.log('Käyttäjän tiedot:', userData);
+          this.lomake.patchValue({
+            etunimi: userData.firstName,
+            sukunimi: userData.lastName,
+            sahkoposti: userData.email,
+            puhelin: userData.phoneNumber,
+            koulu: userData.koulu,
+            ala: userData.ala,
+            paikallisyhdistys: userData.paikallisyhdistys,
+          });
+        },
+        (error) => {
+          console.error('Virhe käyttäjän tietojen hakemisessa:', error);
+        }
+      );
     }
   }
 
@@ -78,18 +81,16 @@ export class UserprofileComponent implements OnInit {
       this.userService.updateUserProfile(userId, this.lomake.value).subscribe(
         (response) => {
           console.log('Profiili päivitetty:', response);
-          alert(
-            'Lomake lähetetty onnistuneesti! Valitsit mielenkiinnon kohteiksi: ' +
-              this.valitutKohteet.join(', ')
-          );
+          // Voit lisätä onnistumisen ilmoituksen täällä, esimerkiksi toastin
         },
         (error) => {
           console.error('Päivitys epäonnistui:', error);
-          alert('Päivitys epäonnistui!');
+          // Ei alertia, mutta voit tallentaa virheet johonkin
         }
       );
     } else {
-      alert('Tarkista lomake!');
+      // Ei alertia, voit vain logata tai käsitellä virheen eri tavalla
+      console.error('Tarkista lomake!');
     }
   }
 }

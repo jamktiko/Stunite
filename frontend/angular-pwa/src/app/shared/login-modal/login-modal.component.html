@@ -3,7 +3,7 @@
     <span (click)="onClose()" class="close">&times;</span>
 
     <h1>stunite</h1>
-    <form (ngSubmit)="onSubmit()">
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
       <input
         id="email"
         placeholder="Sähköposti"
@@ -20,7 +20,11 @@
         required
       />
 
-      <button type="submit">Kirjaudu Sisään</button>
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }} 
+      </div>
+
+      <button type="submit" [disabled]="!loginForm.valid">Kirjaudu Sisään</button> <!-- Estä lähetys tyhjällä lomakkeella -->
     </form>
 
     <p>

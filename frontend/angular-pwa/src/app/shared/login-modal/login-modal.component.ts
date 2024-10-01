@@ -28,9 +28,9 @@ export class LoginModalComponent {
     this.router.navigate(['/register']);
   }
   onSubmit() {
-    const success = this.authService.login(this.email, this.password);
+    this.authService.login(this.email, this.password);
 
-    if (success) {
+    if (this.authService.isAuthenticated()) {
       this.onClose();
       const role = this.authService.getCurrentUserRole();
 

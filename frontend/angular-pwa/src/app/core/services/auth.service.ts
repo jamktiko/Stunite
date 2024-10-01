@@ -18,6 +18,8 @@ export class AuthService {
   private role: WritableSignal<string | null> = signal(null);
   private currUser: WritableSignal<any | null> = signal(null);
 
+  private apiUrl = 'http://localhost:3001/login/user';
+
   constructor(
     private http: HttpClient,
     private userService: InMemoryUserService,
@@ -29,40 +31,30 @@ export class AuthService {
     }
   }
 
-  login(email: string, password: string): boolean {
-    const users = this.userService.getUsers()();
-    const user = users.find(
-      (u) => u.email === email && u.password === password
-    );
+  login(email: string, password: string): void {
+    this.http
+      .post<{ message: string; user: any }>(
+        'http://localhost:3001/login/user',
+        { email, password }
+      )
+      .subscribe({
+        next: (response) => {
+          this.isLoggedIn.set(true);
+          this.role.set(response.user.role);
+          this.currUser.set(response.user);
 
-    if (user) {
-      this.isLoggedIn.set(true);
-      this.role.set(user.role);
-      this.currUser.set({ ...user });
+          // Tallennetaan käyttäjän tiedot localStorageen
+          if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem('currentUser', JSON.stringify(response.user));
+          }
 
-      //
-      this.profileService.getUserProfile(user.id);
-      //
-
-      if (isPlatformBrowser(this.platformId)) {
-        localStorage.setItem(
-          'currentUser',
-          JSON.stringify({
-            id: user.id,
-            role: user.role,
-            firstname: user.firstname,
-            lastname: user.lastname,
-            organizerId: user.organizerId,
-          })
-        );
-      }
-
-      console.log(`Logged in as: ${user.role}`);
-      return true;
-    } else {
-      console.log('Login failed: Invalid credentials');
-      return false;
-    }
+          console.log(`Logged in as: ${response.user.role}`);
+        },
+        error: () => {
+          console.log('Login failed: Invalid credentials');
+          this.isLoggedIn.set(false); // Aseta false, jos sisäänkirjautuminen epäonnistuu
+        },
+      });
   }
 
   checkUserSession() {
