@@ -8,6 +8,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { InMemoryUserService } from '../../shared/in-memory-services/in-memory-user.service';
 import { isPlatformBrowser } from '@angular/common';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private userService: InMemoryUserService,
+    private profileService: UserService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     if (isPlatformBrowser(this.platformId)) {
@@ -37,6 +39,10 @@ export class AuthService {
       this.isLoggedIn.set(true);
       this.role.set(user.role);
       this.currUser.set({ ...user });
+
+      //
+      this.profileService.getUserProfile(user.id);
+      //
 
       if (isPlatformBrowser(this.platformId)) {
         localStorage.setItem(

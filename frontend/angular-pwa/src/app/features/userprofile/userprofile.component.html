@@ -1,64 +1,81 @@
 <div class="profile-container">
-  <h1>Käyttäjäprofiili</h1>
-
   <h2>Profiili</h2>
   <form [formGroup]="lomake" (ngSubmit)="onSubmit()">
     <!-- Omat tiedot osio -->
     <div class="profile-details">
-      <div class="info-fields">
-        <label for="nimi">Nimi:</label>
-        <input
-          id="nimi"
-          formControlName="nimi"
-          type="text"
-          placeholder="Syötä nimi"
-        />
-
-        <label for="sahkoposti">Sähköposti:</label>
-        <input
-          id="sahkoposti"
-          formControlName="sahkoposti"
-          type="email"
-          placeholder="Syötä sähköposti"
-        />
-
-        <label for="puhelin">Puhelinnumero:</label>
-        <input
-          id="puhelin"
-          formControlName="puhelin"
-          type="tel"
-          placeholder="Syötä numero"
-        />
-
-        <label for="koulu">Koulu:</label>
-        <input
-          id="koulu"
-          formControlName="koulu"
-          type="text"
-          placeholder="Syötä koulu"
-        />
-
-        <label for="ala">Ala:</label>
-        <input
-          id="ala"
-          formControlName="ala"
-          type="text"
-          placeholder="Syötä ala"
-        />
-
-        <label for="paikallisyhdistys">Paikallisyhdistys:</label>
-        <input
-          id="paikallisyhdistys"
-          formControlName="paikallisyhdistys"
-          type="text"
-          placeholder="Syötä paikallisyhdistys"
-        />
-      </div>
-
-      <!-- Profiilikuva ja foorumin nimi -->
       <div class="profile-image">
         <img src="../../../assets/unicorn.webp" alt="Profiilikuva" />
-        <p>Foorumilla näkyvä nimi: <strong>Turklesahmo</strong></p>
+        <p>
+          Foorumilla näkyvä nimi:
+          <strong>{{ lomake.get("etunimi")?.value || "Tuntematon" }}</strong>
+        </p>
+      </div>
+
+      <div class="info-fields">
+        <div class="form-field">
+          <label for="etunimi">Etunimi:</label>
+          <input
+            id="etunimi"
+            formControlName="etunimi"
+            type="text"
+            placeholder="Syötä etunimi"
+          />
+        </div>
+        <div class="form-field">
+          <label for="sukunimi">Sukunimi:</label>
+          <input
+            id="sukunimi"
+            formControlName="sukunimi"
+            type="text"
+            placeholder="Syötä sukunimi"
+          />
+        </div>
+        <div class="form-field">
+          <label for="sahkoposti">Sähköposti:</label>
+          <input
+            id="sahkoposti"
+            formControlName="sahkoposti"
+            type="email"
+            placeholder="Syötä sähköposti"
+          />
+        </div>
+        <div class="form-field">
+          <label for="puhelin">Puhelinnumero:</label>
+          <input
+            id="puhelin"
+            formControlName="puhelin"
+            type="tel"
+            placeholder="Syötä numero"
+          />
+        </div>
+        <div class="form-field">
+          <label for="koulu">Koulu:</label>
+          <input
+            id="koulu"
+            formControlName="koulu"
+            type="text"
+            placeholder="Syötä koulu"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="ala">Ala:</label>
+          <input
+            id="ala"
+            formControlName="ala"
+            type="text"
+            placeholder="Syötä ala"
+          />
+        </div>
+        <div class="form-field">
+          <label for="paikallisyhdistys">Paikallisyhdistys:</label>
+          <input
+            id="paikallisyhdistys"
+            formControlName="paikallisyhdistys"
+            type="text"
+            placeholder="Syötä paikallisyhdistys"
+          />
+        </div>
       </div>
     </div>
 
