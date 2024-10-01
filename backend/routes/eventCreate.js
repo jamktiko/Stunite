@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
   const {
-    id,
     eventName,
     date,
     startingTime,
@@ -27,7 +26,6 @@ router.post('/', async (req, res) => {
 
   // Tarkista pakolliset kentät
   if (
-    !id ||
     !eventName ||
     !date ||
     !startingTime ||
@@ -46,7 +44,6 @@ router.post('/', async (req, res) => {
   try {
     // Luo uusi tapahtuma
     const newEvent = new Event({
-      id,
       eventName,
       date,
       startingTime,
