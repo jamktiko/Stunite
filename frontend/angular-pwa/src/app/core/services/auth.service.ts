@@ -44,7 +44,7 @@ export class AuthService {
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem('currentUser', JSON.stringify(response.user));
           }
-          console.log(`Logged in as: ${response.user.role}`);
+          console.log(`Logged in as: ${response.user.email}`); // miten saan id käyttöön :( )
         })
       );
   }

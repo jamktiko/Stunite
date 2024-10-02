@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-userprofile',
@@ -19,7 +18,6 @@ export class UserprofileComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private userService: UserService,
     private router: Router,
     private fb: FormBuilder
   ) {
@@ -32,31 +30,26 @@ export class UserprofileComponent implements OnInit {
       koulu: [''],
       ala: [''],
       paikallisyhdistys: [''],
-      mielenkiinnonKohde: [''], // Uusi kenttä mielenkiinnon kohteelle
+      mielenkiinnonKohde: [''],
     });
   }
 
   ngOnInit() {
-    const userId = this.authService.getCurrUser()?.id;
-
-    if (userId) {
-      this.userService.getUserProfile(userId).subscribe(
-        (userData) => {
-          console.log('Käyttäjän tiedot:', userData);
-          this.lomake.patchValue({
-            etunimi: userData.firstName,
-            sukunimi: userData.lastName,
-            sahkoposti: userData.email,
-            puhelin: userData.phoneNumber,
-            koulu: userData.koulu,
-            ala: userData.ala,
-            paikallisyhdistys: userData.paikallisyhdistys,
-          });
-        },
-        (error) => {
-          console.error('Virhe käyttäjän tietojen hakemisessa:', error);
-        }
-      );
+    const currentUser = this.authService.getCurrUser();
+    console.log('Current User:', currentUser);
+    if (currentUser) {
+      this.lomake.patchValue({
+        etunimi: currentUser.firstName,
+        sukunimi: currentUser.lastName,
+        sahkoposti: currentUser.email,
+        puhelin: currentUser.phoneNumber,
+        koulu: currentUser.koulu,
+        ala: currentUser.ala,
+        paikallisyhdistys: currentUser.paikallisyhdistys,
+      });
+    } else {
+      console.error('Ei löytynyt käyttäjätietoja.');
+      this.router.navigate(['/login']);
     }
   }
 
@@ -75,21 +68,12 @@ export class UserprofileComponent implements OnInit {
     console.log('Valitut mielenkiinnon kohteet:', this.valitutKohteet);
   }
 
+  // not yet working with backend
   onSubmit() {
     if (this.lomake.valid) {
       const userId = this.authService.getCurrUser()?.id;
-      this.userService.updateUserProfile(userId, this.lomake.value).subscribe(
-        (response) => {
-          console.log('Profiili päivitetty:', response);
-          // Voit lisätä onnistumisen ilmoituksen täällä, esimerkiksi toastin
-        },
-        (error) => {
-          console.error('Päivitys epäonnistui:', error);
-          // Ei alertia, mutta voit tallentaa virheet johonkin
-        }
-      );
+      console.log('Päivitetään käyttäjätiedot:', this.lomake.value);
     } else {
-      // Ei alertia, voit vain logata tai käsitellä virheen eri tavalla
       console.error('Tarkista lomake!');
     }
   }

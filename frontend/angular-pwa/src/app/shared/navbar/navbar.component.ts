@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,19 +16,28 @@ export class NavbarComponent {
 
   menuOpen = false;
   username = '';
-  constructor(private authService: AuthService, private router: Router) {}
-
+  constructor(
+    private userService: UserService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+  ngOnInit() {
+    if (this.authenticated) {
+      this.getUsername();
+    }
+  }
   get authenticated(): boolean {
     return this.authService.isAuthenticated();
   }
-  getUser() {
-    const user = this.authService.getCurrUser();
-    if (user) {
-      this.username = user.firstname;
-      return this.username;
+  getUsername() {
+    const currentUser = this.authService.getCurrUser();
+    console.log('fetchUserProfile function called');
+    console.log('Current User:', currentUser);
+    if (currentUser) {
+      this.username = currentUser.firstName;
     }
-    return '';
   }
+
   onProfileClick() {
     if (this.authenticated) {
       const currentUser = this.authService.getCurrUser();

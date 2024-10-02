@@ -1,8 +1,6 @@
 <div class="profile-container">
   <h2>Profiili</h2>
-  <p *ngIf="lomake.get('etunimi')?.value">{{ lomake.get("etunimi")?.value }}</p>
   <form [formGroup]="lomake" (ngSubmit)="onSubmit()">
-    <!-- Omat tiedot osio -->
     <div class="profile-details">
       <div class="profile-image">
         <img src="../../../assets/unicorn.webp" alt="Profiilikuva" />
@@ -80,9 +78,7 @@
       </div>
     </div>
 
-    <!-- Muokkauspainike -->
     <button type="submit" class="edit-button">Muokkaa</button>
-    <!-- Mielenkiinnon kohteet -->
     <div class="interests-section">
       <label>Mielenkiinnon kohteet:</label>
       <div class="button-group">
@@ -102,7 +98,6 @@
     </div>
   </form>
 
-  <!-- Valitut mielenkiinnon kohteet -->
   <p *ngIf="valitutKohteet.length > 0">
     Valitsit mielenkiinnon kohteiksi: {{ valitutKohteet.join(", ") }}
   </p>

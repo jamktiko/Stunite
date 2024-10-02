@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './login-modal.component.html',
-  styleUrl: './login-modal.component.css',
+  styleUrls: ['./login-modal.component.css'],
 })
 export class LoginModalComponent {
   @Output() close = new EventEmitter<void>();
@@ -32,10 +32,12 @@ export class LoginModalComponent {
 
   onSubmit() {
     this.authService.login(this.email, this.password).subscribe({
-      next: () => {
+      next: (response) => {
         this.onClose();
         this.router.navigate(['/events']);
         console.log('Login successful');
+        const currentUser = this.authService.getCurrUser();
+        console.log('Current User:', currentUser);
       },
       error: () => {
         this.errorMessage = 'Invalid email or password';
@@ -44,9 +46,8 @@ export class LoginModalComponent {
     });
   }
 
-
   openOrganizerLogin() {
     this.onClose();
-    this.openOrganizerModal.emit(); 
+    this.openOrganizerModal.emit();
   }
 }
