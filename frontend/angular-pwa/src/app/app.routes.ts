@@ -3,7 +3,7 @@ import { HomeComponent } from './features/home/home.component';
 import { EventsComponent } from './features/events/events.component';
 import { AssociationsComponent } from './features/associations/associations.component';
 import { AdminViewComponent } from './features/admin-view/admin-view.component';
-import { adminGuard } from './core/guards/admin-guard.guard';
+// import { adminGuard } from './core/guards/admin-guard.guard';
 import { organizerGuard } from './core/guards/organizer-guard.guard';
 import { UserprofileComponent } from './features/userprofile/userprofile.component';
 import { EventDetailsComponent } from './features/events/event-details/event-details.component';
@@ -20,11 +20,11 @@ export const routes: Routes = [
   { path: 'associations', component: AssociationsComponent },
   { path: 'userprofile', component: UserprofileComponent },
   { path: 'events/:id', component: EventDetailsComponent },
-  {
-    path: 'admin-view',
-    component: AdminViewComponent,
-    canActivate: [adminGuard],
-  },
+  // {
+  //   path: 'admin-view',
+  //   component: AdminViewComponent,
+  //   canActivate: [adminGuard],
+  // }, // possibly not needed
   {
     path: 'organizer-view',
     component: OrganizerViewComponent,

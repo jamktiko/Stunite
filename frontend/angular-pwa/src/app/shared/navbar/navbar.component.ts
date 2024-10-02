@@ -21,18 +21,22 @@ export class NavbarComponent {
     return this.authService.isAuthenticated();
   }
   getUser() {
-    this.username = this.authService.getCurrUser().firstname;
-    return this.username;
+    const user = this.authService.getCurrUser();
+    if (user) {
+      this.username = user.firstname;
+      return this.username;
+    }
+    return '';
   }
   onProfileClick() {
     if (this.authenticated) {
-      const role = this.authService.getCurrentUserRole();
-      if (role === 'admin') {
-        this.router.navigate(['/admin-view']);
-      } else if (role === 'organizer') {
-        this.router.navigate(['/organizer-view']);
-      } else {
-        this.router.navigate(['/userprofile']);
+      const currentUser = this.authService.getCurrUser();
+      if (currentUser) {
+        if (currentUser.organizationName) {
+          this.router.navigate(['/organizer-view']);
+        } else {
+          this.router.navigate(['/userprofile']);
+        }
       }
     } else {
       this.triggerLoginModal();
@@ -41,6 +45,7 @@ export class NavbarComponent {
 
   logOut() {
     this.authService.logout();
+    this.router.navigate(['/home']);
   }
 
   triggerLoginModal() {

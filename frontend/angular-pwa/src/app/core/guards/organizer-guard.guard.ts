@@ -8,16 +8,11 @@ export const organizerGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   const isAuthenticated = authService.isAuthenticated();
-  const userRole = authService.getCurrentUserRole();
+  const currentUser = authService.getCurrUser();
 
-  if (isAuthenticated) {
-    if (userRole === 'organizer') {
-      return true;
-    } else if (userRole === 'admin') {
-      router.navigate(['/admin-view']);
-    }
+  if (isAuthenticated && currentUser && currentUser.organizationName) {
+    return true;
   }
-
   router.navigate(['/events']);
   return false;
 };
