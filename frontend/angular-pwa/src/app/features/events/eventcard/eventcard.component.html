@@ -3,7 +3,7 @@
 <div
   class="eventcard"
   [ngClass]="{ 'image-only': onlyImage }"
-  [routerLink]="['/events', event.id]"
+  [routerLink]="['/events', event._id]"
 >
   <img
     [src]="event.imageUrl || 'assets/placeholder.png'"

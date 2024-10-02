@@ -33,9 +33,9 @@ export class EventService {
   }
 
   // Optional: Fetch a single event by ID from the backend if needed
-  getEventById(id: number): Event | undefined {
+  getEventById(id: string): Event | undefined {
     const events = this.eventsSignal();
-    return events.find((event) => event.id === id);
+    return events.find((event) => event._id === id);
   }
 
   // Create a new event, post it to the backend, and update the signal
@@ -54,13 +54,13 @@ export class EventService {
 
   // Edit an event, update it in the backend, and refresh the signal
   editEvent(updatedEvent: Event): void {
-    const url = `${this.apiUrl}/${updatedEvent.id}`;
+    const url = `${this.apiUrl}/${updatedEvent._id}`;
     this.http
       .put<Event>(url, updatedEvent)
       .pipe(
         tap((editedEvent) => {
           const events = this.eventsSignal().map((event) =>
-            event.id === editedEvent.id ? editedEvent : event
+            event._id === editedEvent._id ? editedEvent : event
           );
           this.eventsSignal.set(events);
         })

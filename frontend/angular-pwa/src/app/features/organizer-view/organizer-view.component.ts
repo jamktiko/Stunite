@@ -32,7 +32,7 @@ export class OrganizerViewComponent implements OnInit {
     }
   }
   editEvent(event: Event) {
-    this.router.navigate(['/organizer-view/edit-event', event.id]);
+    this.router.navigate(['/organizer-view/edit-event', event._id]);
   }
 
   logout() {
@@ -40,7 +40,7 @@ export class OrganizerViewComponent implements OnInit {
     this.router.navigate(['/home']);
   }
   goToEventPage(event: Event) {
-    this.router.navigate(['/events', event.id]);
+    this.router.navigate(['/events', event._id]);
   }
   goToCreateEvent() {
     this.router.navigate(['/organizer-view/create-event']);

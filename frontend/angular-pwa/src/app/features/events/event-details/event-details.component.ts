@@ -22,7 +22,7 @@ export class EventDetailsComponent implements OnInit {
     if (id) {
       this.event = computed(() => {
         const events = this.eventService.getEvents()();
-        const foundEvent = events.find((e) => e.id === +id);
+        const foundEvent = events.find((e) => e._id === id);
         console.log(foundEvent); // Tarkista, että löytyi tapahtuma
         return foundEvent;
       });

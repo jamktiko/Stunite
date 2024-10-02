@@ -69,7 +69,7 @@ export class InMemoryDataService {
   private getInitialEvents(): Event[] {
     return [
       {
-        id: 1,
+        _id: '1',
         eventName: 'Syyspippalot',
         date: '20.9.2024',
         startingTime: '19.00',
@@ -93,7 +93,7 @@ export class InMemoryDataService {
         organizerId: 1,
       },
       {
-        id: 2,
+        _id: '2',
         eventName: 'Kevätjuhla',
         date: '15.5.2025',
         startingTime: '18.00',
@@ -117,7 +117,7 @@ export class InMemoryDataService {
         organizerId: 1,
       },
       {
-        id: 3,
+        _id: '3',
         eventName: 'Syysmarkkinat',
         date: '10.10.2024',
         startingTime: '10.00',
@@ -141,7 +141,7 @@ export class InMemoryDataService {
         organizerId: 1,
       },
       {
-        id: 4,
+        _id: '4',
         eventName: 'Joulukonsertti',
         date: '24.12.2024',
         startingTime: '17.00',
@@ -165,7 +165,7 @@ export class InMemoryDataService {
         organizerId: 1,
       },
       {
-        id: 5,
+        _id: '5',
         eventName: 'Kevätfestivaali',
         date: '5.6.2025',
         startingTime: '12.00',
@@ -189,7 +189,7 @@ export class InMemoryDataService {
         organizerId: 1,
       },
       {
-        id: 6,
+        _id: '6',
         eventName: 'Kevätfestivaali jatkot',
         date: '5.6.2025',
         startingTime: '18.00',
@@ -213,7 +213,7 @@ export class InMemoryDataService {
         organizerId: 1,
       },
       {
-        id: 7,
+        _id: '7',
         eventName: 'Kesäfestivaali',
         date: '15.7.2025',
         startingTime: '15.00',
@@ -237,7 +237,7 @@ export class InMemoryDataService {
         organizerId: 1,
       },
       {
-        id: 8,
+        _id: '8',
         eventName: 'Talvijuhla',
         date: '12.12.2024',
         startingTime: '16.00',
@@ -261,7 +261,7 @@ export class InMemoryDataService {
         organizerId: 1,
       },
       {
-        id: 9,
+        _id: '9',
         eventName: 'Vappujuhla',
         date: '30.4.2025',
         startingTime: '14.00',
@@ -285,7 +285,7 @@ export class InMemoryDataService {
         organizerId: 1,
       },
       {
-        id: 10,
+        _id: '10',
         eventName: 'Syysretki',
         date: '1.11.2024',
         startingTime: '09.00',
@@ -403,7 +403,7 @@ export class InMemoryDataService {
   editEvent(updatedEvent: Event) {
     const currentEvents = this.eventsSignal();
     const eventIndex = currentEvents.findIndex(
-      (event) => event.id === updatedEvent.id
+      (event) => event._id === updatedEvent._id
     );
 
     if (eventIndex !== -1) {
@@ -412,7 +412,7 @@ export class InMemoryDataService {
       this.saveEvents();
       console.log('Event has been edited');
     } else {
-      console.error(`Event with ID ${updatedEvent.id} not found.`);
+      console.error(`Event with ID ${updatedEvent._id} not found.`);
     }
   }
 

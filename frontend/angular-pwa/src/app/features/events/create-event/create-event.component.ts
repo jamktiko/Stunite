@@ -50,7 +50,7 @@ export class CreateEventComponent implements OnInit {
     if (eventId) {
       this.isEditMode = true;
       this.eventId = +eventId;
-      const event = this.eventService.getEventById(this.eventId);
+      const event = this.eventService.getEventById(this.eventId.toString());
       if (event) {
         this.populateFormFields(event);
       }
@@ -89,7 +89,9 @@ export class CreateEventComponent implements OnInit {
   }
   onSubmit() {
     const updatedEvent: Event = {
-      id: this.isEditMode ? this.eventId! : Math.floor(Math.random() * 1000),
+      _id: this.isEditMode
+        ? this.eventId!.toString()
+        : Math.random().toString(36).substr(2, 9),
       eventName: this.eventName,
       date: this.formatDate(this.eventDate),
       startingTime: this.eventTime,
