@@ -90,7 +90,7 @@ export class InMemoryDataService {
         imageUrl: '',
         publishDateTime: '',
         status: '',
-        organizerId: 1,
+        organizerId: '1',
       },
       {
         _id: '2',
@@ -114,7 +114,7 @@ export class InMemoryDataService {
         imageUrl: '',
         publishDateTime: '',
         status: '',
-        organizerId: 1,
+        organizerId: '1',
       },
       {
         _id: '3',
@@ -138,7 +138,7 @@ export class InMemoryDataService {
         imageUrl: '',
         publishDateTime: '',
         status: '',
-        organizerId: 1,
+        organizerId: '1',
       },
       {
         _id: '4',
@@ -162,7 +162,7 @@ export class InMemoryDataService {
         imageUrl: '',
         publishDateTime: '',
         status: '',
-        organizerId: 1,
+        organizerId: '1',
       },
       {
         _id: '5',
@@ -186,7 +186,7 @@ export class InMemoryDataService {
         imageUrl: '',
         publishDateTime: '',
         status: '',
-        organizerId: 1,
+        organizerId: '1',
       },
       {
         _id: '6',
@@ -210,7 +210,7 @@ export class InMemoryDataService {
         imageUrl: '',
         publishDateTime: '',
         status: '',
-        organizerId: 1,
+        organizerId: '1',
       },
       {
         _id: '7',
@@ -234,7 +234,7 @@ export class InMemoryDataService {
         imageUrl: '',
         publishDateTime: '',
         status: '',
-        organizerId: 1,
+        organizerId: '1',
       },
       {
         _id: '8',
@@ -258,7 +258,7 @@ export class InMemoryDataService {
         imageUrl: '',
         publishDateTime: '',
         status: '',
-        organizerId: 1,
+        organizerId: '1',
       },
       {
         _id: '9',
@@ -282,7 +282,7 @@ export class InMemoryDataService {
         imageUrl: '',
         publishDateTime: '',
         status: '',
-        organizerId: 1,
+        organizerId: '1',
       },
       {
         _id: '10',
@@ -306,7 +306,7 @@ export class InMemoryDataService {
         imageUrl: '',
         publishDateTime: '',
         status: '',
-        organizerId: 1,
+        organizerId: '1',
       },
     ];
   }
@@ -392,13 +392,13 @@ export class InMemoryDataService {
   getOrganizers(): WritableSignal<Organizer[]> {
     return this.organizersSignal;
   }
-  createEvent(newEvent: Event, organizerId: number) {
-    newEvent.date = this.formatDate(newEvent.date);
-    newEvent.organizerId = organizerId;
-    const currentEvents = this.eventsSignal();
-    this.eventsSignal.set([...currentEvents, newEvent]);
-    this.saveEvents();
-  }
+  // createEvent(newEvent: Event, organizerId: number) {
+  //   newEvent.date = this.formatDate(newEvent.date);
+  //   newEvent.organizerId = organizerId;
+  //   const currentEvents = this.eventsSignal();
+  //   this.eventsSignal.set([...currentEvents, newEvent]);
+  //   this.saveEvents();
+  // }
 
   editEvent(updatedEvent: Event) {
     const currentEvents = this.eventsSignal();
@@ -416,10 +416,10 @@ export class InMemoryDataService {
     }
   }
 
-  getEventsByOrganizer(organizerId: number): Event[] {
-    const currentEvents = this.eventsSignal();
-    return currentEvents.filter((event) => event.organizerId === organizerId);
-  }
+  // getEventsByOrganizer(organizerId: number): Event[] {
+  //   const currentEvents = this.eventsSignal();
+  //   return currentEvents.filter((event) => event.organizerId === organizerId);
+  // }
   createOrganizer(newOrganizer: Organizer) {
     const currentOrganizers = this.organizersSignal();
     this.organizersSignal.set([...currentOrganizers, newOrganizer]);

@@ -19,5 +19,5 @@ export interface Event {
   ticketSaleEnd: string;
   publishDateTime: string;
   status: string;
-  organizerId: number;
+  organizerId: string;
 }

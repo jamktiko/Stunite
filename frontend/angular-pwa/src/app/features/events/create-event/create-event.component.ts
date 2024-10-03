@@ -33,7 +33,7 @@ export class CreateEventComponent implements OnInit {
   status: string = 'preliminary';
   imageUrl: string = '';
   cities: string = '';
-  organizerId: number = 1;
+  organizerId: string = '';
   isEditMode: boolean = false;
   eventId: number | null = null;
 
@@ -88,6 +88,12 @@ export class CreateEventComponent implements OnInit {
     this.location.back();
   }
   onSubmit() {
+    const loggedInOrganizer = this.authService.getCurrUser();
+    console.log(loggedInOrganizer);
+    if (!loggedInOrganizer || !loggedInOrganizer._id) {
+      console.error('Organizer not logged in or missing organizerId.');
+      return;
+    }
     const updatedEvent: Event = {
       _id: this.isEditMode
         ? this.eventId!.toString()
@@ -111,7 +117,7 @@ export class CreateEventComponent implements OnInit {
       ticketSaleEnd: this.ticketSaleEnd,
       publishDateTime: this.publishDateTime,
       status: this.status,
-      organizerId: this.organizerId,
+      organizerId: loggedInOrganizer._id,
     };
 
     if (this.isEditMode) {

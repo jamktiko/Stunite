@@ -8,7 +8,7 @@ import { tap } from 'rxjs/operators';
 })
 export class EventService {
   private apiUrl = 'http://localhost:3001/manage/event/'; // Replace with your backend URL
-
+  private createEventapiUrl = 'http://localhost:3001/create/event/';
   // The signal will still store the events, but will now be populated by the backend
   private eventsSignal: WritableSignal<Event[]> = signal<Event[]>([]);
 
@@ -41,7 +41,7 @@ export class EventService {
   // Create a new event, post it to the backend, and update the signal
   createEvent(newEvent: Event): void {
     this.http
-      .post<Event>(this.apiUrl, newEvent)
+      .post<Event>(this.createEventapiUrl, newEvent)
       .pipe(
         tap((createdEvent) => {
           // Update the signal with the newly created event
