@@ -9,8 +9,8 @@
     <h2><a routerLink="/home" routerLinkActive="active">Stunite</a></h2>
 
     <ul class="menu-desktop">
-      <li><a routerLink="/home" routerLinkActive="active">ETUSIVU</a></li>
-      <li><a routerLink="/events" routerLinkActive="active">TAPAHTUMAT</a></li>
+      <li><a routerLink="/home" routerLinkActive="active">Etusivu</a></li>
+      <li><a routerLink="/events" routerLinkActive="active">Tapahtumat</a></li>
       <li>
         <a routerLink="/associations" routerLinkActive="active"
           >PAIKALLISYHDISTYKSET</a
@@ -20,7 +20,7 @@
 
     <ul class="menu-mobile" *ngIf="menuOpen" (click)="onMenuClick()">
       <ng-container *ngIf="authenticated">
-        <li>Terve {{ username }}</li>
+        <li>Terve {{ username() }}</li>
       </ng-container>
       <li><a routerLink="/home" routerLinkActive="active">ETUSIVU</a></li>
       <hr width="100%" size="2" />
@@ -34,11 +34,13 @@
       <hr width="100%" size="2" />
 
       <ng-container *ngIf="authenticated; else login">
-        <li><a (click)="onProfileClick()">PROFIILI</a></li>
+        <li><a (click)="onProfileClick()">Oma profiili</a></li>
         <hr width="100%" size="2" />
-        <li><a (click)="logOut()">KIRJAUDU ULOS</a></li>
+        <li><a (click)="logOut()">Kirjaudu Ulos</a></li>
         <hr width="100%" size="2" />
-        <li><a>ASETUKSET?</a></li>
+        <li><a>Suosikit(Coming soon)</a></li>
+        <hr width="100%" size="2" />
+        <li><a>Asetukset(Coming soon)</a></li>
         <hr width="100%" size="2" />
       </ng-container>
 
@@ -54,12 +56,36 @@
       </ng-template>
     </ul>
 
-    <a class="login-icon" (click)="onProfileClick()">
+    <!-- Profiilikuvakkeen klikkaaminen: jos kirjautunut, näytä profiilivalikko; muuten avaa sisäänkirjautumismodaali -->
+    <a class="login-icon" (click)="onProfileIconClick()">
       <span class="material-symbols-outlined"> account_circle </span>
     </a>
 
     <span class="material-symbols-outlined menu" (click)="onMenuClick()">
       menu
     </span>
+
+    <!-- Profiilivalikko näkyy vain, jos käyttäjä on kirjautunut sisään -->
+    <div
+      *ngIf="showProfileMenu"
+      class="profile-menu"
+      (click)="closeProfileMenu($event)"
+    >
+      <div class="profile-info">
+        <img
+          class="profile-picture"
+          src="assets/unicorn.webp"
+          alt="Profile Picture"
+        />
+        <h4>{{ username() }}</h4>
+        <p>{{ email() }}</p>
+      </div>
+      <ul>
+        <li><a (click)="onProfileClick()">Oma profiili</a></li>
+        <li><a>Suosikit</a></li>
+        <li><a>Asetukset</a></li>
+        <li><a (click)="logOut()">Kirjaudu ulos</a></li>
+      </ul>
+    </div>
   </div>
 </nav>

@@ -1,56 +1,47 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  HostListener,
+  signal,
+  computed,
+} from '@angular/core';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
-import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [RouterLink, RouterLinkActive, CommonModule],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css',
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent {
   @Output() openLoginModal = new EventEmitter<void>();
 
   menuOpen = false;
-  username = '';
-  constructor(
-    private userService: UserService,
-    private authService: AuthService,
-    private router: Router
-  ) {}
-  ngOnInit() {
-    if (this.authenticated) {
-      this.getUsername();
-    }
-  }
+  showProfileMenu = false;
+
+  username = computed(() => this.authService.getCurrUser()?.firstName || '');
+  email = computed(() => this.authService.getCurrUser()?.email || '');
+
+  constructor(private authService: AuthService, private router: Router) {}
+
   get authenticated(): boolean {
     return this.authService.isAuthenticated();
   }
-  getUsername() {
-    const currentUser = this.authService.getCurrUser();
-    console.log('fetchUserProfile function called');
-    console.log('Current User:', currentUser);
-    if (currentUser) {
-      this.username = currentUser.firstName;
+
+  onProfileIconClick() {
+    if (this.authenticated) {
+      this.showProfileMenu = !this.showProfileMenu;
+    } else {
+      this.triggerLoginModal();
     }
   }
 
   onProfileClick() {
-    if (this.authenticated) {
-      const currentUser = this.authService.getCurrUser();
-      if (currentUser) {
-        if (currentUser.organizationName) {
-          this.router.navigate(['/organizer-view']);
-        } else {
-          this.router.navigate(['/userprofile']);
-        }
-      }
-    } else {
-      this.triggerLoginModal();
-    }
+    this.router.navigate(['/userprofile']);
   }
 
   logOut() {
@@ -64,5 +55,20 @@ export class NavbarComponent {
 
   onMenuClick() {
     this.menuOpen = !this.menuOpen;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.profile-menu') && !target.closest('.login-icon')) {
+      this.showProfileMenu = false;
+    }
+  }
+
+  closeProfileMenu(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (target.tagName === 'A') {
+      this.showProfileMenu = false;
+    }
   }
 }
