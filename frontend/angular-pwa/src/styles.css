@@ -32,6 +32,26 @@ button {
   );
   font-family: "Noto Sans", sans-serif;
 }
+/* Button with white background */
+.button2 {
+  padding: 10px 16px;
+  border-radius: 18px;
+  text-align: center;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(
+        to right,
+        #f3afab,
+        #ebdfaf,
+        #c6f1ba,
+        #ace8f0,
+        #c9b6f0,
+        #f1b8e5
+      )
+      border-box;
+  font-family: "Noto Sans", sans-serif;
+  border: 3px solid transparent;
+}
+
 .important-button {
   padding: 30px;
   font-size: 24px;
