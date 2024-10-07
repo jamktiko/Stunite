@@ -5,15 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-login-modal',
+  selector: 'app-organizer-login-modal',
   standalone: true,
   imports: [FormsModule, CommonModule],
-  templateUrl: './login-modal.component.html',
-  styleUrls: ['./login-modal.component.css'],
+  templateUrl: './organizer-login-modal.component.html',
+  styleUrls: ['./organizer-login-modal.component.css'],
 })
-export class LoginModalComponent {
+export class OrganizerLoginModalComponent {
   @Output() close = new EventEmitter<void>();
-  @Output() openOrganizerModal = new EventEmitter<void>();
 
   email: string = '';
   password: string = '';
@@ -24,30 +23,17 @@ export class LoginModalComponent {
   onClose() {
     this.close.emit();
   }
-
-  goRegister() {
-    this.onClose();
-    this.router.navigate(['/register']);
-  }
-
   onSubmit() {
-    this.authService.login(this.email, this.password).subscribe({
-      next: (response) => {
+    this.authService.loginAsOrganizer(this.email, this.password).subscribe({
+      next: () => {
         this.onClose();
-        this.router.navigate(['/events']);
-        console.log('Login successful');
-        const currentUser = this.authService.getCurrUser();
-        console.log('Current User:', currentUser);
+        this.router.navigate(['/organizer-view']);
+        console.log('Organizer login successful');
       },
       error: () => {
         this.errorMessage = 'Invalid email or password';
         console.log('Login failed');
       },
     });
-  }
-
-  openOrganizerLogin() {
-    this.onClose();
-    this.openOrganizerModal.emit();
   }
 }

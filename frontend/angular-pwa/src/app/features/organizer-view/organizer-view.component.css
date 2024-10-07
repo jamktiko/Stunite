@@ -18,13 +18,16 @@
 h1,
 h2 {
   text-align: center;
+  margin-top: 24px;
 }
 .arrow {
   font-size: 30px;
   margin-left: 8px;
   margin-top: -3px;
 }
-
+.important-button {
+  max-width: 400px;
+}
 .page-container {
   display: flex;
   flex-direction: column;

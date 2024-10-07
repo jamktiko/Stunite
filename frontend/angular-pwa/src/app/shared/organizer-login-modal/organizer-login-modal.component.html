@@ -1,9 +1,9 @@
 <div class="modal">
   <div class="modal-content">
     <span (click)="onClose()" class="close">&times;</span>
+    <h1>Järjestäjä kirjautuminen</h1>
 
-    <h1>stunite</h1>
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <form (ngSubmit)="onSubmit()" #organizerLoginForm="ngForm">
       <input
         id="email"
         placeholder="Sähköposti"
@@ -19,24 +19,12 @@
         type="password"
         required
       />
-
       <div *ngIf="errorMessage" class="error-message">
         {{ errorMessage }}
       </div>
-
-      <button type="submit" [disabled]="!loginForm.valid">
+      <button type="submit" [disabled]="!organizerLoginForm.valid">
         Kirjaudu Sisään
       </button>
-      <!-- Estä lähetys tyhjällä lomakkeella -->
     </form>
-
-    <p>
-      Eikö sinulla ole tunnuksia?
-      <a (click)="goRegister()"><u> Voit rekisteröityä täällä.</u> </a>
-    </p>
-    <p>
-      Oletko järjestäjä?
-      <a (click)="openOrganizerLogin()"><u>Kirjaudu täältä.</u></a>
-    </p>
   </div>
 </div>

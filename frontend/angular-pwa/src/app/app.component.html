@@ -2,6 +2,11 @@
 <app-login-modal
   *ngIf="showLoginModal"
   (close)="closeLoginModal()"
+  (openOrganizerModal)="openOrganizerLoginModal()"
 ></app-login-modal>
+<app-organizer-login-modal
+  *ngIf="showOrganizerLoginModal"
+  (close)="closeLoginModal()"
+></app-organizer-login-modal>
 <router-outlet></router-outlet>
 <app-footer></app-footer>

@@ -21,7 +21,7 @@
     <hr />
     <div *ngFor="let event of selectedEvents">
       <p>
-        <a [routerLink]="['/events', event.id]"
+        <a [routerLink]="['/events', event._id]"
           >{{ event.eventName }} &#64; {{ event.city }}</a
         >
       </p>

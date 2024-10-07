@@ -2,13 +2,16 @@
   width: 80%;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f8f8f8;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  gap: 24px;
 }
-
+.container {
+  background-color: #fff5f9;
+  border-style: solid;
+  border-radius: 20px;
+  border-color: #ffc3d9;
+}
 .profile-details {
   display: flex;
   flex-direction: column;
@@ -19,6 +22,7 @@
 
 .info-fields {
   width: 100%;
+  margin: 24px;
 }
 
 .info-fields .form-field {
@@ -33,11 +37,13 @@
   width: 120px;
   font-weight: bold;
   margin-right: 8px;
+  margin-left: 24px;
   text-align: right;
   font-weight: bold;
 }
 
 .info-fields input {
+  background-color: #ffffff;
   flex-grow: 1;
   padding: 10px;
   font-size: 14px;
@@ -57,13 +63,14 @@
   border: 2px solid #ddd;
   margin-bottom: 10px;
 }
-
-.edit-button {
+h3 {
+  text-align: center;
+}
+.button2 {
+  width: 30%;
+  min-width: 200px;
   display: block;
-  margin: 20px auto;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 20px;
+  margin: 24px auto;
   cursor: pointer;
 }
 
@@ -75,7 +82,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 10px;
+  margin: 18px 0px;
 }
 
 .button-group button {
@@ -123,6 +130,7 @@ h2 {
     width: 60%;
     margin-bottom: 10px;
   }
+
   .profile-image img {
     margin-bottom: 8px;
   }

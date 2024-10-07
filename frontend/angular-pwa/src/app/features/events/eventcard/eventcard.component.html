@@ -9,6 +9,7 @@
     [src]="event.imageUrl || 'assets/placeholder.png'"
     alt="Event image"
     class="eventimage"
+    onerror="this.src='assets/placeholder.png'"
   />
   <h3 *ngIf="!onlyImage">{{ event.eventName }}</h3>
   <div *ngIf="!onlyImage" class="eventcard-info">

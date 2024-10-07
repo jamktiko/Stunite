@@ -20,7 +20,7 @@
 
     <ul class="menu-mobile" *ngIf="menuOpen" (click)="onMenuClick()">
       <ng-container *ngIf="authenticated">
-        <li>Terve {{ getUser() }}</li>
+        <li>Terve {{ username }}</li>
       </ng-container>
       <li><a routerLink="/home" routerLinkActive="active">ETUSIVU</a></li>
       <hr width="100%" size="2" />
@@ -44,7 +44,7 @@
 
       <ng-template #login>
         <li>
-          <a (click)="onProfileClick()">KIRJAUDU SISÄÄN</a>
+          <a (click)="triggerLoginModal()">KIRJAUDU SISÄÄN</a>
         </li>
         <hr width="100%" size="2" />
         <li>
