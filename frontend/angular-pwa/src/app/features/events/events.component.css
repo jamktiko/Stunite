@@ -4,27 +4,62 @@
   gap: 16px;
   justify-content: space-evenly;
 }
+
 .events-start {
   margin: 24px;
   display: flex;
-
 }
 
 .searchbar {
   margin: 18px 0px;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
 }
+
 .searchbar input {
   width: 100%;
+  padding: 8px 16px;
+  box-sizing: border-box;
 }
+
 .left-side {
   display: flex;
   flex-direction: column;
 }
 
-/* image is in this div, needs to be adjusted to match figma */
 .right-side {
   display: flex;
 }
+
 .banner-img {
   max-width: 400px;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    text-align: center;
+  }
+
+  .searchbar {
+    max-width: 300px;
+  }
+
+  .right-side {
+    display: none;
+  }
+
+  .events-start {
+    flex-direction: column;
+  }
+
+  .left-side {
+    align-items: center;
+  }
+
+  .searchbar input {
+    width: 100%;
+    max-width: 300px;
+    margin: auto;
+  }
 }
