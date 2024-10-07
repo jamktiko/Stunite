@@ -1,13 +1,21 @@
 <div class="page-container">
-  <h1>Tapahtumat</h1>
+  <div class="events-start">
+    <div class="left-side">
+      <h1>Tapahtumat</h1>
 
-  <div class="searchbar">
-    <input
-      type="text"
-      placeholder="Hae tapahtumia"
-      [ngModel]="searchTerm()"
-      (ngModelChange)="searchTerm.set($event)"
-    />
+      <div class="searchbar">
+        <input
+          type="text"
+          placeholder="Hae tapahtumia"
+          [ngModel]="searchTerm()"
+          (ngModelChange)="searchTerm.set($event)"
+        />
+      </div>
+    </div>
+
+    <div class="right-side">
+      <img class="banner-img" [src]="'assets/stunite_banner.png'" />
+    </div>
   </div>
 
   <div *ngIf="filteredEventData().length" class="events">

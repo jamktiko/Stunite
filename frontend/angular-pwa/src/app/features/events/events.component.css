@@ -2,10 +2,29 @@
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  justify-content: center;
+  justify-content: space-evenly;
+}
+.events-start {
+  margin: 24px;
+  display: flex;
+
 }
 
-.searchbar{
+.searchbar {
   margin: 18px 0px;
 }
+.searchbar input {
+  width: 100%;
+}
+.left-side {
+  display: flex;
+  flex-direction: column;
+}
 
+/* image is in this div, needs to be adjusted to match figma */
+.right-side {
+  display: flex;
+}
+.banner-img {
+  max-width: 400px;
+}
