@@ -1,5 +1,5 @@
 <div class="association-page">
-  <h2 class="name">{{ association?.organizationPublicInfo?.name }}</h2>
+  <p class="name">{{ association?.organizationPublicInfo?.name }}</p>
   <div *ngIf="association" class="association-container">
     <div class="pic">
       <img
@@ -19,16 +19,16 @@
     </div>
   </div>
   <div>
-    <h2>Kuvaus</h2>
+    <p><strong>Kuvaus</strong></p>
     <p>{{ association?.organizationPublicInfo?.description }}</p>
   </div>
   <div>
-    <h2>Koulutusalat</h2>
+    <p><strong>Koulutusalat</strong></p>
   </div>
   <div>
-    <h2>Tulevat tapahtumat</h2>
+    <p><strong>Tulevat tapahtumat</strong></p>
   </div>
   <div>
-    <h2>Menneet tapahtumat</h2>
+    <p><strong>Menneet tapahtumat</strong></p>
   </div>
 </div>

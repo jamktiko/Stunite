@@ -1,53 +1,54 @@
 .association-page {
-  font-family: Arial, sans-serif;
   margin: 20px;
 }
 
-.association-page h2.name {
-  text-align: center; /* Keskittää ylimmän h2-otsikon */
+.name {
+  text-align: center;
+  font-size: 40px;
+  margin-bottom: 30px; /* Lisätään alaraja */
 }
 
 .association-container {
-  display: flex; /* Käytetään flexboxia */
+  display: grid; /* Vaihdetaan flexbox gridiksi */
+  grid-template-columns: repeat(2, 1fr); /* Kaksi saraketta */
+  gap: 24px; /* Välit kuvien ja korttien välillä */
+  margin: 12px; /* Marginaali ympärille */
+  justify-items: center; /* Kohdistaa elementit keskelle */
   align-items: stretch; /* Kohdistaa elementit täyttämään tilan */
-  gap: 20px; /* Välit kuvien ja korttien välillä */
 }
 
 .pic {
-  flex: 1; /* Voit säätää, kuinka paljon tilaa kuva vie */
   display: flex; /* Varmistaa, että kuva on keskitetty */
   justify-content: center; /* Keskittää kuvan vaakasuunnassa */
   align-items: center; /* Keskittää kuvan pystysuunnassa */
 }
 
 .associationimage {
-  width: 100%; /* Kuvan leveys 100% */
+  max-width: 100%; /* Kuvan leveys 100% */
   height: 400px; /* Määritellään korkeus, jotta kaikki kuvat ovat saman kokoisia */
   object-fit: cover; /* Varmistaa, että kuva täyttää tilan oikein */
   border-radius: 8px; /* Pyöristetyt kulmat */
 }
 
 .association-info {
-  flex: 1; /* Voit säätää, kuinka paljon tilaa infokortti vie */
-  background-color: #f9f9f9; /* Vaalea tausta */
-  border: 1px solid #ccc; /* Vaalean harmaa reuna */
-  border-radius: 8px; /* Pyöristetyt kulmat */
-  padding: 20px; /* Sisätilaa */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Pehmeä varjo */
-  color: #333; /* Tumma teksti */
+  background-color: #fff5f9;
+  border: 1px solid #ffc3d9;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  max-width: 100%;
 }
 
 .association-info p {
-  margin: 8px 0; /* Välit kappaleiden välillä */
-  line-height: 1.6; /* Riviväli */
+  margin: 8px 0;
+  line-height: 1.6;
 }
 
-.association-info p:first-child {
-  font-weight: bold; /* Ensimmäinen kappale lihavoitu */
-}
 
 .association-info p:last-child {
-  color: #007bff; /* Linkin väri */
+  color: #15395f; /* Linkin väri */
   text-decoration: underline; /* Korostaa sähköpostia */
   cursor: pointer; /* Hiiren osoittimen muutos */
 }
@@ -60,4 +61,20 @@
 
 .association-page li {
   margin: 5px 0; /* Lisää vähän tilaa listakohteiden väliin */
+}
+
+@media (max-width: 768px) {
+  .association-container {
+    grid-template-columns: 1fr; /* Yksi sarake pienillä näytöillä */
+  }
+
+  .association-info {
+    width: 90%; /* Infokortti on 90% leveä */
+    margin: 0 auto; /* Keskittää kortin */
+  }
+
+  .associationimage {
+    display: block; /* Kuvan esitys */
+    margin: 0 auto; /* Keskittää kuvan */
+  }
 }

@@ -9,8 +9,8 @@
     <h2><a routerLink="/home" routerLinkActive="active">Stunite</a></h2>
 
     <ul class="menu-desktop">
-      <li><a routerLink="/home" routerLinkActive="active">Etusivu</a></li>
-      <li><a routerLink="/events" routerLinkActive="active">Tapahtumat</a></li>
+      <li><a routerLink="/home" routerLinkActive="active">ETUSIVU</a></li>
+      <li><a routerLink="/events" routerLinkActive="active">TAPAHTUMAT</a></li>
       <li>
         <a routerLink="/associations" routerLinkActive="active"
           >PAIKALLISYHDISTYKSET</a
@@ -22,13 +22,13 @@
       <ng-container *ngIf="authenticated">
         <li>Terve {{ username() }}</li>
       </ng-container>
-      <li><a routerLink="/home" routerLinkActive="active">ETUSIVU</a></li>
+      <li><a routerLink="/home" routerLinkActive="active">Etusivu</a></li>
       <hr width="100%" size="2" />
-      <li><a routerLink="/events" routerLinkActive="active">TAPAHTUMAT</a></li>
+      <li><a routerLink="/events" routerLinkActive="active">Tapahtumat</a></li>
       <hr width="100%" size="2" />
       <li>
         <a routerLink="/associations" routerLinkActive="active"
-          >PAIKALLISYHDISTYKSET</a
+          >Paikallisyhdistykset</a
         >
       </li>
       <hr width="100%" size="2" />
@@ -46,11 +46,11 @@
 
       <ng-template #login>
         <li>
-          <a (click)="triggerLoginModal()">KIRJAUDU SISÄÄN</a>
+          <a (click)="triggerLoginModal()">Kirjaudu Sisään</a>
         </li>
         <hr width="100%" size="2" />
         <li>
-          <a routerLink="/register" routerLinkActive="active">REKISTERÖIDY</a>
+          <a routerLink="/register" routerLinkActive="active">Rekisteröidy</a>
         </li>
         <hr width="100%" size="2" />
       </ng-template>

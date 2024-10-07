@@ -6,6 +6,7 @@
         [src]="event()?.imageUrl || 'assets/placeholder.png'"
         alt="Event image"
         class="eventimage"
+        onerror="this.src='assets/placeholder.png'"
       />
     </div>
     <div class="grid-item info-box">
