@@ -46,9 +46,14 @@ router.post('/', async (req, res) => {
 
     await newUser.save();
 
-    res.status(201).json({ message: 'User created successfully' });
+    // Palauta token vastauksessa
+    return res.status(201).json({
+      message: 'User registered successfully',
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res
+      .status(500)
+      .json({ error: 'User registration failed: ' + error.message });
   }
 });
 
