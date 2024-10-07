@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
+const createToken = require('../createtoken'); // Lisää createToken
 
 const router = express.Router();
 
@@ -32,9 +33,15 @@ router.post('/', async (req, res) => {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
+    // Luo token kirjautumisen jälkeen
+    const token = createToken({
+      username: email, // Voit käyttää esim. emailia tai muuta yksilöivää kenttää
+    });
+
     // Kirjautuminen onnistui
     res.status(200).json({
       message: 'Login successful',
+      token, // Palauta token vastauksessa
       user: {
         firstName: user.firstName,
         lastName: user.lastName,
