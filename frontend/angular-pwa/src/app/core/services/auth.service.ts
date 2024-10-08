@@ -33,7 +33,7 @@ export class AuthService {
   // normal user login
   login(email: string, password: string) {
     return this.http
-      .post<{ message: string; user: any }>(this.apiUrlLoginUser, {
+      .post<{ token: string; user: any }>(this.apiUrlLoginUser, {
         email,
         password,
       })
@@ -43,8 +43,14 @@ export class AuthService {
           this.currUser.set(response.user);
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem('currentUser', JSON.stringify(response.user));
+            // lets save token to localStorage for now
+            localStorage.setItem('jwtToken', response.token);
           }
-          console.log(`Logged in as: ${response.user.email}`); // miten saan id käyttöön :( )
+
+          /////////
+          console.log(`Logged in as: ${response.user.email}`);
+          console.log('Token saved to localStorage:', response.token);
+          ////////
         })
       );
   }
@@ -76,21 +82,28 @@ export class AuthService {
     if (isPlatformBrowser(this.platformId)) {
       const storedUser = localStorage.getItem('currentUser');
       const storedOrganizer = localStorage.getItem('currentOrganizer');
-      if (storedUser) {
+      const storedToken = localStorage.getItem('jwtToken');
+      if (storedUser && storedToken) {
         const user = JSON.parse(storedUser);
         this.isLoggedIn.set(true);
         this.currUser.set(user);
         console.log('Restored user session as:', user.email);
-      } else if (storedOrganizer) {
+      } else if (storedOrganizer && storedToken) {
         const organizer = JSON.parse(storedOrganizer);
         this.isLoggedIn.set(true);
         this.currUser.set(organizer);
         console.log('Restored organizer session as:', organizer.email);
       }
+    } else {
+      localStorage.removeItem('jwtToken');
     }
   }
 
   isAuthenticated(): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('jwtToken');
+      return this.isLoggedIn() && !!token;
+    }
     return this.isLoggedIn();
   }
 
@@ -112,6 +125,7 @@ export class AuthService {
     this.isLoggedIn.set(false);
     this.currUser.set(null);
     if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('jwtToken');
       localStorage.removeItem('currentUser');
       localStorage.removeItem('currentOrganizer');
     }
