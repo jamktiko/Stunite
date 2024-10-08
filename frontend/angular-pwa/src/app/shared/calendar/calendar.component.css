@@ -1,11 +1,12 @@
 .calendar-wrapper {
-  max-width: 600px;
+  max-width: 500px;
   min-width: 200px;
   margin: 8px;
+  width: 100%;
 }
 
 .igx-calendar {
-  --ig-size: 2;
+  --ig-size: 6;
   border: solid 3px #b2b2b2;
   border-radius: 24px;
 }
@@ -15,12 +16,13 @@
 }
 
 .event-info {
-  max-width: 600px;
+  max-width: 500px;
   min-width: 200px;
   border: #b2b2b2 2px solid;
   border-radius: 24px;
   background-color: white;
-  padding: 24px;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  margin: 8px;
 }

@@ -2,29 +2,41 @@
   rel="stylesheet"
   href="https://fonts.googleapis.com/icon?family=Material+Icons"
 />
+<div
+  style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  "
+>
+  <article class="calendar-wrapper">
+    <igx-calendar
+      #MyCalendar
+      selection="single"
+      (selected)="onSelection($event)"
+    >
+      <ng-template igxDay let-day>
+        <div class="calendar-day">
+          {{ day.date.getDate() }}
+        </div>
+      </ng-template>
+    </igx-calendar>
+  </article>
 
-<article class="calendar-wrapper">
-  <igx-calendar #MyCalendar selection="single" (selected)="onSelection($event)">
-    <ng-template igxDay let-day>
-      <div class="calendar-day">
-        {{ day.date.getDate() }}
-      </div>
-    </ng-template>
-  </igx-calendar>
-</article>
-
-<div class="event-info" *ngIf="selectedEvents.length > 0">
-  <div>
-    <p>
-      <strong>{{ selectedDate }}</strong>
-    </p>
-    <hr />
-    <div *ngFor="let event of selectedEvents">
+  <div class="event-info" *ngIf="selectedEvents.length > 0">
+    <div style="padding: 24px">
       <p>
-        <a [routerLink]="['/events', event._id]"
-          >{{ event.eventName }} &#64; {{ event.city }}</a
-        >
+        <strong>{{ selectedDate }}</strong>
       </p>
+      <hr />
+      <div *ngFor="let event of selectedEvents">
+        <p>
+          <a [routerLink]="['/events', event._id]"
+            >{{ event.eventName }} &#64; {{ event.city }}</a
+          >
+        </p>
+      </div>
     </div>
   </div>
 </div>
