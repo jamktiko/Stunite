@@ -1,27 +1,30 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+// token.interceptor.ts
+import { Injectable } from '@angular/core';
 import {
-  HttpInterceptorFn,
   HttpRequest,
-  HttpHandlerFn,
+  HttpHandler,
   HttpEvent,
+  HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { isPlatformBrowser } from '@angular/common';
+import { AuthService } from '../services/auth.service';
 
-export const JwtInterceptor: HttpInterceptorFn = (
-  req: HttpRequest<any>,
-  next: HttpHandlerFn
-): Observable<HttpEvent<any>> => {
-  // Tarkista, onko käytössä selainympäristö
-  const token = isPlatformBrowser(PLATFORM_ID)
-    ? localStorage.getItem('jwtToken')
-    : null;
+@Injectable()
+export class TokenInterceptor implements HttpInterceptor {
+  constructor(private authService: AuthService) {}
 
-  if (token) {
-    const clonedReq = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${token}`),
-    });
-    return next(clonedReq);
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    const token = this.authService.getToken();
+    if (token) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+    return next.handle(request);
   }
-  return next(req);
-};
+}
