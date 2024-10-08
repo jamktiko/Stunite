@@ -1,5 +1,17 @@
 <div *ngIf="event">
-  <h1>{{ event()?.eventName }}</h1>
+  <p style="font-size: 36px; text-align: center; margin-bottom: 6px">
+    {{ event()?.eventName }}
+  </p>
+  <p
+    style="
+      text-align: center;
+      margin-bottom: 80px;
+      margin-top: 8px;
+      font-size: 24px;
+    "
+  >
+    {{ event().date }} {{ event().city }}
+  </p>
   <div class="grid-container">
     <div class="grid-item">
       <img
@@ -11,14 +23,23 @@
     </div>
     <div class="grid-item info-box">
       <div class="event-infobox">
-        <p><strong>Päivämäärä:</strong> {{ event().date }}</p>
-        <p><strong>Aloitusaika:</strong> {{ event().startingTime }}</p>
         <p>
-          <strong>Sijainti:</strong> {{ event().venue }}, {{ event().city }},
+          <span class="material-symbols-outlined"> calendar_month </span>
+          {{ event().date }}
+        </p>
+        <p>
+          <span class="material-symbols-outlined">
+            nest_clock_farsight_analog
+          </span>
+          {{ event().startingTime }}
+        </p>
+        <p>
+          <span class="material-symbols-outlined"> distance </span>
+          {{ event().venue }}, {{ event().city }},
           {{ event().address }}
         </p>
         <p>
-          <strong>Lippujen hinta:</strong>
+          <span class="material-symbols-outlined"> sell </span>
           {{ event().ticketprice.minticketprice }} -
           {{ event().ticketprice.maxticketprice }} €
         </p>
@@ -27,8 +48,13 @@
     <div class="grid-item">
       <p><strong>Lisätietoa:</strong> {{ event().details }}</p>
     </div>
-    <div class="grid-item">
-      <button>Osta liput</button>
+
+    <div class="grid-item" style="display: flex; flex-direction: column">
+      <p>
+        Lipunmyynti käynnissä:<br />
+        {{ event().ticketSaleStart }} - {{ event().ticketSaleEnd }}
+      </p>
+      <button style="font-size: 30px"><strong>Osta liput</strong></button>
     </div>
   </div>
 </div>
