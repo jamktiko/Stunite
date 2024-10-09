@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const Organizer = require('../models/organizer');
+const createToken = require('../createtoken'); // Lisää createToken
 
 const router = express.Router();
 
@@ -26,10 +27,15 @@ router.post('/', async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
+    // Luo token kirjautumisen jälkeen
+    const token = createToken({
+      username: email, // Voit käyttää esim. emailia tai muuta yksilöivää kenttää
+    });
 
     // Kirjautuminen onnistui
     res.status(200).json({
       message: 'Login successful',
+      token, // Palauta token vastauksessa
       organizer: {
         id: organizer._id,
         firstName: organizer.firstName,
