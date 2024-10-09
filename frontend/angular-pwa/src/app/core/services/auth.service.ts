@@ -9,11 +9,13 @@ import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { UserService } from './user.service';
 import { tap } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  JwtHelper = new JwtHelperService();
   private isLoggedIn: WritableSignal<boolean> = signal(false);
   private currUser: WritableSignal<any | null> = signal(null);
 
@@ -30,9 +32,33 @@ export class AuthService {
     if (isPlatformBrowser(this.platformId)) {
       this.checkUserSession();
     }
+    // const currentUser = JSON.parse(sessionStorage.getItem('accesstoken') || '{}');
+    // this.token = currentUser || currentUser.token;
   }
 
   // normal user login
+  // login(email: string, password: string) {
+  //   return this.http
+  //     .post<{ message: string; token: string; user: any }>(
+  //       this.apiUrlLoginUser,
+  //       {
+  //         email,
+  //         password,
+  //       }
+  //     )
+  //     .pipe(
+  //       tap((response) => {
+  //         this.token = response.token;
+  //         this.isLoggedIn.set(true);
+  //         this.currUser.set(response.user);
+  //         if (isPlatformBrowser(this.platformId)) {
+  //           localStorage.setItem('currentUser', JSON.stringify(response.user));
+  //           localStorage.setItem('token', response.token);
+  //         }
+  //         console.log(`Logged in as: ${response.user.email}`); // miten saan id käyttöön :( )
+  //       })
+  //     );
+  // }
   login(email: string, password: string) {
     return this.http
       .post<{ message: string; token: string; user: any }>(
@@ -44,18 +70,30 @@ export class AuthService {
       )
       .pipe(
         tap((response) => {
-          this.token = response.token;
-          this.isLoggedIn.set(true);
-          this.currUser.set(response.user);
-          if (isPlatformBrowser(this.platformId)) {
-            localStorage.setItem('currentUser', JSON.stringify(response.user));
-            localStorage.setItem('token', response.token);
+          const token = response.token;
+
+          // Tarkista tokenin voimassaolo
+          if (token && !this.JwtHelper.isTokenExpired(token)) {
+            this.token = token;
+            this.isLoggedIn.set(true);
+            this.currUser.set(response.user);
+
+            // Tallenna token ja käyttäjä localStorageen
+            if (isPlatformBrowser(this.platformId)) {
+              localStorage.setItem(
+                'currentUser',
+                JSON.stringify(response.user)
+              );
+              localStorage.setItem('token', token);
+            }
+
+            console.log(`Logged in as: ${response.user.email}`);
+          } else {
+            console.log('Token on virheellinen tai vanhentunut');
           }
-          console.log(`Logged in as: ${response.user.email}`); // miten saan id käyttöön :( )
         })
       );
   }
-
   // organizer login
   // ehit this to work with tokens whne normal user login works
   loginAsOrganizer(email: string, password: string) {
@@ -129,7 +167,7 @@ export class AuthService {
     }
     console.log('Logged out');
   }
-  
+
   getToken(): string | null {
     return this.token;
   }
