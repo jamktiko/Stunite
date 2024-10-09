@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
-import { UserService } from './user.service';
 import { tap } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -26,7 +25,6 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private profileService: UserService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     if (isPlatformBrowser(this.platformId)) {
@@ -72,10 +70,7 @@ export class AuthService {
           this.isLoggedIn.set(true);
           this.currUser.set(organizer);
           if (isPlatformBrowser(this.platformId)) {
-            localStorage.setItem(
-              'currentOrganizer',
-              JSON.stringify(response.organizer)
-            );
+            localStorage.setItem('currentOrganizer', JSON.stringify(organizer));
             localStorage.setItem('token', token);
           }
           console.log(`Logged in as organizer: ${response.organizer.email}`);

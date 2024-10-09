@@ -90,7 +90,7 @@ export class CreateEventComponent implements OnInit {
   onSubmit() {
     const loggedInOrganizer = this.authService.getCurrUser();
     console.log(loggedInOrganizer);
-    if (!loggedInOrganizer || !loggedInOrganizer._id) {
+    if (!loggedInOrganizer || !loggedInOrganizer.organizerId) {
       console.error('Organizer not logged in or missing organizerId.');
       return;
     }
@@ -117,7 +117,7 @@ export class CreateEventComponent implements OnInit {
       ticketSaleEnd: this.ticketSaleEnd,
       publishDateTime: this.publishDateTime,
       status: this.status,
-      organizerId: loggedInOrganizer._id,
+      organizerId: loggedInOrganizer.organizerId,
     };
 
     if (this.isEditMode) {

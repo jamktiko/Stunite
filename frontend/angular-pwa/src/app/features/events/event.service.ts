@@ -21,18 +21,22 @@ export class EventService {
     this.http
       .get<Event[]>(this.apiUrl)
       .pipe(
-        tap((events) => this.eventsSignal.set(events)) // Update the signal with fetched events
+        tap((events) => {
+          console.log('Fetched events:', events);
+          this.eventsSignal.set(events);
+        })
       )
-      .subscribe();
-    console.log(this.eventsSignal);
+      .subscribe(() => {
+        console.log('Events loaded into signal:', this.eventsSignal());
+      });
   }
+  
 
   // Signal-based getter for events
   getEvents(): WritableSignal<Event[]> {
     return this.eventsSignal;
   }
 
-  // Optional: Fetch a single event by ID from the backend if needed
   getEventById(id: string): Event | undefined {
     const events = this.eventsSignal();
     return events.find((event) => event._id === id);

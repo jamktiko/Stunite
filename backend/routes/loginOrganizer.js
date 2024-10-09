@@ -38,6 +38,7 @@ router.post('/', async (req, res) => {
       token, // Palauta token vastauksessa
       organizer: {
         id: organizer._id,
+        organizerId: organizer.organizerId,
         firstName: organizer.firstName,
         lastName: organizer.lastName,
         email: organizer.email,

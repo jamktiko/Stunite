@@ -2,11 +2,11 @@
 <div class="create-event">
   <form (ngSubmit)="onSubmit()">
     <div class="form-field">
-      <label>Tapahtuman nimi</label>
+      <label>Tapahtuman nimi*</label>
       <input type="text" [(ngModel)]="eventName" name="eventName" required />
     </div>
     <div class="form-field">
-      <label>Päivämäärä ja aloitusaika</label>
+      <label>Päivämäärä ja aloitusaika*</label>
       <input
         type="date"
         placeholder="Päivämäärä"
@@ -23,19 +23,19 @@
       />
     </div>
     <div class="form-field">
-      <label>Kaupunki</label>
+      <label>Kaupunki*</label>
       <input type="text" [(ngModel)]="city" name="city" required />
     </div>
     <div class="form-field">
-      <label>Osoite</label>
+      <label>Osoite*</label>
       <input type="text" [(ngModel)]="address" name="address" required />
     </div>
     <div class="form-field">
-      <label>Tapahtumapaikka</label>
+      <label>Tapahtumapaikka*</label>
       <input type="text" [(ngModel)]="venue" name="venue" required />
     </div>
     <div class="form-field">
-      <label>Lipun hinta (min-max)</label>
+      <label>Lipun hinta (min-max)*</label>
       <input
         type="text"
         placeholder="min"
@@ -62,7 +62,7 @@
     </div>
     <div class="form-field">
       <label>
-        Onko tapahtuma alustava varaus vai tuotannossa?:
+        Onko tapahtuma alustava varaus vai tuotannossa?* :
         <select [(ngModel)]="status" name="status" required>
           <option value="preliminary">Alustava varaus</option>
           <option value="production">Tuotannossa</option>
