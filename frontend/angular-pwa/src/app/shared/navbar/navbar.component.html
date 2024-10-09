@@ -20,6 +20,13 @@
       <ng-container *ngIf="authenticated">
         <li>Terve {{ username() }}</li>
       </ng-container>
+      <ng-container *ngIf="!authenticated">
+        <div class="mobile-nav-user">
+          <p>Terve, Vierailija</p>
+          <span class="material-symbols-outlined"> account_circle </span>
+        </div>
+      </ng-container>
+
       <li><a routerLink="/home" routerLinkActive="active">Etusivu</a></li>
       <hr width="100%" size="2" />
       <li><a routerLink="/events" routerLinkActive="active">Tapahtumat</a></li>

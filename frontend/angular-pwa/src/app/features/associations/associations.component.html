@@ -1,11 +1,15 @@
 <div class="page-container">
-  <h1>Yhteisö</h1>
-  <div>
-    <input
-      type="text"
-      placeholder="Hae paikallisyhdistyksiä"
-      [(ngModel)]="searchTerm"
-    />
+  <div class="associations-start">
+    <div class="left-side">
+      <h1>Yhteisö</h1>
+      <div class="searchbar">
+        <input
+          type="text"
+          placeholder="Hae yhteisöjä"
+          [(ngModel)]="searchTerm"
+        />
+      </div>
+    </div>
   </div>
 
   <div *ngIf="filteredAssociationData().length" class="associations">

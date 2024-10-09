@@ -70,7 +70,11 @@ div {
   margin: 16px;
   font-size: 18px;
 }
-
+.mobile-nav-user {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
 .profile-menu {
   position: absolute;
   display: flex;
