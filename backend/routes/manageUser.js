@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/user'); // Malli tiedostosta, johon skeema on tallennettu
+const verifyToken = require('../verifytoken');
 
 const router = express.Router();
 
@@ -32,7 +33,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // DELETE reitti käyttäjän poistamiseksi ID:n perusteella
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -52,7 +53,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 // PUT reitti käyttäjän muokkaamiseksi ID:n perusteella
-router.put('/:id', async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
   const { id } = req.params;
   const updates = req.body; // Päivitettävät kentät tulevat pyynnön rungosta
 

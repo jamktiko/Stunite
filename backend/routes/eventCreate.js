@@ -1,9 +1,10 @@
 const express = require('express');
 const Event = require('../models/event');
+const verifyToken = require('../verifytoken');
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   const {
     eventName,
     date,
