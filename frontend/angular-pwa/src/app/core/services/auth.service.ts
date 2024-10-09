@@ -58,19 +58,25 @@ export class AuthService {
   // ehit this to work with tokens whne normal user login works
   loginAsOrganizer(email: string, password: string) {
     return this.http
-      .post<{ message: string; organizer: any }>(this.apiUrlLoginOrganizer, {
-        email,
-        password,
-      })
+      .post<{ message: string; token: string; organizer: any }>(
+        this.apiUrlLoginOrganizer,
+        {
+          email,
+          password,
+        }
+      )
       .pipe(
         tap((response) => {
+          const organizer = response.organizer;
+          const token = response.token;
           this.isLoggedIn.set(true);
-          this.currUser.set(response.organizer);
+          this.currUser.set(organizer);
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem(
               'currentOrganizer',
               JSON.stringify(response.organizer)
             );
+            localStorage.setItem('token', token);
           }
           console.log(`Logged in as organizer: ${response.organizer.email}`);
         })
