@@ -12,9 +12,7 @@
       <li><a routerLink="/home" routerLinkActive="active">ETUSIVU</a></li>
       <li><a routerLink="/events" routerLinkActive="active">TAPAHTUMAT</a></li>
       <li>
-        <a routerLink="/associations" routerLinkActive="active"
-          >PAIKALLISYHDISTYKSET</a
-        >
+        <a routerLink="/associations" routerLinkActive="active">YHTEISÖ</a>
       </li>
     </ul>
 
@@ -27,20 +25,21 @@
       <li><a routerLink="/events" routerLinkActive="active">Tapahtumat</a></li>
       <hr width="100%" size="2" />
       <li>
-        <a routerLink="/associations" routerLinkActive="active"
-          >Paikallisyhdistykset</a
-        >
+        <a routerLink="/associations" routerLinkActive="active">Yhteisö</a>
       </li>
       <hr width="100%" size="2" />
 
       <ng-container *ngIf="authenticated; else login">
         <li><a (click)="onProfileClick()">Oma profiili</a></li>
         <hr width="100%" size="2" />
-        <li><a (click)="logOut()">Kirjaudu Ulos</a></li>
-        <hr width="100%" size="2" />
         <li><a>Suosikit(Coming soon)</a></li>
         <hr width="100%" size="2" />
         <li><a>Asetukset(Coming soon)</a></li>
+        <hr width="100%" size="2" />
+        <li>
+          <a (click)="logOut()">Kirjaudu Ulos</a>
+          <span class="material-symbols-outlined"> logout </span>
+        </li>
         <hr width="100%" size="2" />
       </ng-container>
 

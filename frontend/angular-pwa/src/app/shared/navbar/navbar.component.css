@@ -58,7 +58,7 @@ div {
   flex-direction: column;
   background-color: #fff5f9;
   position: absolute;
-  width: 70%;
+  width: 60%;
   right: 0;
   height: 100%;
   top: 90px;
@@ -67,9 +67,8 @@ div {
   z-index: 1000;
 }
 .menu-mobile li {
-  margin: 12px;
+  margin: 16px;
   font-size: 18px;
-  text-align: center;
 }
 
 .profile-menu {
