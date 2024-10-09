@@ -4,7 +4,6 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const verifyToken = require('./verifyToken');
 
 const signupUserRouter = require('./routes/signupUser');
 const loginUserRouter = require('./routes/loginUser');
@@ -61,8 +60,8 @@ app.use('/signup/organizer', signupOrganizerRouter);
 app.use('/login/organizer', loginOrganizerRouter);
 
 // Käyttäjien muokkaamisreitit
-app.use('/manage/user', manageUserRouter);
-app.use('/manage/organizer', manageOrganizerRouter);
+app.use('/manage/user', manageUserRouter); //GET for getting one or all users or DELETE or PUT
+app.use('/manage/organizer', manageOrganizerRouter); //GET for getting one or all organizers or DELETE or PUT
 
 // Tapahtumareitit
 app.use('/create/event', createEventRouter); // POST route for creating events
