@@ -56,9 +56,9 @@ mongoose
 
 // Rekisteröinti- ja kirjautumisreitit
 app.use('/signup/user', signupUserRouter);
-app.use('/login/user', verifyToken, loginUserRouter);
+app.use('/login/user', loginUserRouter);
 app.use('/signup/organizer', signupOrganizerRouter);
-app.use('/login/organizer', verifyToken, loginOrganizerRouter);
+app.use('/login/organizer', loginOrganizerRouter);
 
 // Käyttäjien muokkaamisreitit
 app.use('/manage/user', manageUserRouter);
