@@ -36,7 +36,7 @@ const eventSchema = new mongoose.Schema({
     enum: ['Varattu', 'Tuotannossa'],
     required: true,
   },
-  organizerId: { type: Number, required: true },
+  organizerId: { type: String, required: true },
 });
 
 const Event = mongoose.model('Event', eventSchema);
