@@ -31,7 +31,9 @@ export class NavbarComponent {
   get authenticated(): boolean {
     return this.authService.isAuthenticated();
   }
-
+  get isOrganizer(): boolean {
+    return this.authService.isOrganizer();
+  }
   onProfileIconClick() {
     if (this.authenticated) {
       this.showProfileMenu = !this.showProfileMenu;

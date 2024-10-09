@@ -72,12 +72,15 @@ export class AuthService {
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem('currentOrganizer', JSON.stringify(organizer));
             localStorage.setItem('token', token);
+            localStorage.setItem('isOrganizer', 'true');
           }
           console.log(`Logged in as organizer: ${response.organizer.email}`);
         })
       );
   }
-
+  isOrganizer(): boolean {
+    return localStorage.getItem('isOrganizer') === 'true';
+  }
   // Stored login session from localstorage, could be removed if needed/wanted
   checkUserSession() {
     if (isPlatformBrowser(this.platformId)) {
