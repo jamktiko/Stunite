@@ -49,10 +49,14 @@
       <p><strong>Lisätietoa:</strong> {{ event().details }}</p>
     </div>
 
-    <div class="grid-item" style="display: flex; flex-direction: column">
+    <div
+      class="grid-item"
+      style="display: flex; flex-direction: column; text-align: center"
+    >
       <p>
         Lipunmyynti käynnissä:<br />
-        {{ event().ticketSaleStart }} - {{ event().ticketSaleEnd }}
+        klo {{ formatDateTime(event().ticketSaleStart) }} - klo
+        {{ formatDateTime(event().ticketSaleEnd) }}
       </p>
       <button style="font-size: 30px"><strong>Osta liput</strong></button>
     </div>
