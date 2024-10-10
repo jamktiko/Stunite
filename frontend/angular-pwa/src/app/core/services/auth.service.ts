@@ -54,7 +54,6 @@ export class AuthService {
   }
 
   // organizer login
-  // ehit this to work with tokens whne normal user login works
   loginAsOrganizer(email: string, password: string) {
     return this.http
       .post<{ message: string; token: string; organizer: any }>(
@@ -80,7 +79,7 @@ export class AuthService {
         })
       );
   }
- 
+
   // Stored login session from localstorage, could be removed if needed/wanted
   checkUserSession() {
     if (isPlatformBrowser(this.platformId)) {
@@ -94,7 +93,6 @@ export class AuthService {
         this.token = storedToken;
         console.log('Restored user session as:', user.email);
       } else if (storedOrganizer) {
-        // edit this when the normal usesr log in works
         const organizer = JSON.parse(storedOrganizer);
         this.isLoggedIn.set(true);
         this.currUser.set(organizer);
@@ -137,7 +135,10 @@ export class AuthService {
     console.log('Logged out');
   }
 
+  // get token from localstorage
   getToken(): string | null {
+    this.token = localStorage.getItem('token');
+    console.log('get tokeni:', this.token);
     return this.token;
   }
 }

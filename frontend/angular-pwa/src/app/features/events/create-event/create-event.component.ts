@@ -30,12 +30,12 @@ export class CreateEventComponent implements OnInit {
   ticketSaleStart: string = '';
   ticketSaleEnd: string = '';
   publishDateTime: string = '';
-  status: string = 'preliminary';
+  status: string = '';
   imageUrl: string = '';
   cities: string = '';
   organizerId: string = '';
   isEditMode: boolean = false;
-  eventId: number | null = null;
+  eventId: string | null = null;
 
   constructor(
     private eventService: EventService,
@@ -47,10 +47,10 @@ export class CreateEventComponent implements OnInit {
 
   ngOnInit() {
     const eventId = this.route.snapshot.paramMap.get('id');
-    if (eventId) {
+    if (eventId !== null) {
       this.isEditMode = true;
-      this.eventId = +eventId;
-      const event = this.eventService.getEventById(this.eventId.toString());
+      this.eventId = eventId;
+      const event = this.eventService.getEventById(this.eventId);
       if (event) {
         this.populateFormFields(event);
       }
@@ -90,6 +90,7 @@ export class CreateEventComponent implements OnInit {
   onSubmit() {
     const loggedInOrganizer = this.authService.getCurrUser();
     console.log(loggedInOrganizer);
+
     if (!loggedInOrganizer || !loggedInOrganizer.organizerId) {
       console.error('Organizer not logged in or missing organizerId.');
       return;
@@ -113,8 +114,8 @@ export class CreateEventComponent implements OnInit {
       details: this.details,
       imageUrl: this.imageUrl,
       ticketLink: this.ticketLink,
-      ticketSaleStart: this.ticketSaleStart,
-      ticketSaleEnd: this.ticketSaleEnd,
+      ticketSaleStart: this.formatDateTime(this.ticketSaleStart),
+      ticketSaleEnd: this.formatDateTime(this.ticketSaleEnd),
       publishDateTime: this.publishDateTime,
       status: this.status,
       organizerId: loggedInOrganizer.organizerId,
@@ -138,5 +139,32 @@ export class CreateEventComponent implements OnInit {
       return `${day}.${month}.${year}`;
     }
     return dateStr;
+  }
+
+  // formats inputs that have date and time
+  private formatDateTime(dateStr: string): string {
+    if (!dateStr) {
+      return 'Invalid date';
+    }
+
+    const parts = dateStr.split('T');
+    if (parts.length !== 2) {
+      return 'Invalid date';
+    }
+
+    const datePart = parts[0];
+    const timePart = parts[1];
+
+    const dateSegments = datePart.split('-');
+    if (dateSegments.length !== 3) {
+      return 'Invalid date';
+    }
+
+    const year = dateSegments[0];
+    const month = dateSegments[1].padStart(2, '0');
+    const day = dateSegments[2].padStart(2, '0');
+
+    const formattedDate = `${timePart} ${day}.${month}.${year}`;
+    return formattedDate;
   }
 }

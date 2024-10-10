@@ -10,14 +10,18 @@
     <hr />
     <div *ngIf="events.length > 0; else noEvents">
       <div *ngFor="let event of events" class="your-events">
-        <p>
-          <strong>{{ event.eventName }}</strong>
-        </p>
-        <button (click)="editEvent(event)">Muokkaa tapahtuman tietoja</button>
+        <div class="eventname">
+          <p>
+            <strong>{{ event.eventName }}</strong>
+          </p>
+        </div>
+        <div class="eventbuttons">
+          <button (click)="editEvent(event)">Muokkaa tapahtuman tietoja</button>
 
-        <button (click)="goToEventPage(event)">
-          Siirry tapahtuman sivulle <span class="arrow">&#8250;</span>
-        </button>
+          <button (click)="goToEventPage(event)">
+            Siirry tapahtuman sivulle <span class="arrow">&#8250;</span>
+          </button>
+        </div>
       </div>
     </div>
     <ng-template #noEvents>

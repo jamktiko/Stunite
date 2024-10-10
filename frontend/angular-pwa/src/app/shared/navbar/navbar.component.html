@@ -101,7 +101,13 @@
         <p>{{ email() }}</p>
       </div>
       <ul>
-        <li><a (click)="onProfileClick()">Oma profiili</a></li>
+        <ng-container *ngIf="isOrganizer; else normaluser">
+          <li><a routerLink="/organizer-view">Järjestäjä näkymä</a></li>
+        </ng-container>
+        <ng-template #normaluser>
+          <li><a (click)="onProfileClick()">Oma profiili</a></li>
+        </ng-template>
+
         <li><a>Suosikit</a></li>
         <li><a>Asetukset</a></li>
         <li><a (click)="logOut()">Kirjaudu ulos</a></li>
