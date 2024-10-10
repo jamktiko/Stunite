@@ -119,6 +119,7 @@ export class CreateEventComponent implements OnInit {
       publishDateTime: this.publishDateTime,
       status: this.status,
       organizerId: loggedInOrganizer.organizerId,
+      // organizer: loggedInOrganizer.organizationName,
     };
 
     if (this.isEditMode) {

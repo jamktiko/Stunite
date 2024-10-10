@@ -22,7 +22,11 @@
       <ng-container *ngIf="authenticated">
         <div class="mobile-nav-user">
           <p>Terve {{ username() }}</p>
-          <span class="material-symbols-outlined"> account_circle </span>
+          <img
+            class="profile-picture"
+            src="assets/unicorn.webp"
+            alt="Profile Picture"
+          />
         </div>
       </ng-container>
 
@@ -53,10 +57,10 @@
           <li><a (click)="onProfileClick()">Oma profiili</a></li>
           <hr width="100%" size="2" />
         </ng-template>
-        <li><a>Suosikit(Coming soon)</a></li>
+        <!-- <li><a>Suosikit(Coming soon)</a></li>
         <hr width="100%" size="2" />
         <li><a>Asetukset(Coming soon)</a></li>
-        <hr width="100%" size="2" />
+        <hr width="100%" size="2" /> -->
         <li>
           <div class="mobile-nav-logout">
             <a (click)="logOut()">Kirjaudu Ulos</a>
