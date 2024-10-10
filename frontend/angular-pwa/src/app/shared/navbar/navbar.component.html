@@ -16,10 +16,17 @@
       </li>
     </ul>
 
+    <!-- Mobile view -->
     <ul class="menu-mobile" *ngIf="menuOpen" (click)="onMenuClick()">
+      <!-- If logged in-->
       <ng-container *ngIf="authenticated">
-        <li>Terve {{ username() }}</li>
+        <div class="mobile-nav-user">
+          <p>Terve {{ username() }}</p>
+          <span class="material-symbols-outlined"> account_circle </span>
+        </div>
       </ng-container>
+
+      <!-- If not logged in -->
       <ng-container *ngIf="!authenticated">
         <div class="mobile-nav-user">
           <p>Terve, Vierailija</p>
@@ -36,20 +43,25 @@
       </li>
       <hr width="100%" size="2" />
 
+      <!--  -->
       <ng-container *ngIf="authenticated; else login">
-        <li><a (click)="onProfileClick()">Oma profiili</a></li>
-        <hr width="100%" size="2" />
-        <ng-container *ngIf="isOrganizer">
+        <ng-container *ngIf="isOrganizer; else normaluser">
           <li><a routerLink="/organizer-view">Järjestäjä näkymä</a></li>
           <hr width="100%" size="2" />
         </ng-container>
+        <ng-template #normaluser>
+          <li><a (click)="onProfileClick()">Oma profiili</a></li>
+          <hr width="100%" size="2" />
+        </ng-template>
         <li><a>Suosikit(Coming soon)</a></li>
         <hr width="100%" size="2" />
         <li><a>Asetukset(Coming soon)</a></li>
         <hr width="100%" size="2" />
         <li>
-          <a (click)="logOut()">Kirjaudu Ulos</a>
-          <span class="material-symbols-outlined"> logout </span>
+          <div class="mobile-nav-logout">
+            <a (click)="logOut()">Kirjaudu Ulos</a>
+            <span class="material-symbols-outlined"> logout </span>
+          </div>
         </li>
         <hr width="100%" size="2" />
       </ng-container>
@@ -66,7 +78,6 @@
       </ng-template>
     </ul>
 
-    <!-- Profiilikuvakkeen klikkaaminen: jos kirjautunut, näytä profiilivalikko; muuten avaa sisäänkirjautumismodaali -->
     <a class="login-icon" (click)="onProfileIconClick()">
       <span class="material-symbols-outlined"> account_circle </span>
     </a>
@@ -75,7 +86,6 @@
       menu
     </span>
 
-    <!-- Profiilivalikko näkyy vain, jos käyttäjä on kirjautunut sisään -->
     <div
       *ngIf="showProfileMenu"
       class="profile-menu"

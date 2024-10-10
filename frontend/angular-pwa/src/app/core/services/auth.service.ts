@@ -16,6 +16,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
   JwtHelper = new JwtHelperService();
   private isLoggedIn: WritableSignal<boolean> = signal(false);
+  private isOrganizer: WritableSignal<boolean> = signal(false);
   private currUser: WritableSignal<any | null> = signal(null);
 
   private token: string | null = null;
@@ -67,6 +68,7 @@ export class AuthService {
         tap((response) => {
           const organizer = response.organizer;
           const token = response.token;
+          this.isOrganizer.set(true);
           this.isLoggedIn.set(true);
           this.currUser.set(organizer);
           if (isPlatformBrowser(this.platformId)) {
@@ -78,9 +80,7 @@ export class AuthService {
         })
       );
   }
-  isOrganizer(): boolean {
-    return localStorage.getItem('isOrganizer') === 'true';
-  }
+ 
   // Stored login session from localstorage, could be removed if needed/wanted
   checkUserSession() {
     if (isPlatformBrowser(this.platformId)) {
@@ -98,6 +98,7 @@ export class AuthService {
         const organizer = JSON.parse(storedOrganizer);
         this.isLoggedIn.set(true);
         this.currUser.set(organizer);
+        this.isOrganizer.set(true);
         console.log('Restored organizer session as:', organizer.email);
       }
     }
@@ -107,6 +108,9 @@ export class AuthService {
     return this.isLoggedIn();
   }
 
+  getIsOrganizer(): boolean {
+    return this.isOrganizer();
+  }
   getCurrUser(): any {
     const user = this.currUser();
     if (!user && isPlatformBrowser(this.platformId)) {
@@ -124,6 +128,7 @@ export class AuthService {
   logout(): void {
     this.isLoggedIn.set(false);
     this.currUser.set(null);
+    this.isOrganizer.set(false);
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('currentUser');
       localStorage.removeItem('currentOrganizer');

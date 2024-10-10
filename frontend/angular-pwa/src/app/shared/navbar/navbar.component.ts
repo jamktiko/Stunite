@@ -32,7 +32,7 @@ export class NavbarComponent {
     return this.authService.isAuthenticated();
   }
   get isOrganizer(): boolean {
-    return this.authService.isOrganizer();
+    return this.authService.getIsOrganizer();
   }
   onProfileIconClick() {
     if (this.authenticated) {
