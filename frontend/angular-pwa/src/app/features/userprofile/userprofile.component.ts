@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 export class UserprofileComponent implements OnInit {
   lomake: FormGroup;
   valitutKohteet: string[] = [];
+  canEdit: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -53,6 +54,25 @@ export class UserprofileComponent implements OnInit {
     }
   }
 
+  enableEdit() {
+    this.canEdit = true;
+  }
+
+  cancelEdit() {
+    this.canEdit = false;
+    const currentUser = this.authService.getCurrUser();
+    if (currentUser) {
+      this.lomake.patchValue({
+        etunimi: currentUser.firstName,
+        sukunimi: currentUser.lastName,
+        sahkoposti: currentUser.email,
+        puhelin: currentUser.phoneNumber,
+        koulu: currentUser.koulu,
+        ala: currentUser.ala,
+        paikallisyhdistys: currentUser.paikallisyhdistys,
+      });
+    }
+  }
   logout() {
     this.authService.logout();
     this.router.navigate(['/home']);

@@ -20,6 +20,7 @@
               formControlName="etunimi"
               type="text"
               placeholder="Syötä etunimi"
+              [readonly]="!canEdit"
             />
           </div>
           <div class="form-field">
@@ -29,6 +30,7 @@
               formControlName="sukunimi"
               type="text"
               placeholder="Syötä sukunimi"
+              [readonly]="!canEdit"
             />
           </div>
           <div class="form-field">
@@ -38,6 +40,7 @@
               formControlName="sahkoposti"
               type="email"
               placeholder="Syötä sähköposti"
+              [readonly]="!canEdit"
             />
           </div>
           <div class="form-field">
@@ -47,6 +50,7 @@
               formControlName="puhelin"
               type="tel"
               placeholder="Syötä numero"
+              [readonly]="!canEdit"
             />
           </div>
           <div class="form-field">
@@ -56,6 +60,7 @@
               formControlName="koulu"
               type="text"
               placeholder="Syötä koulu"
+              [readonly]="!canEdit"
             />
           </div>
           <div class="form-field">
@@ -65,6 +70,7 @@
               formControlName="ala"
               type="text"
               placeholder="Syötä ala"
+              [readonly]="!canEdit"
             />
           </div>
           <div class="form-field">
@@ -74,12 +80,19 @@
               formControlName="paikallisyhdistys"
               type="text"
               placeholder="Syötä paikallisyhdistys"
+              [readonly]="!canEdit"
             />
           </div>
         </div>
       </div>
 
-      <button type="submit" class="button2">Muokkaa tietoja</button>
+      <ng-container *ngIf="canEdit; else editbutton">
+        <button class="button2">Tallenna tiedot</button>
+        <button (click)="cancelEdit()" class="button2">Peruuta</button>
+      </ng-container>
+      <ng-template #editbutton>
+        <button (click)="enableEdit()" class="button2">Muokkaa tietoja</button>
+      </ng-template>
     </form>
   </div>
   <div class="container">
@@ -105,6 +118,7 @@
       Valitsit mielenkiinnon kohteiksi: {{ valitutKohteet.join(", ") }}
     </p>
   </div>
-
-  <button (click)="logout()" class="logout-button">Kirjaudu ulos</button>
+  <div class="logout-button">
+    <button (click)="logout()">Kirjaudu ulos</button>
+  </div>
 </div>

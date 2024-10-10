@@ -130,7 +130,11 @@ h2 {
     width: 60%;
     margin-bottom: 10px;
   }
-
+  .logout-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .profile-image img {
     margin-bottom: 8px;
   }
