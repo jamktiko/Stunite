@@ -30,7 +30,7 @@ export class OrganizerViewComponent implements OnInit {
       console.log('Current Events:', currentEvents);
       this.events = currentEvents.filter((event) => {
         console.log(
-          `Checking event: ${event.eventName}, organizerId: ${event.organizerId}, currentUserId: ${currentUser.organizerId}`
+          `Checking event: ${event.eventName}, organizerId: ${event.organizerId}, currentUserId: ${currentUser.organizerId},  logged in user organizationName: ${currentUser.organizationName}`
         );
         return event.organizerId === currentUser.organizerId;
       });

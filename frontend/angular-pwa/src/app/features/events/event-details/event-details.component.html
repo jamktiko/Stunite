@@ -38,9 +38,10 @@
           {{ event().venue }}, {{ event().city }},
           {{ event().address }}
         </p>
-        <!-- <p>
-          {{ event()?.organizer }}
-        </p> -->
+        <p>
+          <span class="material-symbols-outlined"> supervisor_account </span>
+          {{ event()?.organizationName }}
+        </p>
         <p>
           <span class="material-symbols-outlined"> sell </span>
           {{ event().ticketprice.minticketprice }} -

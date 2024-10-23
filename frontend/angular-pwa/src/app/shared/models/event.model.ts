@@ -20,5 +20,5 @@ export interface Event {
   publishDateTime: string;
   status: string;
   organizerId: string;
-  // organizer?: string;
+  organizationName: string;
 }

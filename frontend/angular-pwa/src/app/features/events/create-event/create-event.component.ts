@@ -34,6 +34,7 @@ export class CreateEventComponent implements OnInit {
   imageUrl: string = '';
   cities: string = '';
   organizerId: string = '';
+  organizationName: string = '';
   isEditMode: boolean = false;
   eventId: string | null = null;
 
@@ -91,8 +92,14 @@ export class CreateEventComponent implements OnInit {
     const loggedInOrganizer = this.authService.getCurrUser();
     console.log(loggedInOrganizer);
 
-    if (!loggedInOrganizer || !loggedInOrganizer.organizerId) {
-      console.error('Organizer not logged in or missing organizerId.');
+    if (
+      !loggedInOrganizer ||
+      !loggedInOrganizer.organizerId ||
+      !loggedInOrganizer.organizationName
+    ) {
+      console.error(
+        'Organizer not logged in or missing organizerId. or organizationName'
+      );
       return;
     }
     const updatedEvent: Event = {
@@ -119,8 +126,22 @@ export class CreateEventComponent implements OnInit {
       publishDateTime: this.publishDateTime,
       status: this.status,
       organizerId: loggedInOrganizer.organizerId,
-      // organizer: loggedInOrganizer.organizationName,
+      organizationName: loggedInOrganizer.organizationName,
     };
+    console.log('Updated Event Payload:', updatedEvent);
+
+    if (
+      !updatedEvent.eventName ||
+      !updatedEvent.date ||
+      !updatedEvent.startingTime ||
+      !updatedEvent.venue ||
+      !updatedEvent.city ||
+      !updatedEvent.organizerId ||
+      !updatedEvent.organizationName
+    ) {
+      console.error('Missing required fields in event:', updatedEvent);
+      return;
+    }
 
     if (this.isEditMode) {
       this.eventService.editEvent(updatedEvent);
