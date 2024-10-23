@@ -23,6 +23,7 @@ router.post('/', verifyToken, async (req, res) => {
     publishDateTime,
     status,
     organizerId,
+    organizationName,
   } = req.body;
 
   // Tarkista pakolliset kentät
@@ -35,7 +36,8 @@ router.post('/', verifyToken, async (req, res) => {
     !city ||
     !ticketprice ||
     !status ||
-    !organizerId
+    !organizerId ||
+    !organizationName
   ) {
     return res
       .status(400)
@@ -62,6 +64,7 @@ router.post('/', verifyToken, async (req, res) => {
       publishDateTime,
       status,
       organizerId,
+      organizationName,
     });
 
     await newEvent.save();

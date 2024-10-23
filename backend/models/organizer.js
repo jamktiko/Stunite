@@ -37,6 +37,7 @@ const organizerSchema = new mongoose.Schema({
   fieldsOfStudy: {
     type: [String],
   },
+  organizationName: { type: String, required: true },
 });
 
 const Organizer = mongoose.model('Organizer', organizerSchema);
