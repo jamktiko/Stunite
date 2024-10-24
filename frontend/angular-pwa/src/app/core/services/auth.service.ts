@@ -5,9 +5,9 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
-import { tap } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
@@ -23,6 +23,8 @@ export class AuthService {
 
   private apiUrlLoginUser = 'http://localhost:3001/login/user';
   private apiUrlLoginOrganizer = 'http://localhost:3001/login/organizer';
+
+  private apiUrlManageUser = 'http://localhost:3001/manage/user';
 
   constructor(
     private http: HttpClient,
@@ -78,6 +80,33 @@ export class AuthService {
           console.log(`Logged in as organizer: ${response.organizer.email}`);
         })
       );
+  }
+
+
+  // Doesnt work yet
+  updateUser(updatedData: any) {
+    const token = this.getToken();
+    if (!token) {
+      console.error('No token found');
+      return;
+    }
+
+    const headers = new HttpHeaders().set('x-access-token', token);
+
+    this.http
+      .put<any>(this.apiUrlManageUser, updatedData, { headers })
+      .pipe(
+        tap((updatedUser) => {
+          console.log('User updated:', updatedUser);
+          this.currUser.set(updatedUser);
+          localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+        }),
+        catchError((error) => {
+          console.error('Update user failed', error);
+          return throwError(() => error);
+        })
+      )
+      .subscribe();
   }
 
   // Stored login session from localstorage, could be removed if needed/wanted
