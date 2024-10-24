@@ -11,6 +11,7 @@ import { OrganizerViewComponent } from './features/organizer-view/organizer-view
 import { CreateEventComponent } from './features/events/create-event/create-event.component';
 import { AssociationsDetailComponent } from './features/associations/associations-detail/associations-detail.component';
 import { RegisterComponent } from './features/register/register.component';
+import { OrganizerCalendarComponent } from './features/organizer-calendar/organizer-calendar.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -32,5 +33,9 @@ export const routes: Routes = [
   },
   { path: 'organizer-view/create-event', component: CreateEventComponent },
   { path: 'organizer-view/edit-event/:id', component: CreateEventComponent },
+  {
+    path: 'organizer-view/organizer-calendar',
+    component: OrganizerCalendarComponent,
+  },
   { path: 'association/:id', component: AssociationsDetailComponent },
 ];
