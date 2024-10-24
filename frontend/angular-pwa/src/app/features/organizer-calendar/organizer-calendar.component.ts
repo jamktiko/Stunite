@@ -43,7 +43,7 @@ export class OrganizerCalendarComponent implements OnInit {
         // if event date has been set/confirmed already the color will be red
         // and if the event date is not yet confirmed but reserved the color will be blue
         // (changes color when they have been decided)
-        color: event.status === 'Varattu' ? 'red' : 'blue',
+        color: event.status === 'Varattu' ? '#f0d37c' : '#fe7775',
       }));
 
       console.log('Updated calendar events:', this.calendarOptions.events);

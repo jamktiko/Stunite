@@ -1,2 +1,21 @@
-<h1>Järjestäjäkalenteri</h1>
-<full-calendar [options]="calendarOptions"></full-calendar>
+<div class="page-container">
+  <h1>Järjestäjäkalenteri</h1>
+
+  <full-calendar
+    class="full-calendar"
+    [options]="calendarOptions"
+  ></full-calendar>
+
+  <div class="color-info-div">
+    <div class="color-info">
+      <!-- status: Tuotannossa -->
+      <p>Vahvistettu tapahtumavaraus</p>
+      <span class="dot-confirmed"></span>
+    </div>
+    <div class="color-info">
+      <!-- status: Varattu -->
+      <p>Alustava tapahtumavaraus</p>
+      <span class="dot-notconfirmed"></span>
+    </div>
+  </div>
+</div>

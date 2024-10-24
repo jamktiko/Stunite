@@ -1,0 +1,38 @@
+.dot-confirmed {
+  height: 25px;
+  width: 25px;
+  background-color: #fe7775;
+  border-radius: 50%;
+}
+
+.dot-notconfirmed {
+  height: 25px;
+  width: 25px;
+  background-color: #f0d37c;
+  border-radius: 50%;
+}
+
+.color-info {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  gap: 18px;
+}
+
+.color-info-div {
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+}
+
+.full-calendar {
+  margin: 5%;
+  max-width: 1500px;
+  max-height: 800px;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
