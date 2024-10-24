@@ -26,7 +26,7 @@ export class OrganizerViewComponent implements OnInit {
     const currentUser = this.authService.getCurrUser();
     console.log('Current User:', currentUser);
     if (currentUser) {
-      const currentEvents = this.eventService.getEvents()();
+      const currentEvents = this.eventService.getAllEvents()();
       console.log('Current Events:', currentEvents);
       this.events = currentEvents.filter((event) => {
         console.log(

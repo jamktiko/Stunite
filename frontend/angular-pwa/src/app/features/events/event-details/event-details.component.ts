@@ -21,7 +21,7 @@ export class EventDetailsComponent implements OnInit {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id) {
       this.event = computed(() => {
-        const events = this.eventService.getEvents()();
+        const events = this.eventService.getAllEvents()();
         const foundEvent = events.find((e) => e._id === id);
         return foundEvent;
       });

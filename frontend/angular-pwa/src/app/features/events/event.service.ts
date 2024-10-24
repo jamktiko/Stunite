@@ -33,8 +33,16 @@ export class EventService {
   }
 
   // signal-based getter for events
-  getEvents(): WritableSignal<Event[]> {
+  getAllEvents(): WritableSignal<Event[]> {
     return this.eventsSignal;
+  }
+  // signal-based getter for only published events
+  getPublishedEvents(): WritableSignal<Event[]> {
+    return signal(
+      this.eventsSignal().filter(
+        (event) => new Date(event.publishDateTime) <= new Date()
+      )
+    );
   }
 
   getEventById(id: string): Event | undefined {

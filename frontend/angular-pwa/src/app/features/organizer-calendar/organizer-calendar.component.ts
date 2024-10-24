@@ -25,7 +25,7 @@ export class OrganizerCalendarComponent implements OnInit {
 
   ngOnInit(): void {
     // get event signal from event service
-    this.events = this.eventService.getEvents();
+    this.events = this.eventService.getAllEvents();
     // call eventsUpdated that loads the events in to the calendar
     this.eventsUpdated();
   }

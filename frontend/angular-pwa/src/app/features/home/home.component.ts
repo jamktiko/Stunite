@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
 
     this.featuredEvents = computed(() =>
-      this.eventService.getEvents()().slice(0, 4)
+      this.eventService.getPublishedEvents()().slice(0, 4)
     );
 
     this.featuredAssociations = computed(() =>
