@@ -88,11 +88,10 @@ export class UserprofileComponent implements OnInit {
     console.log('Valitut mielenkiinnon kohteet:', this.valitutKohteet);
   }
 
-  // not yet working with backend
   onSubmit() {
     if (this.lomake.valid) {
-      const userId = this.authService.getCurrUser()?.id;
       console.log('Päivitetään käyttäjätiedot:', this.lomake.value);
+      this.authService.updateUser(this.lomake.value);
     } else {
       console.error('Tarkista lomake!');
     }

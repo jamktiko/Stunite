@@ -58,6 +58,10 @@
       style="display: flex; flex-direction: column; text-align: center"
     >
       <p>
+        Tapahtuman julkaisuaika: <br />
+        {{ formatDateTime(event().publishDateTime) }}
+      </p>
+      <p>
         Lipunmyynti käynnissä:<br />
         klo {{ formatDateTime(event().ticketSaleStart) }} - klo
         {{ formatDateTime(event().ticketSaleEnd) }}

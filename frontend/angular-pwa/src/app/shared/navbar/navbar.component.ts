@@ -27,14 +27,15 @@ export class NavbarComponent {
   email = computed(() => this.authService.getCurrUser()?.email || '');
 
   constructor(private authService: AuthService, private router: Router) {}
-
+  //
   get authenticated(): boolean {
     return this.authService.isAuthenticated();
   }
+  //
   get isOrganizer(): boolean {
-    console.log(this.authService.getIsOrganizer());
-    return this.authService.getIsOrganizer();
+    return this.authenticated && this.authService.getIsOrganizer();
   }
+
   onProfileIconClick() {
     if (this.authenticated) {
       this.showProfileMenu = !this.showProfileMenu;

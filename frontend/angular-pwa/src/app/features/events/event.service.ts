@@ -45,11 +45,15 @@ export class EventService {
     );
   }
 
-  getEventById(id: string): Event | undefined {
+  // getEventById(id: string): Event | undefined {
+  //   const events = this.eventsSignal();
+  //   return events.find((event) => event._id === id);
+  // }
+  getEventById(id: string | null): Event | undefined {
+    if (!id) return undefined;
     const events = this.eventsSignal();
     return events.find((event) => event._id === id);
   }
-
   // create event
   createEvent(newEvent: Event): void {
     // get token

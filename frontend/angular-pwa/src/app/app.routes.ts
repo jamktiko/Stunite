@@ -12,6 +12,7 @@ import { CreateEventComponent } from './features/events/create-event/create-even
 import { AssociationsDetailComponent } from './features/associations/associations-detail/associations-detail.component';
 import { RegisterComponent } from './features/register/register.component';
 import { OrganizerCalendarComponent } from './features/organizer-calendar/organizer-calendar.component';
+import { EventGuard } from './core/guards/event-guard.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -20,7 +21,11 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'associations', component: AssociationsComponent },
   { path: 'userprofile', component: UserprofileComponent },
-  { path: 'events/:id', component: EventDetailsComponent },
+  {
+    path: 'events/:id',
+    component: EventDetailsComponent,
+    canActivate: [EventGuard],
+  },
   // {
   //   path: 'admin-view',
   //   component: AdminViewComponent,

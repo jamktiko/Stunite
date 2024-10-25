@@ -9,8 +9,9 @@ export const organizerGuard: CanActivateFn = (route, state) => {
 
   const isAuthenticated = authService.isAuthenticated();
   const currentUser = authService.getCurrUser();
+  const isOrganizer = authService.getIsOrganizer();
 
-  if (isAuthenticated && currentUser && currentUser.organizationName) {
+  if (isAuthenticated && currentUser && isOrganizer) {
     return true;
   }
   router.navigate(['/events']);
