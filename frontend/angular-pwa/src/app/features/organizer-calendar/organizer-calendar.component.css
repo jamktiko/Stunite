@@ -2,7 +2,9 @@
   height: 25px;
   width: 25px;
   background-color: #fe7775;
+  margin-right: 10px;
   border-radius: 50%;
+  aspect-ratio: 1;
 }
 
 .dot-notconfirmed {
@@ -10,6 +12,8 @@
   width: 25px;
   background-color: #f0d37c;
   border-radius: 50%;
+  margin-right: 10px;
+  aspect-ratio: 1;
 }
 
 .color-info {
@@ -17,12 +21,15 @@
   text-align: center;
   align-items: center;
   gap: 18px;
+  font-size: 24px;
+  position: relative;
 }
 
 .color-info-div {
   display: flex;
   gap: 50px;
   justify-content: center;
+  margin-bottom: 34px;
 }
 
 .full-calendar {
@@ -35,4 +42,69 @@
   display: flex;
   flex-direction: column;
   text-align: center;
+  margin: 0px 80px;
+}
+
+.event-list-line {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  border-bottom: #cccccc solid 1px;
+  padding-left: 28px;
+  font-size: 24px;
+  cursor: pointer;
+}
+.event-list-header {
+  font-size: 36px;
+  display: block;
+  text-align: left;
+  margin-bottom: 0px;
+  padding-left: 24px;
+  padding-bottom: 12px;
+  border-bottom: solid 3px #cccccc;
+}
+.event-list {
+  border: solid 3px #b2b2b2;
+  border-radius: 20px;
+}
+
+.material-symbols-outlined.confirmed-info:hover + .color-info-hover,
+.material-symbols-outlined.notconfirmed-info:hover + .color-info-hover {
+  visibility: visible;
+}
+
+.color-info-hover {
+  visibility: hidden;
+  width: 150px;
+  font-size: 14px;
+  background-color: #ffffff;
+  padding: 5px 8px;
+  border: solid 2px #cccccc;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1000;
+  left: 105%;
+  bottom: 20%;
+}
+
+/*  calendar event hover element css */
+.event-calendar-hover {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: flex;
+  text-align: left;
+  flex-direction: column;
+  width: auto;
+  max-width: 200px;
+}
+
+.button2 {
+  max-height: 100px;
+  max-width: auto;
+  font-size: 24px;
 }

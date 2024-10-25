@@ -4,6 +4,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { CalendarOptions } from '@fullcalendar/core';
 import { EventService } from '../events/event.service';
+import { Router } from '@angular/router';
+import { Event } from '../../shared/models/event.model';
 
 @Component({
   selector: 'app-organizer-calendar',
@@ -14,6 +16,9 @@ import { EventService } from '../events/event.service';
 })
 export class OrganizerCalendarComponent implements OnInit {
   events!: Signal<any[]>;
+  tooltipVisible = false;
+  tooltipContent = '';
+  tooltipPosition = { top: '0px', left: '0px' };
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
@@ -25,42 +30,63 @@ export class OrganizerCalendarComponent implements OnInit {
         window.location.href = info.event.url;
       }
     },
+    eventMouseEnter: (info) => this.onEventMouseEnter(info),
+    eventMouseLeave: () => this.onEventMouseLeave(),
   };
 
-  constructor(private eventService: EventService) {}
+  constructor(private eventService: EventService, private router: Router) {}
 
   ngOnInit(): void {
-    // get event signal from event service
     this.events = this.eventService.getAllEvents();
-    // call eventsUpdated that loads the events in to the calendar
     this.eventsUpdated();
   }
 
   eventsUpdated() {
-    // update calendar with signal
     const eventsData = this.events();
-    console.log('Current events data in eventsUpdated:', eventsData); // Log current events data
-
     if (eventsData.length > 0) {
-      console.log('Setting calendar events:', eventsData);
       this.calendarOptions.events = eventsData.map((event) => ({
         title: event.eventName,
         date: this.formatDateToISO(event.date),
-        // if event date has been set/confirmed already the color will be red
-        // and if the event date is not yet confirmed but reserved the color will be blue
-        // (changes color when they have been decided)
-        color: event.status === 'Varattu' ? '#f0d37c' : '#fe7775',
+        color: event.status === 'Varattu' ? '#fe7775' : '#f0d37c',
         url: `/events/${event._id}`,
+        extendedProps: {
+          startingTime: event.startingTime,
+          venue: event.venue,
+          date: event.date,
+          organizationName: event.organizationName,
+        },
       }));
-
-      console.log('Updated calendar events:', this.calendarOptions.events);
-    } else {
-      console.log('No events to display.');
     }
   }
 
-  // formats dates dd.mm.yyyy to ISO format (YYYY-MM-DD)
-  // this is needed for them to be able to load in to the calendar
+  onEventMouseEnter(info: any): void {
+    const eventDetails = info.event.extendedProps;
+    this.tooltipContent = `
+ <strong><span class="tooltip-title">${info.event.title}</span></strong><br>
+    <strong>Aika:</strong> ${eventDetails.date} klo ${eventDetails.startingTime} <br>
+    <strong>Paikka:</strong> ${eventDetails.venue} <br>
+    <strong>Järjestäjä:</strong> ${eventDetails.organizationName}
+  `;
+    this.tooltipVisible = true;
+
+    const rect = info.el.getBoundingClientRect();
+    this.tooltipPosition = {
+      top: `${rect.bottom + window.scrollY + 10}px`,
+      left: `${rect.left + window.scrollX / rect.width}px`,
+    };
+  }
+
+  onEventMouseLeave(): void {
+    this.tooltipVisible = false;
+  }
+
+  goToCreateEvent() {
+    this.router.navigate(['/organizer-view/create-event']);
+  }
+  goToEventPage(event: Event) {
+    this.router.navigate(['/events', event._id]);
+  }
+
   private formatDateToISO(dateStr: string): string {
     const [day, month, year] = dateStr.split('.');
     return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;

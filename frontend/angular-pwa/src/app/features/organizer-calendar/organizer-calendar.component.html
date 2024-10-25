@@ -6,16 +6,49 @@
     [options]="calendarOptions"
   ></full-calendar>
 
+  <div
+    *ngIf="tooltipVisible"
+    class="event-calendar-hover"
+    [ngStyle]="{ top: tooltipPosition.top, left: tooltipPosition.left }"
+    [innerHTML]="tooltipContent"
+  ></div>
+
   <div class="color-info-div">
     <div class="color-info">
-      <!-- status: Tuotannossa -->
-      <p>Vahvistettu tapahtumavaraus</p>
       <span class="dot-confirmed"></span>
+      <p>Vahvistettu tapahtumavaraus</p>
+      <span class="material-symbols-outlined confirmed-info"> help </span>
+      <span class="color-info-hover">Tapahtuman tiedot on lyöty lukkoon.</span>
     </div>
     <div class="color-info">
-      <!-- status: Varattu -->
-      <p>Alustava tapahtumasuunnitelma</p>
       <span class="dot-notconfirmed"></span>
+      <p>Alustava tapahtumasuunnitelma</p>
+      <span class="material-symbols-outlined notconfirmed-info"> help </span>
+      <span class="color-info-hover"
+        >Tapahtuman tiedot (esim. aika tai paikka) voivat vielä muuttua.</span
+      >
+    </div>
+    <button class="button2" (click)="goToCreateEvent()">
+      Luo uusi tapahtuma
+    </button>
+  </div>
+
+  <div class="event-list">
+    <p class="event-list-header">TAPAHTUMAT:</p>
+    <div *ngFor="let event of events()">
+      <div class="event-list-line" (click)="goToEventPage(event)">
+        <span
+          [ngClass]="{
+            'dot-confirmed': event.status === 'Tuotannossa',
+            'dot-notconfirmed': event.status === 'Varattu'
+          }"
+        ></span>
+        <p>{{ event.date }} klo {{ event.startingTime }}</p>
+        <p>
+          <strong>{{ event.eventName }}</strong>
+        </p>
+        <p>{{ event.venue }}, {{ event.city }}, {{ event.address }}</p>
+      </div>
     </div>
   </div>
 </div>
