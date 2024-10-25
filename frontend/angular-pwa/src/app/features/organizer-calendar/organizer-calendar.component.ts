@@ -1,7 +1,7 @@
 import { Component, OnInit, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import dayGridPlugin from '@fullcalendar/daygrid'; // Plugin for day grid view
+import dayGridPlugin from '@fullcalendar/daygrid';
 import { CalendarOptions } from '@fullcalendar/core';
 import { EventService } from '../events/event.service';
 
@@ -19,6 +19,12 @@ export class OrganizerCalendarComponent implements OnInit {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin],
     events: [],
+    eventClick: (info) => {
+      info.jsEvent.preventDefault();
+      if (info.event.url) {
+        window.location.href = info.event.url;
+      }
+    },
   };
 
   constructor(private eventService: EventService) {}
@@ -44,6 +50,7 @@ export class OrganizerCalendarComponent implements OnInit {
         // and if the event date is not yet confirmed but reserved the color will be blue
         // (changes color when they have been decided)
         color: event.status === 'Varattu' ? '#f0d37c' : '#fe7775',
+        url: `/events/${event._id}`,
       }));
 
       console.log('Updated calendar events:', this.calendarOptions.events);
