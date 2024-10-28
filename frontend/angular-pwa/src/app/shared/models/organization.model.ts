@@ -1,34 +1,23 @@
 export interface Organizer {
-  id: number;
-  organizerRegistration: {
-    email: string;
-    contactPerson: {
-      firstName: string;
-      lastName: string;
-      phone: string;
-    };
-  };
-  organizationPublicInfo: {
-    name: string;
-    customerServiceEmail: string;
-    phone: string;
-    website: string;
-    description: string;
-    address: {
-      street: string;
-      postalCode: string;
-      city: string;
-    };
-  };
-  organizationAdditionalInfo: {
-    officialName: string;
-    organizationType: string;
-    registrationNumber: string;
-    billingAddress: {
-      street: string;
-      postalCode: string;
-      city: string;
-    };
-    invoiceAddress: string;
-  };
+  id: string;
+  organizerId: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  organizationName: string;
+  customerServiceEmail: string;
+  organizationPhoneNumber?: string;
+  website?: string;
+  description?: string;
+  address: string;
+  postalCode: string;
+  city: string;
+  officialName: string;
+  organizationType: string;
+  businessId: string;
+  billingAddress: string;
+  paymentAddress: string;
+  password: string;
+  fieldsOfStudy?: string[];
 }

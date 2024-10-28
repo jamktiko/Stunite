@@ -23,7 +23,6 @@ export class EventService {
       .get<Event[]>(this.apiUrl)
       .pipe(
         tap((events) => {
-          console.log('Fetched events:', events);
           this.eventsSignal.set(events);
         })
       )

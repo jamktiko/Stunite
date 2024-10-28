@@ -20,7 +20,6 @@ export class AssociationsComponent implements OnInit {
   constructor(private associationService: AssociationService) {}
 
   ngOnInit(): void {
-    // Fetch associations from the service and store in a signal
     this.associationData = this.associationService.getAssociations();
 
     console.log('Loaded associations: ', this.associationData());
@@ -28,13 +27,14 @@ export class AssociationsComponent implements OnInit {
     this.filteredAssociationData = computed(() => {
       const search = this.searchTerm().toLowerCase();
       console.log('Current Search Term:', search);
-      const filteredAssociations = this.associationData().filter((association) =>
-        association.organizationPublicInfo.name.toLowerCase().includes(search)
+      const filteredAssociations = this.associationData().filter(
+        (association) =>
+          association.organizationName
+            .toLowerCase()
+            .includes(search)
       );
       console.log('Filtered Associations:', filteredAssociations);
       return filteredAssociations;
     });
   }
-
-
 }

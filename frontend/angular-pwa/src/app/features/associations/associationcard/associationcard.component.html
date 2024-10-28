@@ -1,10 +1,15 @@
-<div class="associationcard" [routerLink]="['/association', association.id]">
+<div
+  class="associationcard"
+  [ngClass]="{ 'image-only': onlyImage }"
+  [routerLink]="['/associations', association._id]"
+>
   <img
     [src]="association.imageUrl || 'assets/placeholder.png'"
     alt="Association image"
     class="associationimage"
+    onerror="this.src='assets/placeholder.png'"
   />
   <div class="associationcard-info">
-    <h3>{{ association.organizationPublicInfo.name }}</h3>
+    <h3 *ngIf="!onlyImage">{{ association.organizationName }}</h3>
   </div>
 </div>

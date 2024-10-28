@@ -1,6 +1,6 @@
 <div class="association-page">
-  <p class="name">{{ association?.organizationPublicInfo?.name }}</p>
-  <div *ngIf="association" class="association-container">
+  <p class="name">{{ association()?.organizationName }}</p>
+  <div *ngIf="association()" class="association-container">
     <div class="pic">
       <img
         src="../assets/konkurssi.png"
@@ -10,20 +10,20 @@
     </div>
     <div class="association-info">
       <p>
-        {{ association.organizationPublicInfo.address.street }},
-        {{ association.organizationPublicInfo.address.city }},
-        {{ association.organizationPublicInfo.address.postalCode }}
+        {{ association()?.city }}, {{ association()?.address }},
+        {{ association()?.postalCode }}
       </p>
-      <p>{{ association.organizationPublicInfo.website }}</p>
-      <p>{{ association.organizerRegistration.email }}</p>
+      <p>{{ association()?.website }}</p>
+      <p>{{ association()?.email }}</p>
     </div>
   </div>
   <div>
     <p><strong>Kuvaus</strong></p>
-    <p>{{ association?.organizationPublicInfo?.description }}</p>
+    <p>{{ association()?.description }}</p>
   </div>
   <div>
     <p><strong>Koulutusalat</strong></p>
+
   </div>
   <div>
     <p><strong>Tulevat tapahtumat</strong></p>
@@ -32,3 +32,4 @@
     <p><strong>Menneet tapahtumat</strong></p>
   </div>
 </div>
+{{ association() }}

@@ -6,7 +6,8 @@
         <input
           type="text"
           placeholder="Hae yhteisöjä"
-          [(ngModel)]="searchTerm"
+          [ngModel]="searchTerm()"
+          (ngModelChange)="searchTerm.set($event)"
         />
       </div>
     </div>

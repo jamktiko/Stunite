@@ -6,6 +6,7 @@ import { CalendarOptions } from '@fullcalendar/core';
 import { EventService } from '../events/event.service';
 import { Router } from '@angular/router';
 import { Event } from '../../shared/models/event.model';
+import fiLocale from '@fullcalendar/core/locales/fi'; // Make sure this import is correct
 
 @Component({
   selector: 'app-organizer-calendar',
@@ -23,7 +24,9 @@ export class OrganizerCalendarComponent implements OnInit {
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin],
+    locales: [fiLocale],
     events: [],
+    firstDay: 1,
     eventClick: (info) => {
       info.jsEvent.preventDefault();
       if (info.event.url) {

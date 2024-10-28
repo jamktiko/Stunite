@@ -42,5 +42,5 @@ export const routes: Routes = [
     path: 'organizer-view/organizer-calendar',
     component: OrganizerCalendarComponent,
   },
-  { path: 'association/:id', component: AssociationsDetailComponent },
+  { path: 'associations/:id', component: AssociationsDetailComponent },
 ];

@@ -1,35 +1,49 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { Organizer } from '../../shared/models/organization.model';
-import { InMemoryDataService } from '../../shared/in-memory-services/in-memory-data.service';
+import { HttpClient } from '@angular/common/http';
+import { catchError, Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AssociationService {
-  private associationsSignal: WritableSignal<Organizer[]>;
+  private apiUrl = 'http://localhost:3001/manage/organizer/'; // GET
+  private associationsSignal: WritableSignal<Organizer[]> = signal([]);
 
-  constructor(private inMemoryDataService: InMemoryDataService) {
-
-    this.associationsSignal = signal(this.loadAssociations());
+  constructor(private http: HttpClient) {
+    this.loadAssociations();
   }
-
-  private loadAssociations(): Organizer[] {
-    return this.inMemoryDataService.getOrganizers()();
+  private loadAssociations(): void {
+    this.http
+      .get<Organizer[]>(this.apiUrl)
+      .pipe(
+        tap((organizers) => {
+          this.associationsSignal.set(organizers);
+        })
+      )
+      .subscribe(() => {
+        console.log('Organizers loaded into signal', this.associationsSignal());
+      });
   }
 
   getAssociations(): WritableSignal<Organizer[]> {
     return this.associationsSignal;
   }
 
-  getAssociationById(id: string): Organizer | undefined {
-    return this.associationsSignal().find(
-      (assoc) => assoc.id.toString() === id
+  getAssociationById(id: string): Observable<Organizer | null> {
+    if (!id) {
+      return of(null);
+    }
+    const url = `${this.apiUrl}${id}`;
+    return this.http.get<Organizer>(url).pipe(
+      tap((association) => {
+        console.log('Fetched association:', association);
+      }),
+      catchError((error) => {
+        console.error('Error fetching association by ID:', error);
+        return of(null);
+      })
     );
   }
 
-  createOrganizer(newOrganizer: Organizer) {
-    const currentAssociations = this.associationsSignal();
-    this.associationsSignal.set([...currentAssociations, newOrganizer]);
-    this.inMemoryDataService.createOrganizer(newOrganizer);
-  }
 }

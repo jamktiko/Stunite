@@ -52,8 +52,8 @@ export class OrganizerViewComponent implements OnInit {
   goToCreateEvent() {
     this.router.navigate(['/organizer-view/create-event']);
   }
-  goToOrganizerCalendar(){
-    this.router.navigate(['/organizer-view/organizer-calendar'])
+  goToOrganizerCalendar() {
+    this.router.navigate(['/organizer-view/organizer-calendar']);
   }
 
   // !!! delete this later
