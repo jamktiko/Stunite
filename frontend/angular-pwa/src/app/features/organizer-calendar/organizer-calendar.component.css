@@ -47,12 +47,18 @@
 
 .event-list-line {
   display: flex;
-  gap: 30px;
   align-items: center;
   border-bottom: #cccccc solid 1px;
   padding-left: 28px;
   font-size: 24px;
   cursor: pointer;
+  gap: 10px;
+}
+
+.event-list-text {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
 }
 .event-list-header {
   font-size: 36px;
@@ -119,6 +125,7 @@
   h1 {
     font-size: 58px;
   }
+
   .page-container {
     margin: 0 20px;
   }
@@ -131,6 +138,22 @@
     font-size: 16px;
   }
 
+  .event-list-line {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    font-size: 16px;
+  }
+
+  .event-list-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 15px 30px 15px 0px;
+  }
+  .event-list-text p {
+    margin: 0;
+  }
   .full-calendar {
     width: 400;
     height: 700px;

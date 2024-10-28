@@ -43,11 +43,13 @@
             'dot-notconfirmed': event.status === 'Varattu'
           }"
         ></span>
-        <p>{{ event.date }} klo {{ event.startingTime }}</p>
-        <p>
-          <strong>{{ event.eventName }}</strong>
-        </p>
-        <p>{{ event.venue }}, {{ event.city }}, {{ event.address }}</p>
+        <div class="event-list-text">
+          <p>{{ event.date }} klo {{ event.startingTime }}</p>
+          <p>
+            <strong>{{ event.eventName }}</strong>
+          </p>
+          <p>{{ event.venue }}, {{ event.city }}, {{ event.address }}</p>
+        </div>
       </div>
     </div>
   </div>
