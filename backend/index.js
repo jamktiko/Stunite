@@ -19,10 +19,12 @@ const app = express();
 app.use(cookieParser());
 
 app.use(express.json());
+app.use(express.static(__dirname + '/dist/angular-pwa'));
 app.use(
   cors({
-    origin: 'http://localhost:4200', // Allow requests from your frontend
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify the allowed HTTP methods
+    origin: process.env.FRONTEND_URL || 'http://localhost:4200',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
   })
 );
 app.use(express.static('dist'));
@@ -31,6 +33,7 @@ app.use(
     secret: 'salausarvo', // Salausavain, jota käytetään session id:n salaamiseen.
     cookie: {
       maxAge: 600000, // Keksi vanhenee 10 minuutin (600 000 millisekuntia) jälkeen.
+      secure: process.env.NODE_ENV === 'production', // Käytä secure=true vain HTTPS:n kanssa
     },
     resave: true, // Tallentaa session, vaikka sitä ei olisi muokattu pyynnön aikana.
     saveUninitialized: true, // Tallentaa session, vaikka sitä ei ole alustettu (eli session-objekti luodaan jokaiselle käyttäjälle).
