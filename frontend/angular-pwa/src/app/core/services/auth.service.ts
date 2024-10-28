@@ -9,6 +9,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { catchError, tap, throwError } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { User } from '../../shared/models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -49,8 +50,9 @@ export class AuthService {
           this.isLoggedIn.set(true);
           localStorage.setItem('currentUser', JSON.stringify(user));
           localStorage.setItem('token', token);
+          localStorage.setItem('userId', user.id);
 
-          console.log(`Logged in as: ${user.email}`);
+          console.log(`Logged in as(id): ${user.id}`);
         })
       );
   }
@@ -82,9 +84,7 @@ export class AuthService {
       );
   }
 
-
-  // Doesnt work yet
-  updateUser(updatedData: any) {
+  editUser(updatedUser: User): void {
     const token = this.getToken();
     if (!token) {
       console.error('No token found');
@@ -92,18 +92,17 @@ export class AuthService {
     }
 
     const headers = new HttpHeaders().set('x-access-token', token);
+    const url = `${this.apiUrlManageUser}/${updatedUser.id}`; 
 
     this.http
-      .put<any>(this.apiUrlManageUser, updatedData, { headers })
+      .put<User>(url, updatedUser, { headers })
       .pipe(
-        tap((updatedUser) => {
-          console.log('User updated:', updatedUser);
-          this.currUser.set(updatedUser);
-          localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+        tap((editedUser) => {
+          this.currUser.set(editedUser);
         }),
         catchError((error) => {
-          console.error('Update user failed', error);
-          return throwError(() => error);
+          console.error('Päivitys epäonnistui:', error);
+          return throwError(error);
         })
       )
       .subscribe();

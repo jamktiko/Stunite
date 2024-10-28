@@ -43,6 +43,7 @@ router.post('/', async (req, res) => {
       message: 'Login successful',
       token, // Palauta token vastauksessa
       user: {
+        id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,

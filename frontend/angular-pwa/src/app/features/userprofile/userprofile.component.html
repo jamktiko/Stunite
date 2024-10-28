@@ -87,17 +87,21 @@
       </div>
 
       <ng-container *ngIf="canEdit; else editbutton">
-        <button class="button2">Tallenna tiedot</button>
-        <button (click)="cancelEdit()" class="button2">Peruuta</button>
+        <button type="submit" class="button2">Tallenna muutokset</button>
+        <button type="button" (click)="cancelEdit()" class="button2">
+          Peruuta
+        </button>
       </ng-container>
       <ng-template #editbutton>
-        <button (click)="enableEdit()" class="button2">Muokkaa tietoja</button>
+        <button type="button" (click)="enableEdit()" class="button2">
+          Muokkaa tietoja
+        </button>
       </ng-template>
     </form>
   </div>
+
   <div class="container">
     <div class="interests-section">
-      <!-- <label>Mielenkiinnon kohteet:</label> -->
       <h3>Mielenkiinnon kohteet:</h3>
       <div class="button-group">
         <button type="button" (click)="selectKohde('yhdistys')">
