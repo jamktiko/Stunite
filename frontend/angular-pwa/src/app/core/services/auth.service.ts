@@ -23,6 +23,8 @@ export class AuthService {
   private token: string | null = null;
 
   private apiUrlLoginUser = 'http://localhost:3001/login/user';
+  private apiUrlSignupUser = 'http://localhost:3001/signup/user';
+
   private apiUrlLoginOrganizer = 'http://localhost:3001/login/organizer';
 
   private apiUrlManageUser = 'http://localhost:3001/manage/user';
@@ -35,7 +37,7 @@ export class AuthService {
       this.checkUserSession();
     }
   }
-
+  // normal user login
   login(email: string, password: string) {
     return this.http
       .post<{ message: string; token: string; user: any }>(
@@ -56,6 +58,41 @@ export class AuthService {
         })
       );
   }
+  //normal user register
+  // normal user register
+  register(userData: any) {
+    return this.http
+      .post<{ message: string; token?: string; user?: any }>(
+        this.apiUrlSignupUser,
+        userData
+      )
+      .pipe(
+        tap((response) => {
+          if (response.token && response.user) {
+            this.currUser.set(response.user);
+            this.isLoggedIn.set(true);
+            this.token = response.token;
+            if (isPlatformBrowser(this.platformId)) {
+              localStorage.setItem(
+                'currentUser',
+                JSON.stringify(response.user)
+              );
+              localStorage.setItem('token', response.token);
+            }
+            console.log('Registration successful and user logged in.');
+          } else {
+            console.log(response.message);
+          }
+        }),
+        catchError((error) => {
+          console.error('Registration failed:', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+  // organizer register
+  registerAsOrganizer() {}
 
   // organizer login
   loginAsOrganizer(email: string, password: string) {
@@ -92,7 +129,7 @@ export class AuthService {
     }
 
     const headers = new HttpHeaders().set('x-access-token', token);
-    const url = `${this.apiUrlManageUser}/${updatedUser.id}`; 
+    const url = `${this.apiUrlManageUser}/${updatedUser.id}`;
 
     this.http
       .put<User>(url, updatedUser, { headers })

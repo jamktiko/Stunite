@@ -7,6 +7,19 @@
   margin: 0 12px;
 }
 
+.pass-input {
+  position: relative;
+  display: flex;
+}
+
+.eye {
+  position: absolute;
+  right: 25px;
+  top: 52%;
+  transform: translateY(-50%);
+  color: #b2b2b2;
+}
+
 .register-form {
   width: 100%;
   max-width: 800px;
@@ -23,6 +36,10 @@ h1 {
   align-items: center;
   margin-bottom: 15px;
   flex-wrap: nowrap;
+}
+.error-message {
+  color: red;
+  text-align: center;
 }
 
 label {
@@ -44,6 +61,9 @@ input {
 
 .form-buttons {
   display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
   justify-content: center;
   margin-top: 70px;
 }
@@ -63,6 +83,19 @@ button {
     width: 100%;
     text-align: center;
     margin-bottom: 10px;
+  }
+
+  .pass-input {
+    position: relative;
+    display: flex;
+  }
+
+  .eye {
+    position: absolute;
+    right: 62px;
+    top: 57%;
+    transform: translateY(-50%);
+    color: #b2b2b2;
   }
 
   input {
