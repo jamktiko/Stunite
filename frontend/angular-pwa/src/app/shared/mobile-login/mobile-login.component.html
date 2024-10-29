@@ -1,0 +1,38 @@
+<img class="banner-img" [src]="'assets/stunite_banner.png'" />
+<h1>Kirjaudu sisään</h1>
+<div>
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="mobile-login">
+    <label>Sähköposti</label>
+    <input
+      id="email"
+      placeholder="Sähköposti"
+      [(ngModel)]="email"
+      name="email"
+      required
+    />
+    <label>Salasana</label>
+    <input
+      id="password"
+      placeholder="Salasana"
+      [(ngModel)]="password"
+      name="password"
+      type="password"
+      required
+    />
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <button type="submit" [disabled]="!loginForm.valid">Kirjaudu Sisään</button>
+  </form>
+  <div class="mobile-login">
+    <p>
+      Eikö sinulla ole tunnuksia?
+      <a (click)="goRegister()"><u> Voit rekisteröityä täällä.</u> </a>
+    </p>
+    <p>
+      Järjestäjä,
+      <a (click)="openOrganizerLogin()"><u>Kirjaudu täältä.</u></a>
+    </p>
+  </div>
+</div>

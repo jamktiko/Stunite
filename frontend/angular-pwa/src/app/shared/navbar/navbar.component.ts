@@ -57,6 +57,9 @@ export class NavbarComponent {
     this.openLoginModal.emit();
   }
 
+  toMobileLogin() {
+    this.router.navigate(['/mobile-login']);
+  }
   onMenuClick() {
     this.menuOpen = !this.menuOpen;
   }

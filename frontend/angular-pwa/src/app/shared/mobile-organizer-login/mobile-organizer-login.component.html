@@ -1,0 +1,27 @@
+<img class="banner-img" [src]="'assets/stunite_banner.png'" />
+
+<h2>Järjestäjä kirjautuminen</h2>
+
+<form (ngSubmit)="onSubmit()" #organizerLoginForm="ngForm" class="mobile-login">
+  <input
+    id="email"
+    placeholder="Sähköposti"
+    [(ngModel)]="email"
+    name="email"
+    required
+  />
+  <input
+    id="password"
+    placeholder="Salasana"
+    [(ngModel)]="password"
+    name="password"
+    type="password"
+    required
+  />
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+  <button type="submit" [disabled]="!organizerLoginForm.valid">
+    Kirjaudu Sisään
+  </button>
+</form>
