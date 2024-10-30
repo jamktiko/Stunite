@@ -3,13 +3,14 @@ import { Injectable, WritableSignal, signal } from '@angular/core';
 import { Event } from '../../shared/models/event.model';
 import { tap } from 'rxjs/operators';
 import { AuthService } from '../../core/services/auth.service';
+import { environment } from '../../../enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventService {
-  private apiUrl = 'http://localhost:3001/manage/event/'; // GET event
-  private createEventapiUrl = 'http://localhost:3001/create/event/'; // POST event
+  private apiUrl = `${environment.baseUrl}/manage/event/`; // GET event
+  private createEventapiUrl = `${environment.baseUrl}/create/event/`; // POST event
 
   private eventsSignal: WritableSignal<Event[]> = signal<Event[]>([]);
 

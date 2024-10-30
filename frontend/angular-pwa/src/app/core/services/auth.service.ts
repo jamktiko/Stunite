@@ -10,6 +10,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { catchError, tap, throwError } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from '../../shared/models/user.model';
+import { environment } from '../../../enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
@@ -22,12 +23,10 @@ export class AuthService {
 
   private token: string | null = null;
 
-  private apiUrlLoginUser = 'http://localhost:3001/login/user';
-  private apiUrlSignupUser = 'http://localhost:3001/signup/user';
-
-  private apiUrlLoginOrganizer = 'http://localhost:3001/login/organizer';
-
-  private apiUrlManageUser = 'http://localhost:3001/manage/user';
+  private apiUrlLoginUser = `${environment.baseUrl}/login/user`;
+  private apiUrlSignupUser = `${environment.baseUrl}/signup/user`;
+  private apiUrlLoginOrganizer = `${environment.baseUrl}/login/organizer`;
+  private apiUrlManageUser = `${environment.baseUrl}/manage/user`;
 
   constructor(
     private http: HttpClient,

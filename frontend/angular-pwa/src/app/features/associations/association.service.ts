@@ -2,12 +2,14 @@ import { Injectable, signal, WritableSignal } from '@angular/core';
 import { Organizer } from '../../shared/models/organization.model';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, tap } from 'rxjs';
+import { environment } from '../../../enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AssociationService {
-  private apiUrl = 'http://localhost:3001/manage/organizer/'; // GET
+  private apiUrl = `${environment.baseUrl}/manage/organizer/`; // GET
+
   private associationsSignal: WritableSignal<Organizer[]> = signal([]);
 
   constructor(private http: HttpClient) {
@@ -45,5 +47,4 @@ export class AssociationService {
       })
     );
   }
-
 }
