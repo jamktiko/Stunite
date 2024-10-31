@@ -8,15 +8,46 @@
   margin: auto;
   margin-bottom: 12px;
   align-items: center;
+  text-align: center;
+  width: 250px;
+  height: 250px;
 }
 
 .eventcard-info {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 36px;
+  gap: 12px;
 }
 
+h3 {
+  margin: 12px 0px 0px;
+  overflow: hidden;
+  width: 200px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.event-name:hover + .hover-name {
+  display: block;
+}
+
+.hover-name {
+  display: none;
+  max-width: 240px;
+  background-color: rgba(255, 195, 217, 0.9);
+  border-radius: 10px;
+  font-size: 12px;
+  padding: 5px 5px;
+  color: #333;
+  z-index: 10;
+  position: absolute;
+}
+
+p {
+  margin-top: 4px;
+}
 .eventimage {
   border-radius: 18px 18px 0px 0px;
   width: 100%;
