@@ -98,10 +98,34 @@ export class CreateEventComponent implements OnInit {
       !loggedInOrganizer.organizationName
     ) {
       console.error(
-        'Organizer not logged in or missing organizerId. or organizationName'
+        'Organizer not logged in or missing organizerId or organizationName'
       );
       return;
     }
+
+    const currentDateTime = new Date();
+    const saleStartDate = new Date(this.ticketSaleStart);
+    const saleEndDate = new Date(this.ticketSaleEnd);
+    const eventDate = new Date(this.eventDate);
+
+    // Tarkistus: lipun myynti ei voi alkaa ennen nykyhetkeä
+    if (saleStartDate < currentDateTime) {
+      console.error('Ticket sale start date cannot be in the past.');
+      return;
+    }
+
+    // Tarkistus: lipun myynti päättymisaika ei voi olla ennen aloitusaikaa
+    if (saleEndDate <= saleStartDate) {
+      console.error('Ticket sale end date must be after the start date.');
+      return;
+    }
+
+    // Tarkistus: tapahtuman päivämäärä ei voi olla ennen nykyhetkeä
+    if (eventDate < currentDateTime) {
+      console.error('Event date cannot be in the past.');
+      return;
+    }
+
     const updatedEvent: Event = {
       _id: this.isEditMode
         ? this.eventId!.toString()
@@ -128,6 +152,7 @@ export class CreateEventComponent implements OnInit {
       organizerId: loggedInOrganizer.organizerId,
       organizationName: loggedInOrganizer.organizationName,
     };
+
     console.log('Updated Event Payload:', updatedEvent);
 
     if (
