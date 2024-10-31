@@ -57,7 +57,7 @@
       class="grid-item"
       style="display: flex; flex-direction: column; text-align: center"
     >
-      <p>
+      <p *ngIf="isOrganizer">
         Tapahtuman julkaisuaika: <br />
         {{ formatDateTime(event().publishDateTime) }}
       </p>

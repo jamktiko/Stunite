@@ -2,6 +2,7 @@ import { Component, OnInit, computed, Signal } from '@angular/core';
 import { EventService } from '../event.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-event-details',
@@ -12,9 +13,12 @@ import { CommonModule } from '@angular/common';
 })
 export class EventDetailsComponent implements OnInit {
   event!: Signal<any | undefined>;
+  isOrganizer: boolean = false;
+
   constructor(
     private eventService: EventService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -26,6 +30,7 @@ export class EventDetailsComponent implements OnInit {
         return foundEvent;
       });
     }
+    this.isOrganizer = this.authService.getIsOrganizer();
   }
 
   // formats ticketsale times to ->  hh:mm dd.mm.yyyy

@@ -115,7 +115,7 @@ export class AuthService {
             localStorage.setItem('token', token);
             localStorage.setItem('isOrganizer', 'true');
           }
-          console.log(`Logged in as organizer: ${response.organizer.email}`);
+          // console.log(`Logged in as organizer: ${response.organizer.email}`);
         })
       );
   }
@@ -155,13 +155,13 @@ export class AuthService {
         this.isLoggedIn.set(true);
         this.currUser.set(user);
         this.token = storedToken;
-        console.log('Restored user session as:', user.email);
+        // console.log('Restored user session as:', user.email);
       } else if (storedOrganizer) {
         const organizer = JSON.parse(storedOrganizer);
         this.isLoggedIn.set(true);
         this.currUser.set(organizer);
         this.isOrganizer.set(true);
-        console.log('Restored organizer session as:', organizer.email);
+        // console.log('Restored organizer session as:', organizer.email);
       }
     }
   }
