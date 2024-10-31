@@ -101,27 +101,26 @@
           useita)
         </p>
       </div>
-
-      <p>
-        Alla olevat eivät tee vielä mitään, eivät ole pakollisia kenttiä dev
-        vaiheessa
-      </p>
       <div class="form-field">
-        <label>Teema/Pukukoodi</label>
-        <input type="text" [(ngModel)]="theme" name="theme" />
-      </div>
-      <div class="form-field">
-        <label>Linkki lipunmyyntiin</label>
-        <input type="text" [(ngModel)]="ticketLink" name="ticketLink" />
-      </div>
-      <div class="form-field">
-        <label>Tapahtuman julkaisupäivä ja kellonaika</label>
+        <label>Tapahtuman julkaisupäivä ja kellonaika*</label>
         <input
           type="datetime-local"
           placeholder="Julkaisupäivä ja kellonaika"
           [(ngModel)]="publishDateTime"
           name="publishDateTime"
         />
+      </div>
+
+      <p>
+        Alla olevan toiminnallisuutta ei ole vielä tehty.
+      </p>
+      <!-- <div class="form-field">
+        <label>Teema/Pukukoodi</label>
+        <input type="text" [(ngModel)]="theme" name="theme" />
+      </div> -->
+      <div class="form-field">
+        <label>Linkki lipunmyyntiin</label>
+        <input type="text" [(ngModel)]="ticketLink" name="ticketLink" />
       </div>
 
       <button (click)="onCancel()">Peruuta</button>
