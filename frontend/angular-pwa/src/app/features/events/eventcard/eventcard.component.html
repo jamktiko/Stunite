@@ -9,8 +9,8 @@
     class="eventimage"
     onerror="this.src='assets/placeholder.png'"
   />
-  <div class="event-name">
-    <h3 *ngIf="!onlyImage" #eventName>{{ event.eventName }}</h3>
+  <div class="event-name" *ngIf="!onlyImage">
+    <h3 #eventName>{{ event.eventName }}</h3>
   </div>
 
   <!-- Show span element if overflown -->
