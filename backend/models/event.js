@@ -18,7 +18,7 @@ const eventSchema = new mongoose.Schema({
     },
   },
   theme: { type: String },
-  isFavorite: { type: Boolean }, // Toggle for adding to favorites
+  isFavorite: { type: Boolean },
   details: { type: String },
   imageUrl: { type: String },
   ticketLink: { type: String },
