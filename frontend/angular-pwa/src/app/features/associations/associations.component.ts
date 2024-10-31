@@ -22,18 +22,16 @@ export class AssociationsComponent implements OnInit {
   ngOnInit(): void {
     this.associationData = this.associationService.getAssociations();
 
-    console.log('Loaded associations: ', this.associationData());
 
     this.filteredAssociationData = computed(() => {
       const search = this.searchTerm().toLowerCase();
-      console.log('Current Search Term:', search);
+
       const filteredAssociations = this.associationData().filter(
         (association) =>
           association.organizationName
             .toLowerCase()
             .includes(search)
       );
-      console.log('Filtered Associations:', filteredAssociations);
       return filteredAssociations;
     });
   }

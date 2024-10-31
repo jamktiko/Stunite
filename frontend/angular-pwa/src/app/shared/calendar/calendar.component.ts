@@ -71,9 +71,7 @@ export class CalendarComponent implements OnInit {
       this.selectedDate = this.formatDateInFinnish(date);
       if (eventsOnDate.length > 0) {
         this.selectedEvents = this.selectedEvents.concat(eventsOnDate);
-        console.log(`Events on selected date (${dateStr}):`, eventsOnDate);
       } else {
-        console.log(`No event on selected date (${dateStr})`);
       }
     });
   }
@@ -92,12 +90,10 @@ export class CalendarComponent implements OnInit {
     if (parts.length === 3) {
       const formattedDateStr = `${parts[2]}-${parts[1]}-${parts[0]}`;
       const date = new Date(formattedDateStr);
-      // Check if the date is valid
       if (!isNaN(date.getTime())) {
         return date;
       }
     }
-    console.warn(`Invalid date format or date: ${dateStr}`);
     return null;
   }
 }

@@ -127,16 +127,12 @@ export class CreateEventComponent implements OnInit {
 
   onSubmit() {
     const loggedInOrganizer = this.authService.getCurrUser();
-    console.log(loggedInOrganizer);
 
     if (
       !loggedInOrganizer ||
       !loggedInOrganizer.organizerId ||
       !loggedInOrganizer.organizationName
     ) {
-      console.error(
-        'Organizer not logged in or missing organizerId or organizationName'
-      );
       return;
     }
 

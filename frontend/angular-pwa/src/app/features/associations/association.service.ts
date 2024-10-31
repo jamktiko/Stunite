@@ -24,7 +24,6 @@ export class AssociationService {
         })
       )
       .subscribe(() => {
-        console.log('Organizers loaded into signal', this.associationsSignal());
       });
   }
 
@@ -39,10 +38,8 @@ export class AssociationService {
     const url = `${this.apiUrl}${id}`;
     return this.http.get<Organizer>(url).pipe(
       tap((association) => {
-        console.log('Fetched association:', association);
       }),
       catchError((error) => {
-        console.error('Error fetching association by ID:', error);
         return of(null);
       })
     );

@@ -27,9 +27,7 @@ export class EventService {
           this.eventsSignal.set(events);
         })
       )
-      .subscribe(() => {
-        console.log('Events loaded into signal:', this.eventsSignal());
-      });
+      .subscribe(() => {});
   }
 
   // signal-based getter for events
@@ -61,7 +59,7 @@ export class EventService {
 
     // check if token is found
     if (!token) {
-      console.error('No token found');
+      console.log('Token not found');
       return;
     }
     const headers = new HttpHeaders().set('x-access-token', token);
@@ -70,7 +68,6 @@ export class EventService {
       .post<Event>(this.createEventapiUrl, newEvent, { headers })
       .pipe(
         tap((createdEvent) => {
-          console.log(createdEvent);
           const updatedEvents = [...this.eventsSignal(), createdEvent];
           this.eventsSignal.set(updatedEvents);
         })
@@ -81,7 +78,7 @@ export class EventService {
   editEvent(updatedEvent: Event): void {
     const token = this.authService.getToken();
     if (!token) {
-      console.error('No token found');
+      console.error('Token not found');
       return;
     }
 

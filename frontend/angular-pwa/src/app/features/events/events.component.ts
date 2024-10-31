@@ -21,16 +21,13 @@ export class EventsComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventsSignal = this.eventService.getPublishedEvents();
-    console.log('Events on init:', this.eventsSignal());
 
     this.filteredEventData = computed(() => {
       const search = this.searchTerm().toLowerCase();
-      console.log('Current Search Term:', search);
 
       const filteredEvents = this.eventsSignal().filter((event) =>
         event.eventName.toLowerCase().includes(search)
       );
-      console.log('Filtered Events:', filteredEvents);
       return filteredEvents;
     });
   }

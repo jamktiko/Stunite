@@ -24,17 +24,11 @@ export class OrganizerViewComponent implements OnInit {
   ngOnInit(): void {}
   loadOrganizerEvents() {
     const currentUser = this.authService.getCurrUser();
-    console.log('Current User:', currentUser);
     if (currentUser) {
       const currentEvents = this.eventService.getAllEvents()();
-      console.log('Current Events:', currentEvents);
       this.events = currentEvents.filter((event) => {
-        console.log(
-          `Checking event: ${event.eventName}, organizerId: ${event.organizerId}, currentUserId: ${currentUser.organizerId},  logged in user organizationName: ${currentUser.organizationName}`
-        );
         return event.organizerId === currentUser.organizerId;
       });
-      console.log('Filtered Events:', this.events);
     }
   }
 

@@ -24,14 +24,12 @@ export class AssociationsDetailComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    console.log('Fetching ID:', id);
 
     if (id) {
       this.associationService
         .getAssociationById(id)
         .subscribe((fetchedAssociation) => {
           this.association.set(fetchedAssociation ?? undefined);
-          console.log('Loaded association data:', this.association());
         });
     }
   }

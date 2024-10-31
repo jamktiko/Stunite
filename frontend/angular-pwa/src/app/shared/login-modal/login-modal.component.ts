@@ -37,7 +37,6 @@ export class LoginModalComponent {
         this.router.navigate(['/events']);
         console.log('Login successful');
         const currentUser = this.authService.getCurrUser();
-        console.log('Current User:', currentUser);
       },
       error: () => {
         this.errorMessage = 'Invalid email or password';
