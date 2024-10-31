@@ -21,4 +21,5 @@ export interface Event {
   status: string;
   organizerId: string;
   organizationName: string;
+  eventTags: string[];
 }
