@@ -1,5 +1,3 @@
-<!-- Eventcard HTML -->
-
 <div
   class="eventcard"
   [ngClass]="{ 'image-only': onlyImage }"
@@ -11,7 +9,15 @@
     class="eventimage"
     onerror="this.src='assets/placeholder.png'"
   />
-  <h3 *ngIf="!onlyImage">{{ event.eventName }}</h3>
+  <div class="event-name">
+    <h3 *ngIf="!onlyImage" #eventName>{{ event.eventName }}</h3>
+  </div>
+
+  <!-- Show span element if overflown -->
+  <span class="hover-name" *ngIf="!onlyImage && isNameOverflow">{{
+    event.eventName
+  }}</span>
+
   <div *ngIf="!onlyImage" class="eventcard-info">
     <p>{{ event.date }}</p>
     <p>{{ event.city }}</p>

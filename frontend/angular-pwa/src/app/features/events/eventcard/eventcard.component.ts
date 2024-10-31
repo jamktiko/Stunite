@@ -1,15 +1,37 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+  AfterViewInit,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Event } from '../../../shared/models/event.model';
+
 @Component({
   selector: 'app-eventcard',
   standalone: true,
   imports: [RouterLink, CommonModule],
   templateUrl: './eventcard.component.html',
-  styleUrl: './eventcard.component.css',
+  styleUrls: ['./eventcard.component.css'],
 })
-export class EventcardComponent {
+export class EventcardComponent implements AfterViewInit {
   @Input() event!: Event;
   @Input() onlyImage: boolean = false;
+
+  @ViewChild('eventName') eventName!: ElementRef;
+
+  // if name is overflown
+  isNameOverflow: boolean = false;
+
+  ngAfterViewInit(): void {
+    this.isNameOverflow = this.isOverflow(this.eventName);
+  }
+
+  isOverflow(element: ElementRef): boolean {
+    return (
+      element.nativeElement.scrollWidth > element.nativeElement.clientWidth
+    );
+  }
 }

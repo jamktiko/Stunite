@@ -6,7 +6,7 @@ import { CalendarOptions } from '@fullcalendar/core';
 import { EventService } from '../events/event.service';
 import { Router } from '@angular/router';
 import { Event } from '../../shared/models/event.model';
-import fiLocale from '@fullcalendar/core/locales/fi'; // Make sure this import is correct
+import fiLocale from '@fullcalendar/core/locales/fi';
 
 @Component({
   selector: 'app-organizer-calendar',
