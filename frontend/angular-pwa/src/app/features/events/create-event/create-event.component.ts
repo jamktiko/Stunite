@@ -37,6 +37,36 @@ export class CreateEventComponent implements OnInit {
   organizationName: string = '';
   isEditMode: boolean = false;
   eventId: string | null = null;
+  eventTags: string[] = []; // Taulukko valituista tapahtumatyypeistä
+
+  // Tapahtumatyypit
+  availableEventTags: string[] = [
+    'Sitsit',
+    'Appro',
+    'Alkoholiton',
+    'Lajikokeilu',
+    'Risteily',
+    'Ekskursio',
+    'Liikunta',
+    'Vuosijuhla',
+    'Sillis',
+    'Festivaali',
+    'Musiikki',
+    'Tanssiaiset',
+    'Turnaus',
+    'Online',
+    'Bileet',
+    'Bingo',
+    'Poikkitieteellinen',
+    'Vain jäsenille',
+    'Vaihto-opiskelijoille',
+    'Ilmainen',
+    'Vappu',
+    'Vapaa-aika',
+    'Ruoka',
+    'Kulttuuri',
+    'Ammatillinen tapahtuma',
+  ];
 
   constructor(
     private eventService: EventService,
@@ -76,6 +106,7 @@ export class CreateEventComponent implements OnInit {
     this.publishDateTime = event.publishDateTime;
     this.status = event.status;
     this.imageUrl = event.imageUrl;
+    this.eventTags = event.eventTags || []; // Täytä valitut tapahtumatyypit
   }
 
   private formatDateForInput(dateStr: string): string {
@@ -85,9 +116,15 @@ export class CreateEventComponent implements OnInit {
     }
     return dateStr;
   }
+
   onCancel() {
     this.location.back();
   }
+
+  onTagChange(selectedTags: string[]) {
+    this.eventTags = selectedTags; // Päivitä valitut tapahtumatyypit
+  }
+
   onSubmit() {
     const loggedInOrganizer = this.authService.getCurrUser();
     console.log(loggedInOrganizer);
@@ -151,6 +188,7 @@ export class CreateEventComponent implements OnInit {
       status: this.status,
       organizerId: loggedInOrganizer.organizerId,
       organizationName: loggedInOrganizer.organizationName,
+      eventTags: this.eventTags, // Lisää valitut tapahtumatyypit
     };
 
     console.log('Updated Event Payload:', updatedEvent);

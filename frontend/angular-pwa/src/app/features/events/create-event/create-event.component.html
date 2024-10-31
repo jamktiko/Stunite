@@ -88,6 +88,20 @@
           <option value="Tuotannossa">Tuotannossa</option>
         </select>
       </div>
+
+      <div class="form-field">
+        <label>Tapahtuman tagit*</label>
+        <select [(ngModel)]="eventTags" name="eventTags" multiple required>
+          <option *ngFor="let tag of availableEventTags" [value]="tag">
+            {{ tag }}
+          </option>
+        </select>
+        <p>
+          Valitse haluamasi tagit (pidä Ctrl-näppäintä painettuna valitaksesi
+          useita)
+        </p>
+      </div>
+
       <p>
         Alla olevat eivät tee vielä mitään, eivät ole pakollisia kenttiä dev
         vaiheessa

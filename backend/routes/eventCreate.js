@@ -24,6 +24,7 @@ router.post('/', verifyToken, async (req, res) => {
     status,
     organizerId,
     organizationName,
+    eventTags,
   } = req.body;
 
   // Tarkista pakolliset kentät
@@ -65,6 +66,7 @@ router.post('/', verifyToken, async (req, res) => {
       status,
       organizerId,
       organizationName,
+      eventTags,
     });
 
     await newEvent.save();
