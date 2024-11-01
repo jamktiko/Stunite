@@ -26,3 +26,14 @@
   width: 100%;
   margin: 8px;
 }
+
+@media (max-width: 768px) {
+  .igx-calendar {
+    --ig-size: 3;
+  }
+}
+@media (max-width: 460px) {
+  .igx-calendar {
+    --ig-size: 1;
+  }
+}
