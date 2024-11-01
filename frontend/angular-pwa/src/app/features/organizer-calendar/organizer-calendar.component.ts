@@ -17,6 +17,10 @@ import fiLocale from '@fullcalendar/core/locales/fi';
 })
 export class OrganizerCalendarComponent implements OnInit {
   events!: Signal<any[]>;
+  upcomingEvents: Event[] = [];
+  pastEvents: Event[] = [];
+  activeTab: string = 'upcoming';
+
   tooltipVisible = false;
   tooltipContent = '';
   tooltipPosition = { top: '0px', left: '0px' };
@@ -46,6 +50,9 @@ export class OrganizerCalendarComponent implements OnInit {
 
   eventsUpdated() {
     const eventsData = this.events();
+    // get current date for filtering events to upcomping and past events
+    // in event list
+    const currentDate = new Date();
     if (eventsData.length > 0) {
       this.calendarOptions.events = eventsData.map((event) => ({
         title: event.eventName,
@@ -60,6 +67,39 @@ export class OrganizerCalendarComponent implements OnInit {
         },
       }));
     }
+
+    // filter upcomping and past events to their own lists
+    this.upcomingEvents = eventsData
+      .filter((event) => {
+        const eventDate = new Date(this.formatDateToISO(event.date));
+        return eventDate >= currentDate;
+      })
+      .sort((a, b) => {
+        const dateA = new Date(
+          this.formatDateToISO(a.date) + 'T' + a.startingTime
+        );
+        const dateB = new Date(
+          this.formatDateToISO(b.date) + 'T' + b.startingTime
+        );
+        // ascending order
+        return dateA.getTime() - dateB.getTime();
+      });
+
+    this.pastEvents = eventsData
+      .filter((event) => {
+        const eventDate = new Date(this.formatDateToISO(event.date));
+        return eventDate < currentDate;
+      })
+      .sort((a, b) => {
+        const dateA = new Date(
+          this.formatDateToISO(a.date) + 'T' + a.startingTime
+        );
+        const dateB = new Date(
+          this.formatDateToISO(b.date) + 'T' + b.startingTime
+        );
+        // descending order
+        return dateB.getTime() - dateA.getTime();
+      });
   }
 
   onEventMouseEnter(info: any): void {

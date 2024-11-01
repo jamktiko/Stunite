@@ -7,6 +7,13 @@
   aspect-ratio: 1;
 }
 
+:host ::ng-deep .fc .fc-button-primary {
+  color: black;
+  background-color: white;
+  background-image: none;
+  box-shadow: none;
+}
+
 .dot-notconfirmed {
   height: 25px;
   width: 25px;
@@ -69,10 +76,6 @@
   padding-bottom: 12px;
   border-bottom: solid 3px #cccccc;
 }
-.event-list {
-  border: solid 3px #b2b2b2;
-  border-radius: 20px;
-}
 
 .material-symbols-outlined.confirmed-info:hover + .color-info-hover,
 .material-symbols-outlined.notconfirmed-info:hover + .color-info-hover {
@@ -114,11 +117,66 @@
   max-width: auto;
   font-size: 24px;
 }
+.tab-container {
+  display: flex;
+}
+.events-div {
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(
+        to right,
+        #f3afab,
+        #ebdfaf,
+        #c6f1ba,
+        #ace8f0,
+        #c9b6f0,
+        #f1b8e5
+      )
+      border-box;
+  border: 3px solid transparent;
+  border-top: none;
+  border-radius: 0 0 20px 20px;
+}
+.tab-button {
+  border-radius: 17px 17px 0 0;
+  background-image: none;
+  box-shadow: none;
+  width: 100%;
+  background: linear-gradient(white, rgb(234, 234, 234)) padding-box,
+    linear-gradient(
+        to right,
+        #f3afab,
+        #ebdfaf,
+        #c6f1ba,
+        #ace8f0,
+        #c9b6f0,
+        #f1b8e5
+      )
+      border-box;
+  border-bottom: 3px solid transparent;
+}
+.tab-button.active {
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(
+        to right,
+        #f3afab,
+        #ebdfaf,
+        #c6f1ba,
+        #ace8f0,
+        #c9b6f0,
+        #f1b8e5
+      )
+      border-box;
+  border: 3px solid transparent;
+  border-bottom: none;
+}
 @media (max-width: 1100px) {
   .color-info-div {
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+  .event-list-line {
+    font-size: 18px;
   }
 }
 @media (max-width: 768px) {

@@ -34,21 +34,59 @@
   </div>
 
   <div class="event-list">
-    <p class="event-list-header">TAPAHTUMAT:</p>
-    <div *ngFor="let event of events()">
-      <div class="event-list-line" (click)="goToEventPage(event)">
-        <span
-          [ngClass]="{
-            'dot-confirmed': event.status === 'Tuotannossa',
-            'dot-notconfirmed': event.status === 'Varattu'
-          }"
-        ></span>
-        <div class="event-list-text">
-          <p>{{ event.date }} klo {{ event.startingTime }}</p>
-          <p>
-            <strong>{{ event.eventName }}</strong>
-          </p>
-          <p>{{ event.venue }}, {{ event.city }}, {{ event.address }}</p>
+    <div class="tab-container">
+      <button
+        (click)="activeTab = 'upcoming'"
+        [class.active]="activeTab === 'upcoming'"
+        class="tab-button"
+      >
+        Tulevat tapahtumat
+      </button>
+      <button
+        (click)="activeTab = 'past'"
+        [class.active]="activeTab === 'past'"
+        class="tab-button"
+      >
+        Menneet tapahtumat
+      </button>
+    </div>
+
+    <div *ngIf="activeTab === 'upcoming'" class="events-div">
+      <div *ngFor="let event of upcomingEvents">
+        <div class="event-list-line" (click)="goToEventPage(event)">
+          <span
+            [ngClass]="{
+              'dot-confirmed': event.status === 'Tuotannossa',
+              'dot-notconfirmed': event.status === 'Varattu'
+            }"
+          ></span>
+          <div class="event-list-text">
+            <p>{{ event.date }} klo {{ event.startingTime }}</p>
+            <p>
+              <strong>{{ event.eventName }}</strong>
+            </p>
+            <p>{{ event.venue }}, {{ event.city }}, {{ event.address }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab === 'past'" class="events-div">
+      <div *ngFor="let event of pastEvents">
+        <div class="event-list-line" (click)="goToEventPage(event)">
+          <span
+            [ngClass]="{
+              'dot-confirmed': event.status === 'Tuotannossa',
+              'dot-notconfirmed': event.status === 'Varattu'
+            }"
+          ></span>
+          <div class="event-list-text">
+            <p>{{ event.date }} klo {{ event.startingTime }}</p>
+            <p>
+              <strong>{{ event.eventName }}</strong>
+            </p>
+            <p>{{ event.venue }}, {{ event.city }}, {{ event.address }}</p>
+          </div>
         </div>
       </div>
     </div>

@@ -1,12 +1,13 @@
 <div class="page-container">
   <h2>Tervetuloa järjestäjänäkymään</h2>
-
-  <button class="important-button" (click)="goToCreateEvent()">
-    Luo uusi tapahtuma
-  </button>
-  <button (click)="goToOrganizerCalendar()">
-    Siirry Järjestäjäkalenteriin
-  </button>
+  <div class="organizer-buttons">
+    <button class="button2" (click)="goToCreateEvent()">
+      Luo uusi tapahtuma
+    </button>
+    <button class="button2" (click)="goToOrganizerCalendar()">
+      Siirry Järjestäjäkalenteriin
+    </button>
+  </div>
 
   <div>
     <h2>Sinun tapahtumasi:</h2>
@@ -32,8 +33,5 @@
     </ng-template>
   </div>
 
-  <button (click)="logout()">Kirjaudu ulos</button>
-
-  <!-- delete this later -->
-  <!-- <button (click)="deletelocalstorage()">local storage delete dev</button> -->
+  <button (click)="logout()" class="button2">Kirjaudu ulos</button>
 </div>
