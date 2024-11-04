@@ -33,10 +33,15 @@ export class OrganizerCalendarComponent implements OnInit {
     firstDay: 1,
     eventClick: (info) => {
       info.jsEvent.preventDefault();
-      if (info.event.url) {
-        window.location.href = info.event.url;
+      const eventId = info.event.extendedProps['eventId'];
+
+      if (eventId) {
+        this.router.navigate(['/events', eventId]);
+      } else {
+        console.error('Tapahtuman ID:tä ei löydy.');
       }
     },
+
     eventMouseEnter: (info) => this.onEventMouseEnter(info),
     eventMouseLeave: () => this.onEventMouseLeave(),
   };
@@ -64,6 +69,7 @@ export class OrganizerCalendarComponent implements OnInit {
           venue: event.venue,
           date: event.date,
           organizationName: event.organizationName,
+          eventId: event._id,
         },
       }));
     }
