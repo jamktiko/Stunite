@@ -38,7 +38,7 @@ export class OrganizerCalendarComponent implements OnInit {
       if (eventId) {
         this.router.navigate(['/events', eventId]);
       } else {
-        console.error('Tapahtuman ID:tä ei löydy.');
+        // console.error('Tapahtuman ID:tä ei löydy.');
       }
     },
 

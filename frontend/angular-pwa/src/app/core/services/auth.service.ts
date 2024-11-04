@@ -53,7 +53,7 @@ export class AuthService {
           localStorage.setItem('token', token);
           localStorage.setItem('userId', user.id);
 
-          console.log(`Logged in as(id): ${user.id}`);
+
         })
       );
   }
@@ -202,7 +202,6 @@ export class AuthService {
   // get token from localstorage
   getToken(): string | null {
     this.token = localStorage.getItem('token');
-    console.log('get tokeni:', this.token);
     return this.token;
   }
 }
