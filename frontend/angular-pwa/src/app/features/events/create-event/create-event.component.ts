@@ -187,7 +187,7 @@ export class CreateEventComponent implements OnInit {
       eventTags: this.eventTags, // Lisää valitut tapahtumatyypit
     };
 
-    console.log('Updated Event Payload:', updatedEvent);
+    // console.log('Updated Event Payload:', updatedEvent);
 
     if (
       !updatedEvent.eventName ||
