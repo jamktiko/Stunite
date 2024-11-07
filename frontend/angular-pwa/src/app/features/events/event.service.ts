@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, WritableSignal, signal } from '@angular/core';
+import { Injectable, WritableSignal, computed, signal } from '@angular/core';
 import { Event } from '../../shared/models/event.model';
 import { tap } from 'rxjs/operators';
 import { AuthService } from '../../core/services/auth.service';
@@ -34,13 +34,13 @@ export class EventService {
   getAllEvents(): WritableSignal<Event[]> {
     return this.eventsSignal;
   }
+
   // signal-based getter for only published events
   getPublishedEvents(): WritableSignal<Event[]> {
-    return signal(
-      this.eventsSignal().filter(
-        (event) => new Date(event.publishDateTime) <= new Date()
-      )
+    const filteredEvents = this.eventsSignal().filter(
+      (event) => new Date(event.publishDateTime) <= new Date()
     );
+    return signal(filteredEvents);
   }
 
   // getEventById(id: string): Event | undefined {

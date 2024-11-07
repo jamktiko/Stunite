@@ -52,8 +52,6 @@ export class AuthService {
           localStorage.setItem('currentUser', JSON.stringify(user));
           localStorage.setItem('token', token);
           localStorage.setItem('userId', user.id);
-
-
         })
       );
   }
@@ -195,6 +193,8 @@ export class AuthService {
       localStorage.removeItem('currentUser');
       localStorage.removeItem('currentOrganizer');
       localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('isOrganizer');
     }
     console.log('Logged out');
   }
