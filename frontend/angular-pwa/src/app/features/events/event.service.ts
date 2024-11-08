@@ -20,14 +20,10 @@ export class EventService {
 
   // gets events from backend and updates eventsSignal
   private loadEvents(): void {
-    this.http
-      .get<Event[]>(this.apiUrl)
-      .pipe(
-        tap((events) => {
-          this.eventsSignal.set(events);
-        })
-      )
-      .subscribe(() => {});
+    const url = `${this.apiUrl}?timestamp=${new Date().getTime()}`; // Lisää aikaleima URL:iin
+    this.http.get<Event[]>(url).subscribe((events) => {
+      this.eventsSignal.set(events);
+    });
   }
 
   // signal-based getter for events
@@ -47,6 +43,7 @@ export class EventService {
   //   const events = this.eventsSignal();
   //   return events.find((event) => event._id === id);
   // }
+
   getEventById(id: string | null): Event | undefined {
     if (!id) return undefined;
     const events = this.eventsSignal();

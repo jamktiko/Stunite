@@ -15,7 +15,7 @@ import { OrganizerCalendarComponent } from './features/organizer-calendar/organi
 import { EventGuard } from './core/guards/event-guard.guard';
 import { MobileLoginComponent } from './shared/mobile-login/mobile-login.component';
 import { MobileOrganizerLoginComponent } from './shared/mobile-organizer-login/mobile-organizer-login.component';
-
+import { EventArchiveComponent } from './features/events/event-archive/event-archive.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
@@ -30,11 +30,7 @@ export const routes: Routes = [
     component: EventDetailsComponent,
     canActivate: [EventGuard],
   },
-  // {
-  //   path: 'admin-view',
-  //   component: AdminViewComponent,
-  //   canActivate: [adminGuard],
-  // }, // possibly not needed
+  { path: 'event-archive', component: EventArchiveComponent },
   {
     path: 'organizer-view',
     component: OrganizerViewComponent,

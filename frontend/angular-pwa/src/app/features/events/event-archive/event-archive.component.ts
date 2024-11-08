@@ -1,19 +1,19 @@
 import { Component, OnInit, signal, Signal, computed } from '@angular/core';
-import { EventService } from './event.service';
-import { EventcardComponent } from './eventcard/eventcard.component';
+import { EventService } from '../event.service';
+import { EventcardComponent } from '../eventcard/eventcard.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Event } from '../../shared/models/event.model';
+import { Event } from '../../../shared/models/event.model';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-events',
+  selector: 'app-event-archive',
   standalone: true,
   imports: [EventcardComponent, CommonModule, FormsModule],
-  templateUrl: './events.component.html',
-  styleUrls: ['./events.component.css'],
+  templateUrl: './event-archive.component.html',
+  styleUrls: ['./event-archive.component.css'],
 })
-export class EventsComponent implements OnInit {
+export class EventArchiveComponent implements OnInit {
   searchTerm = signal('');
   selectedCity = signal('');
   selectedTag = signal('');
@@ -70,8 +70,8 @@ export class EventsComponent implements OnInit {
       const tag = this.selectedTag();
       const { start, end } = this.selectedDateRange();
 
-      // Filter events
-      let filteredEvents = this.eventsSignal().filter((event) => {
+
+      let filteredPastEvents = this.eventsSignal().filter((event) => {
         const matchesSearch = event.eventName.toLowerCase().includes(search);
         const matchesCity = city ? event.city === city : true;
         const matchesTag = tag ? event.eventTags?.includes(tag) : true;
@@ -84,32 +84,33 @@ export class EventsComponent implements OnInit {
             (!end || eventDate <= new Date(end));
         }
 
-        // Get current date and set to midnight
         const currentDate = new Date();
         currentDate.setHours(0, 0, 0, 0);
 
         const eventDate = this.parseCustomDate(event.date);
         eventDate.setHours(0, 0, 0, 0);
 
-        const isFutureEvent = eventDate >= currentDate;
+        const isPastEvent = eventDate < currentDate;
 
         return (
           matchesSearch &&
           matchesCity &&
           matchesTag &&
           matchesDate &&
-          isFutureEvent 
+          isPastEvent
         );
       });
 
-      filteredEvents = filteredEvents.sort((a, b) => {
+      // Sort events in descending order by date (latest events first)
+      filteredPastEvents = filteredPastEvents.sort((a, b) => {
         const dateA = this.parseCustomDate(a.date);
         const dateB = this.parseCustomDate(b.date);
 
-        return dateA.getTime() - dateB.getTime();
+        // Compare dates in descending order (latest events first)
+        return dateB.getTime() - dateA.getTime();
       });
 
-      return filteredEvents;
+      return filteredPastEvents;
     });
   }
 
@@ -124,9 +125,5 @@ export class EventsComponent implements OnInit {
       ...currentRange,
       [field]: value,
     });
-  }
-
-  toEventArchive() {
-    this.router.navigate(['/event-archive']);
   }
 }
