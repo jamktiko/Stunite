@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Event } from '../../shared/models/event.model';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-events',
@@ -22,56 +23,36 @@ export class EventsComponent implements OnInit {
     end: null,
   });
 
-  eventsSignal!: Signal<Event[]>;
+  eventsSignal!: Observable<Event[]>;
   filteredEventData!: Signal<Event[]>;
 
   availableCities: string[] = [];
   availableTags: string[] = [
-    'Sitsit',
-    'Appro',
-    'Alkoholiton',
-    'Lajikokeilu',
-    'Risteily',
-    'Ekskursio',
-    'Liikunta',
-    'Vuosijuhla',
-    'Sillis',
-    'Festivaali',
-    'Musiikki',
-    'Tanssiaiset',
-    'Turnaus',
-    'Online',
-    'Bileet',
-    'Bingo',
-    'Poikkitieteellinen',
-    'Vain jäsenille',
-    'Vaihto-opiskelijoille',
-    'Ilmainen',
-    'Vappu',
-    'Vapaa-aika',
-    'Ruoka',
-    'Kulttuuri',
-    'Ammatillinen tapahtuma',
+    // add tags
   ];
 
   constructor(private eventService: EventService, private router: Router) {}
 
   ngOnInit(): void {
-    this.eventsSignal = this.eventService.getPublishedEvents();
-    this.eventsSignal().forEach((event) => {
-      if (!this.availableCities.includes(event.city)) {
-        this.availableCities.push(event.city);
-      }
+    this.eventsSignal = this.eventService.loadEvents();
+    this.eventsSignal.subscribe((eventsData) => {
+      eventsData.forEach((event) => {
+        if (!this.availableCities.includes(event.city)) {
+          this.availableCities.push(event.city);
+        }
+      });
+      this.updateFilteredEvents(eventsData);
     });
+  }
 
+  updateFilteredEvents(eventsData: Event[]) {
     this.filteredEventData = computed(() => {
       const search = this.searchTerm().toLowerCase();
       const city = this.selectedCity();
       const tag = this.selectedTag();
       const { start, end } = this.selectedDateRange();
 
-      // Filter events
-      let filteredEvents = this.eventsSignal().filter((event) => {
+      let filteredEvents = eventsData.filter((event) => {
         const matchesSearch = event.eventName.toLowerCase().includes(search);
         const matchesCity = city ? event.city === city : true;
         const matchesTag = tag ? event.eventTags?.includes(tag) : true;
@@ -84,7 +65,6 @@ export class EventsComponent implements OnInit {
             (!end || eventDate <= new Date(end));
         }
 
-        // Get current date and set to midnight
         const currentDate = new Date();
         currentDate.setHours(0, 0, 0, 0);
 
@@ -98,14 +78,13 @@ export class EventsComponent implements OnInit {
           matchesCity &&
           matchesTag &&
           matchesDate &&
-          isFutureEvent 
+          isFutureEvent
         );
       });
 
       filteredEvents = filteredEvents.sort((a, b) => {
         const dateA = this.parseCustomDate(a.date);
         const dateB = this.parseCustomDate(b.date);
-
         return dateA.getTime() - dateB.getTime();
       });
 

@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, WritableSignal, computed, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Event } from '../../shared/models/event.model';
 import { tap } from 'rxjs/operators';
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../enviroments/enviroment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,49 +13,15 @@ export class EventService {
   private apiUrl = `${environment.baseUrl}/manage/event/`; // GET event
   private createEventapiUrl = `${environment.baseUrl}/create/event/`; // POST event
 
-  private eventsSignal: WritableSignal<Event[]> = signal<Event[]>([]);
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-  constructor(private http: HttpClient, private authService: AuthService) {
-    this.loadEvents();
+  loadEvents(): Observable<Event[]> {
+    return this.http.get<Event[]>(this.apiUrl);
   }
 
-  // gets events from backend and updates eventsSignal
-  private loadEvents(): void {
-    const url = `${this.apiUrl}?timestamp=${new Date().getTime()}`; // Lisää aikaleima URL:iin
-    this.http.get<Event[]>(url).subscribe((events) => {
-      this.eventsSignal.set(events);
-    });
-  }
-
-  // signal-based getter for events
-  getAllEvents(): WritableSignal<Event[]> {
-    return this.eventsSignal;
-  }
-
-  // signal-based getter for only published events
-  getPublishedEvents(): WritableSignal<Event[]> {
-    const filteredEvents = this.eventsSignal().filter(
-      (event) => new Date(event.publishDateTime) <= new Date()
-    );
-    return signal(filteredEvents);
-  }
-
-  // getEventById(id: string): Event | undefined {
-  //   const events = this.eventsSignal();
-  //   return events.find((event) => event._id === id);
-  // }
-
-  getEventById(id: string | null): Event | undefined {
-    if (!id) return undefined;
-    const events = this.eventsSignal();
-    return events.find((event) => event._id === id);
-  }
-  // create event
   createEvent(newEvent: Event): void {
-    // get token
     const token = this.authService.getToken();
 
-    // check if token is found
     if (!token) {
       console.log('Token not found');
       return;
@@ -65,8 +32,7 @@ export class EventService {
       .post<Event>(this.createEventapiUrl, newEvent, { headers })
       .pipe(
         tap((createdEvent) => {
-          const updatedEvents = [...this.eventsSignal(), createdEvent];
-          this.eventsSignal.set(updatedEvents);
+          console.log('Event created:', createdEvent);
         })
       )
       .subscribe();
@@ -74,6 +40,7 @@ export class EventService {
 
   editEvent(updatedEvent: Event): void {
     const token = this.authService.getToken();
+
     if (!token) {
       console.error('Token not found');
       return;
@@ -86,12 +53,24 @@ export class EventService {
       .put<Event>(url, updatedEvent, { headers })
       .pipe(
         tap((editedEvent) => {
-          const events = this.eventsSignal().map((event) =>
-            event._id === editedEvent._id ? editedEvent : event
-          );
-          this.eventsSignal.set(events);
+          console.log('Event edited:', editedEvent);
         })
       )
       .subscribe();
+  }
+
+  getEventById(eventId: string): Observable<Event> {
+    const url = `${this.apiUrl}/${eventId}`;
+    return this.http.get<Event>(url);
+  }
+
+  // must be tested
+  getPublishedEvents(): Observable<Event[]> {
+    const url = `${this.apiUrl}?status=published`;
+    return this.http.get<Event[]>(url);
+  }
+
+  getAllEvents(): Observable<Event[]> {
+    return this.http.get<Event[]>(this.apiUrl);
   }
 }

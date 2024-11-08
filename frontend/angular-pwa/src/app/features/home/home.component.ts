@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, Signal } from '@angular/core';
+import { Component, OnInit, computed, Signal, signal } from '@angular/core';
 import { CalendarComponent } from '../../shared/calendar/calendar.component';
 import { EventService } from '../events/event.service';
 import { CommonModule } from '@angular/common';
@@ -30,10 +30,16 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.featuredEvents = signal([]);
 
-    this.featuredEvents = computed(() =>
-      this.eventService.getPublishedEvents()().slice(0, 4)
-    );
+    this.eventService.getPublishedEvents().subscribe({
+      next: (eventsData) => {
+        this.featuredEvents = signal(eventsData.slice(0, 4));
+      },
+      error: (err) => {
+        console.error('Error fetching featured events:', err);
+      },
+    });
 
     this.featuredAssociations = computed(() =>
       this.associationService.getAssociations()()

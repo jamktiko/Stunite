@@ -1,18 +1,19 @@
-import { Component, OnInit, computed, Signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EventService } from '../event.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
+import { Event } from '../../../shared/models/event.model';
 
 @Component({
   selector: 'app-event-details',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './event-details.component.html',
-  styleUrl: './event-details.component.css',
+  styleUrls: ['./event-details.component.css'],
 })
 export class EventDetailsComponent implements OnInit {
-  event!: Signal<any | undefined>;
+  event: Event | undefined;
   isOrganizer: boolean = false;
 
   constructor(
@@ -22,14 +23,18 @@ export class EventDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    if (id) {
-      this.event = computed(() => {
-        const events = this.eventService.getAllEvents()();
-        const foundEvent = events.find((e) => e._id === id);
-        return foundEvent;
+    const eventId = this.activatedRoute.snapshot.paramMap.get('id');
+    if (eventId) {
+      this.eventService.getEventById(eventId).subscribe({
+        next: (event: Event) => {
+          this.event = event;
+        },
+        error: (err) => {
+          console.error('Error fetching event:', err);
+        },
       });
     }
+
     this.isOrganizer = this.authService.getIsOrganizer();
   }
 

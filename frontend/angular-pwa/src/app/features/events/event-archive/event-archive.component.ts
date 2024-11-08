@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Event } from '../../../shared/models/event.model';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-event-archive',
@@ -22,7 +23,7 @@ export class EventArchiveComponent implements OnInit {
     end: null,
   });
 
-  eventsSignal!: Signal<Event[]>;
+  eventsSignal: Signal<Event[]> = signal([]);
   filteredEventData!: Signal<Event[]>;
 
   availableCities: string[] = [];
@@ -54,14 +55,24 @@ export class EventArchiveComponent implements OnInit {
     'Ammatillinen tapahtuma',
   ];
 
+  private eventSubscription: Subscription = new Subscription();
+
   constructor(private eventService: EventService, private router: Router) {}
 
   ngOnInit(): void {
-    this.eventsSignal = this.eventService.getPublishedEvents();
-    this.eventsSignal().forEach((event) => {
-      if (!this.availableCities.includes(event.city)) {
-        this.availableCities.push(event.city);
-      }
+    // Subscribe to the Observable to get the events
+    this.eventSubscription = this.eventService.getPublishedEvents().subscribe({
+      next: (events: Event[]) => {
+        this.eventsSignal = signal(events);
+        events.forEach((event) => {
+          if (!this.availableCities.includes(event.city)) {
+            this.availableCities.push(event.city);
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error fetching events:', err);
+      },
     });
 
     this.filteredEventData = computed(() => {
@@ -69,7 +80,6 @@ export class EventArchiveComponent implements OnInit {
       const city = this.selectedCity();
       const tag = this.selectedTag();
       const { start, end } = this.selectedDateRange();
-
 
       let filteredPastEvents = this.eventsSignal().filter((event) => {
         const matchesSearch = event.eventName.toLowerCase().includes(search);
@@ -101,12 +111,11 @@ export class EventArchiveComponent implements OnInit {
         );
       });
 
-      // Sort events in descending order by date (latest events first)
+
       filteredPastEvents = filteredPastEvents.sort((a, b) => {
         const dateA = this.parseCustomDate(a.date);
         const dateB = this.parseCustomDate(b.date);
 
-        // Compare dates in descending order (latest events first)
         return dateB.getTime() - dateA.getTime();
       });
 
@@ -125,5 +134,9 @@ export class EventArchiveComponent implements OnInit {
       ...currentRange,
       [field]: value,
     });
+  }
+
+  ngOnDestroy(): void {
+    this.eventSubscription.unsubscribe();
   }
 }

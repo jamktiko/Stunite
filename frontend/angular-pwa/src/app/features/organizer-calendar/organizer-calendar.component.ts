@@ -1,4 +1,4 @@
-import { Component, OnInit, Signal } from '@angular/core';
+import { Component, OnInit, signal, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -7,6 +7,7 @@ import { EventService } from '../events/event.service';
 import { Router } from '@angular/router';
 import { Event } from '../../shared/models/event.model';
 import fiLocale from '@fullcalendar/core/locales/fi';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-organizer-calendar',
@@ -38,7 +39,6 @@ export class OrganizerCalendarComponent implements OnInit {
       if (eventId) {
         this.router.navigate(['/events', eventId]);
       } else {
-        // console.error('Tapahtuman ID:tä ei löydy.');
       }
     },
 
@@ -46,18 +46,27 @@ export class OrganizerCalendarComponent implements OnInit {
     eventMouseLeave: () => this.onEventMouseLeave(),
   };
 
+  private eventSubscription: Subscription = new Subscription();
+
   constructor(private eventService: EventService, private router: Router) {}
 
   ngOnInit(): void {
-    this.events = this.eventService.getAllEvents();
-    this.eventsUpdated();
+    this.eventSubscription = this.eventService.getAllEvents().subscribe({
+      next: (eventsData) => {
+        this.events = signal(eventsData);
+
+        this.eventsUpdated();
+      },
+      error: (err) => {
+        console.error('Error fetching events:', err);
+      },
+    });
   }
 
   eventsUpdated() {
     const eventsData = this.events();
-    // get current date for filtering events to upcomping and past events
-    // in event list
     const currentDate = new Date();
+
     if (eventsData.length > 0) {
       this.calendarOptions.events = eventsData.map((event) => ({
         title: event.eventName,
@@ -74,7 +83,6 @@ export class OrganizerCalendarComponent implements OnInit {
       }));
     }
 
-    // filter upcomping and past events to their own lists
     this.upcomingEvents = eventsData
       .filter((event) => {
         const eventDate = new Date(this.formatDateToISO(event.date));
@@ -87,7 +95,6 @@ export class OrganizerCalendarComponent implements OnInit {
         const dateB = new Date(
           this.formatDateToISO(b.date) + 'T' + b.startingTime
         );
-        // ascending order
         return dateA.getTime() - dateB.getTime();
       });
 
@@ -103,7 +110,6 @@ export class OrganizerCalendarComponent implements OnInit {
         const dateB = new Date(
           this.formatDateToISO(b.date) + 'T' + b.startingTime
         );
-        // descending order
         return dateB.getTime() - dateA.getTime();
       });
   }
@@ -111,11 +117,11 @@ export class OrganizerCalendarComponent implements OnInit {
   onEventMouseEnter(info: any): void {
     const eventDetails = info.event.extendedProps;
     this.tooltipContent = `
- <strong><span class="tooltip-title">${info.event.title}</span></strong><br>
-    <strong>Aika:</strong> ${eventDetails.date} klo ${eventDetails.startingTime} <br>
-    <strong>Paikka:</strong> ${eventDetails.venue} <br>
-    <strong>Järjestäjä:</strong> ${eventDetails.organizationName}
-  `;
+      <strong><span class="tooltip-title">${info.event.title}</span></strong><br>
+      <strong>Aika:</strong> ${eventDetails.date} klo ${eventDetails.startingTime} <br>
+      <strong>Paikka:</strong> ${eventDetails.venue} <br>
+      <strong>Järjestäjä:</strong> ${eventDetails.organizationName}
+    `;
     this.tooltipVisible = true;
 
     const rect = info.el.getBoundingClientRect();
@@ -132,6 +138,7 @@ export class OrganizerCalendarComponent implements OnInit {
   goToCreateEvent() {
     this.router.navigate(['/organizer-view/create-event']);
   }
+
   goToEventPage(event: Event) {
     this.router.navigate(['/events', event._id]);
   }
@@ -139,5 +146,9 @@ export class OrganizerCalendarComponent implements OnInit {
   private formatDateToISO(dateStr: string): string {
     const [day, month, year] = dateStr.split('.');
     return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  }
+
+  ngOnDestroy(): void {
+    this.eventSubscription.unsubscribe();
   }
 }

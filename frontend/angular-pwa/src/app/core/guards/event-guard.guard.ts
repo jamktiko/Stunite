@@ -6,6 +6,7 @@ import {
   Router,
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 import { EventService } from '../../features/events/event.service';
 import { AuthService } from '../../core/services/auth.service';
 import { Event } from '../../shared/models/event.model';
@@ -25,10 +26,16 @@ export class EventGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> {
     const eventId = route.paramMap.get('id');
-    const event: Event | undefined = this.eventService.getEventById(eventId);
-
-    if (event) {
-      return this.checkEventVisibility(event);
+    if (eventId) {
+      return this.eventService.getEventById(eventId).pipe(
+        switchMap((event: Event | undefined) => {
+          if (event) {
+            return this.checkEventVisibility(event);
+          } else {
+            return this.redirectToHome();
+          }
+        })
+      );
     } else {
       return this.redirectToHome();
     }

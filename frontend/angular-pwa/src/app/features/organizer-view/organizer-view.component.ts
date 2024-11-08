@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { Event } from '../../shared/models/event.model';
 import { EventService } from '../events/event.service';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
+
 @Component({
   selector: 'app-organizer-view',
   standalone: true,
@@ -18,16 +20,20 @@ export class OrganizerViewComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private eventService: EventService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.loadOrganizerEvents();
   }
-  ngOnInit(): void {}
+
+  // load events manually from backend without signals
   loadOrganizerEvents() {
     const currentUser = this.authService.getCurrUser();
     if (currentUser) {
-      const currentEvents = this.eventService.getAllEvents()();
-      this.events = currentEvents.filter((event) => {
-        return event.organizerId === currentUser.organizerId;
+      this.eventService.loadEvents().subscribe((events) => {
+        this.events = events.filter(
+          (event) => event.organizerId === currentUser.organizerId
+        );
       });
     }
   }
@@ -40,18 +46,16 @@ export class OrganizerViewComponent implements OnInit {
     this.authService.logout();
     this.router.navigate(['/home']);
   }
+
   goToEventPage(event: Event) {
     this.router.navigate(['/events', event._id]);
   }
+
   goToCreateEvent() {
     this.router.navigate(['/organizer-view/create-event']);
   }
+
   goToOrganizerCalendar() {
     this.router.navigate(['/organizer-view/organizer-calendar']);
-  }
-
-  // !!! delete this later
-  deletelocalstorage() {
-    localStorage.clear();
   }
 }

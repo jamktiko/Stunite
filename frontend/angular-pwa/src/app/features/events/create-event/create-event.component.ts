@@ -37,7 +37,7 @@ export class CreateEventComponent implements OnInit {
   organizationName: string = '';
   isEditMode: boolean = false;
   eventId: string | null = null;
-  eventTags: string[] = []; // Taulukko valituista tapahtumatyypeistä
+  eventTags: string[] = [];
 
   // Tapahtumatyypit
   availableEventTags: string[] = [
@@ -81,10 +81,14 @@ export class CreateEventComponent implements OnInit {
     if (eventId !== null) {
       this.isEditMode = true;
       this.eventId = eventId;
-      const event = this.eventService.getEventById(this.eventId);
-      if (event) {
-        this.populateFormFields(event);
-      }
+      this.eventService.getEventById(this.eventId).subscribe({
+        next: (event: Event) => {
+          this.populateFormFields(event);
+        },
+        error: (err) => {
+          console.error('Error fetching event:', err);
+        },
+      });
     }
   }
 
@@ -106,7 +110,7 @@ export class CreateEventComponent implements OnInit {
     this.publishDateTime = event.publishDateTime;
     this.status = event.status;
     this.imageUrl = event.imageUrl;
-    this.eventTags = event.eventTags || []; // Täytä valitut tapahtumatyypit
+    this.eventTags = event.eventTags || [];
   }
 
   private formatDateForInput(dateStr: string): string {
@@ -122,7 +126,7 @@ export class CreateEventComponent implements OnInit {
   }
 
   onTagChange(selectedTags: string[]) {
-    this.eventTags = selectedTags; // Päivitä valitut tapahtumatyypit
+    this.eventTags = selectedTags;
   }
 
   onSubmit() {
@@ -141,19 +145,16 @@ export class CreateEventComponent implements OnInit {
     const saleEndDate = new Date(this.ticketSaleEnd);
     const eventDate = new Date(this.eventDate);
 
-    // Tarkistus: lipun myynti ei voi alkaa ennen nykyhetkeä
     if (saleStartDate < currentDateTime) {
       console.error('Ticket sale start date cannot be in the past.');
       return;
     }
 
-    // Tarkistus: lipun myynti päättymisaika ei voi olla ennen aloitusaikaa
     if (saleEndDate <= saleStartDate) {
       console.error('Ticket sale end date must be after the start date.');
       return;
     }
 
-    // Tarkistus: tapahtuman päivämäärä ei voi olla ennen nykyhetkeä
     if (eventDate < currentDateTime) {
       console.error('Event date cannot be in the past.');
       return;
@@ -184,10 +185,10 @@ export class CreateEventComponent implements OnInit {
       status: this.status,
       organizerId: loggedInOrganizer.organizerId,
       organizationName: loggedInOrganizer.organizationName,
-      eventTags: this.eventTags, // Lisää valitut tapahtumatyypit
+      eventTags: this.eventTags, 
     };
 
-    // console.log('Updated Event Payload:', updatedEvent);
+  
 
     if (
       !updatedEvent.eventName ||

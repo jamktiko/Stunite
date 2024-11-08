@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild, computed, Signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  computed,
+  Signal,
+  signal,
+} from '@angular/core';
 import {
   IgxCalendarModule,
   IgxCalendarComponent,
@@ -8,6 +15,7 @@ import {
 import { EventService } from '../../features/events/event.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-calendar',
@@ -25,19 +33,31 @@ export class CalendarComponent implements OnInit {
   @ViewChild('MyCalendar', { static: true })
   public calendar!: IgxCalendarComponent;
 
-  // Map to store events associated with special dates
   eventsMap = new Map<string, any[]>();
-  public selectedEvents: any[] = []; // Store the currently selected events
+  public selectedEvents: any[] = [];
   selectedDate: string = '';
 
   events!: Signal<any[]>;
+  private eventSubscription: Subscription = new Subscription();
+
   constructor(private eventService: EventService) {}
 
   ngOnInit(): void {
-    this.events = this.eventService.getPublishedEvents();
+    this.eventSubscription = this.eventService.getPublishedEvents().subscribe({
+      next: (eventsData) => {
+        this.events = signal(eventsData);
+        this.updateEventsMap(eventsData);
+      },
+      error: (err) => {
+        console.error('Error fetching events:', err);
+      },
+    });
+  }
 
+  private updateEventsMap(eventsData: any[]) {
     this.eventsMap.clear();
-    this.events().forEach((event) => {
+
+    eventsData.forEach((event) => {
       const dateStr = event.date;
       const date = this.parseDate(dateStr);
 
@@ -50,7 +70,6 @@ export class CalendarComponent implements OnInit {
       }
     });
 
-    // Setting special dates in the calendar
     this.calendar.specialDates = Array.from(this.eventsMap.keys()).map(
       (key) => {
         return {
@@ -72,10 +91,11 @@ export class CalendarComponent implements OnInit {
       if (eventsOnDate.length > 0) {
         this.selectedEvents = this.selectedEvents.concat(eventsOnDate);
       } else {
+
       }
     });
   }
-  // Formatting date to Finnish dates
+
   private formatDateInFinnish(date: Date): string {
     const formatter = new Intl.DateTimeFormat('fi-FI', {
       day: 'numeric',
@@ -95,5 +115,9 @@ export class CalendarComponent implements OnInit {
       }
     }
     return null;
+  }
+
+  ngOnDestroy(): void {
+    this.eventSubscription.unsubscribe();
   }
 }

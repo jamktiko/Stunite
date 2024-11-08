@@ -22,15 +22,13 @@ export class EventcardComponent implements AfterViewInit {
 
   @ViewChild('eventName') eventName!: ElementRef;
 
-  // if name is overflown
   isNameOverflow: boolean = false;
 
   ngAfterViewInit(): void {
     if (this.eventName) {
-      // Check if eventName is defined
       this.isNameOverflow = this.isOverflow(this.eventName);
     } else {
-      this.isNameOverflow = false; // Or set to your default value
+      this.isNameOverflow = false;
     }
   }
 
