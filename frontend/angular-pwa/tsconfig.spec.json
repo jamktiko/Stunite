@@ -4,12 +4,12 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
-    "types": [
-      "jasmine"
-    ]
+    "types": ["jest", "node"], // Korvataan jasmine jestillä
+    "esModuleInterop": true, // Tämä auttaa yhteensopivuudessa Jestin kanssa
+    "emitDecoratorMetadata": true
   },
-  "include": [
-    "src/**/*.spec.ts",
-    "src/**/*.d.ts"
-  ]
+  "files": [
+    "src/setup-jest.ts" // Lisätään jestin alustustiedosto
+  ],
+  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
 }
