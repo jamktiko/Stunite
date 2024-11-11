@@ -1,27 +1,23 @@
 <!-- Google Icon, Login icon and Menu icon -->
-<link
-  rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-/>
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 <nav id="grad">
   <div>
-    <h2><a routerLink="/home" routerLinkActive="active">Stunite</a></h2>
+    <h2><a routerLink="/home" routerLinkActive="active">stunite</a></h2>
 
-    <ul class="menu-desktop">
-      <li><a routerLink="/home" routerLinkActive="active">ETUSIVU</a></li>
-      <li><a routerLink="/events" routerLinkActive="active">TAPAHTUMAT</a></li>
-      <li>
+    <div class="menu-desktop">
+      <div><a routerLink="/home" routerLinkActive="active">ETUSIVU</a></div>
+      <div><a routerLink="/events" routerLinkActive="active">TAPAHTUMAT</a></div>
+      <div>
         <a routerLink="/associations" routerLinkActive="active">YHTEISÖ</a>
-      </li>
+      </div>
       <ng-container *ngIf="isOrganizer">
-        <li>
-        <a routerLink="/organizer-view" routerLinkActive="active">JÄRJESTÄJÄ NÄKYMÄ</a>
-        <a> </a>
-        </li>
-
+        <div>
+          <a routerLink="/organizer-view" routerLinkActive="active">JÄRJESTÄJÄNÄKYMÄ</a>
+        </div>
       </ng-container>
-    </ul>
+    </div>
 
     <!-- Mobile view -->
     <ul class="menu-mobile" *ngIf="menuOpen" (click)="onMenuClick()">
@@ -29,11 +25,7 @@
       <ng-container *ngIf="authenticated">
         <div class="mobile-nav-user">
           <p>Terve {{ username() }}</p>
-          <img
-            class="profile-picture"
-            src="assets/unicorn.webp"
-            alt="Profile Picture"
-          />
+          <img class="profile-picture" src="assets/unicorn.webp" alt="Profile Picture" />
         </div>
       </ng-container>
 
@@ -57,7 +49,7 @@
       <!--  -->
       <ng-container *ngIf="authenticated; else login">
         <ng-container *ngIf="isOrganizer; else normaluser">
-          <li><a routerLink="/organizer-view">Järjestäjä näkymä</a></li>
+          <li><a routerLink="/organizer-view">Järjestäjänäkymä</a></li>
           <hr width="100%" size="2" />
         </ng-container>
         <ng-template #normaluser>
@@ -66,16 +58,15 @@
         </ng-template>
         <li>
           <div class="mobile-nav-logout">
-            <a (click)="logOut()">Kirjaudu Ulos</a>
+            <a (click)="logOut()">Kirjaudu ulos</a>
             <span class="material-symbols-outlined logout"> logout </span>
           </div>
         </li>
-        <hr width="100%" size="2" />
       </ng-container>
 
       <ng-template #login>
         <li>
-          <a (click)="toMobileLogin()">Kirjaudu Sisään</a>
+          <a (click)="toMobileLogin()">Kirjaudu sisään</a>
         </li>
         <hr width="100%" size="2" />
         <li>
@@ -93,23 +84,15 @@
       menu
     </span>
 
-    <div
-      *ngIf="showProfileMenu"
-      class="profile-menu"
-      (click)="closeProfileMenu($event)"
-    >
+    <div *ngIf="showProfileMenu" class="profile-menu" (click)="closeProfileMenu($event)">
       <div class="profile-info">
-        <img
-          class="profile-picture"
-          src="assets/unicorn.webp"
-          alt="Profile Picture"
-        />
+        <img class="profile-picture" src="assets/unicorn.webp" alt="Profile Picture" />
         <h4>{{ username() }}</h4>
         <p>{{ email() }}</p>
       </div>
       <ul>
         <ng-container *ngIf="isOrganizer; else normaluser">
-          <li><a routerLink="/organizer-view">Järjestäjä näkymä</a></li>
+          <li><a routerLink="/organizer-view">Järjestäjänäkymä</a></li>
         </ng-container>
         <ng-template #normaluser>
           <li><a (click)="onProfileClick()">Oma profiili</a></li>

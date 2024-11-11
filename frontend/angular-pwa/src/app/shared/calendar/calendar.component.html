@@ -1,21 +1,12 @@
-<link
-  rel="stylesheet"
-  href="https://fonts.googleapis.com/icon?family=Material+Icons"
-/>
-<div
-  style="
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+<div class="whole-calendar" style="
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-  "
->
+  ">
   <article class="calendar-wrapper">
-    <igx-calendar
-      #MyCalendar
-      selection="single"
-      (selected)="onSelection($event)"
-    >
+    <igx-calendar #MyCalendar selection="single" (selected)="onSelection($event)">
       <ng-template igxDay let-day>
         <div class="calendar-day">
           {{ day.date.getDate() }}
@@ -32,9 +23,7 @@
       <hr />
       <div *ngFor="let event of selectedEvents">
         <p>
-          <a [routerLink]="['/events', event._id]"
-            >{{ event.eventName }} &#64; {{ event.city }}</a
-          >
+          <a [routerLink]="['/events', event._id]">{{ event.eventName }} &#64; {{ event.city }}</a>
         </p>
       </div>
     </div>
