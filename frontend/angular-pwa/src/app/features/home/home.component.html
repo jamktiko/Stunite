@@ -1,16 +1,12 @@
 <img class="banner-img" [src]="'assets/stunite_banner.png'" />
-<h1>students unite, tonite, in the night!</h1>
+<h1>students unite, tonite, in the nite!</h1>
 
 <div class="featured-events">
   <div class="featured-events-left">
-    <p>Kuuminta juuri nyt</p>
+    <p>🔥 Kuuminta juuri nyt 🔥</p>
     <div class="events-section">
-      <app-eventcard
-        *ngFor="let event of featuredEvents()"
-        [event]="event"
-        [onlyImage]="true"
-      ></app-eventcard>
-      <button (click)="goToEvents()">Katso kaikki tapahtumat!</button>
+      <app-eventcard *ngFor="let event of featuredEvents()" [event]="event" [onlyImage]="true"></app-eventcard>
+      <button (click)="goToEvents()">Katso kaikki tapahtumat</button>
     </div>
   </div>
 
@@ -25,13 +21,10 @@
 </div>
 
 <div class="featured-associations">
-  <p>Tututstu yhteisöihin</p>
+  <p>Tutustu yhteisöihin</p>
   <div class="associations-container">
     <div class="associations">
-      <app-associationcard
-        *ngFor="let association of featuredAssociations()"
-        [association]="association"
-      >
+      <app-associationcard *ngFor="let association of featuredAssociations()" [association]="association">
       </app-associationcard>
     </div>
     <div class="toAssociationPage" (click)="goToAssociations()">&#8250;</div>
