@@ -27,6 +27,9 @@ export class OrganizerCalendarComponent implements OnInit {
   tooltipContent = '';
   tooltipPosition = { top: '0px', left: '0px' };
 
+  selectedOrganizer: string = '';
+  availableOrganizers: string[] = [];
+
   selectedCity: string = '';
   availableCities: string[] = [];
 
@@ -88,6 +91,7 @@ export class OrganizerCalendarComponent implements OnInit {
       next: (eventsData) => {
         this.events = signal(eventsData);
         this.updateAvailableCities(eventsData);
+        this.updateAvailableOrganaizers(eventsData);
         this.eventsUpdated();
       },
       error: (err) => {
@@ -103,6 +107,13 @@ export class OrganizerCalendarComponent implements OnInit {
       }
     });
   }
+  updateAvailableOrganaizers(eventsData: Event[]): void {
+    eventsData.forEach((event) => {
+      if (!this.availableOrganizers.includes(event.organizationName)) {
+        this.availableOrganizers.push(event.organizationName);
+      }
+    });
+  }
   eventsUpdated() {
     const eventsData = this.events();
     const currentDate = new Date();
@@ -114,12 +125,23 @@ export class OrganizerCalendarComponent implements OnInit {
         (event) => event.city.toLowerCase() === this.selectedCity.toLowerCase()
       );
     }
+
     if (this.selectedTags && this.selectedTags.length > 0) {
       filteredEvents = filteredEvents.filter((event) =>
         event.eventTags.includes(this.selectedTags)
       );
     }
+
     this.noEventsForTag = filteredEvents.length === 0;
+
+    if (this.selectedOrganizer) {
+      filteredEvents = filteredEvents.filter((event) => {
+        return (
+          event.organizationName.toLowerCase() ===
+          this.selectedOrganizer.toLowerCase()
+        );
+      });
+    }
 
     this.upcomingEvents = filteredEvents
       .filter((event) => {
@@ -214,6 +236,10 @@ export class OrganizerCalendarComponent implements OnInit {
   }
   onTagChange(selectedTag: string): void {
     this.selectedTags = selectedTag;
+    this.eventsUpdated();
+  }
+  onOrganizerChange(selectedOrganizer: string): void {
+    this.selectedOrganizer = selectedOrganizer;
     this.eventsUpdated();
   }
 }
