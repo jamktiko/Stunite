@@ -27,6 +27,11 @@
   margin: 8px;
 }
 
+.whole-calendar {
+  position: relative;
+  z-index: 0;
+}
+
 @media (max-width: 768px) {
   .igx-calendar {
     --ig-size: 3;
