@@ -11,10 +11,13 @@ import { Observable } from 'rxjs';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './organizer-view.component.html',
-  styleUrl: './organizer-view.component.css',
+  styleUrls: ['./organizer-view.component.css'],
 })
 export class OrganizerViewComponent implements OnInit {
   events: Event[] = [];
+  upcomingEvents: Event[] = [];
+  pastEvents: Event[] = [];
+  activeTab: string = 'upcoming';
 
   constructor(
     private authService: AuthService,
@@ -31,11 +34,41 @@ export class OrganizerViewComponent implements OnInit {
     const currentUser = this.authService.getCurrUser();
     if (currentUser) {
       this.eventService.loadEvents().subscribe((events) => {
-        this.events = events.filter(
+        // Filter events for the current organizer
+        const organizerEvents = events.filter(
           (event) => event.organizerId === currentUser.organizerId
         );
+
+        // Separate events into upcoming and past
+        const currentDate = new Date();
+        this.upcomingEvents = organizerEvents
+          .filter((event) => {
+            const eventDate = new Date(this.formatDateToISO(event.date));
+            return eventDate >= currentDate;
+          })
+          .sort((a, b) => this.compareEventDates(a, b));
+
+        this.pastEvents = organizerEvents
+          .filter((event) => {
+            const eventDate = new Date(this.formatDateToISO(event.date));
+            return eventDate < currentDate;
+          })
+          .sort((a, b) => this.compareEventDates(b, a));
       });
     }
+  }
+
+  // Format date string to ISO format
+  private formatDateToISO(dateStr: string): string {
+    const [day, month, year] = dateStr.split('.');
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  }
+
+  // Compare two event dates
+  private compareEventDates(a: Event, b: Event): number {
+    const dateA = new Date(this.formatDateToISO(a.date) + 'T' + a.startingTime);
+    const dateB = new Date(this.formatDateToISO(b.date) + 'T' + b.startingTime);
+    return dateA.getTime() - dateB.getTime();
   }
 
   editEvent(event: Event) {
@@ -50,7 +83,9 @@ export class OrganizerViewComponent implements OnInit {
   goToEventPage(event: Event) {
     this.router.navigate(['/events', event._id]);
   }
-
+  goToPastEventPage(event:Event) {
+    this.router.navigate(['/event-archive', event._id])
+  }
   goToCreateEvent() {
     this.router.navigate(['/organizer-view/create-event']);
   }
