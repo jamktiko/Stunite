@@ -27,9 +27,38 @@ export class OrganizerCalendarComponent implements OnInit {
   tooltipContent = '';
   tooltipPosition = { top: '0px', left: '0px' };
 
-  // Kaupungin suodatus
   selectedCity: string = '';
   availableCities: string[] = [];
+
+  noEventsForTag: boolean = false;
+  selectedTags: string = '';
+  availableTags: string[] = [
+    'Sitsit',
+    'Appro',
+    'Alkoholiton',
+    'Lajikokeilu',
+    'Risteily',
+    'Ekskursio',
+    'Liikunta',
+    'Vuosijuhla',
+    'Sillis',
+    'Festivaali',
+    'Musiikki',
+    'Tanssiaiset',
+    'Turnaus',
+    'Online',
+    'Bileet',
+    'Bingo',
+    'Poikkitieteellinen',
+    'Vain jäsenille',
+    'Vaihto-opiskelijoille',
+    'Ilmainen',
+    'Vappu',
+    'Vapaa-aika',
+    'Ruoka',
+    'Kulttuuri',
+    'Ammatillinen tapahtuma',
+  ];
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
@@ -66,6 +95,7 @@ export class OrganizerCalendarComponent implements OnInit {
       },
     });
   }
+
   updateAvailableCities(eventsData: Event[]): void {
     eventsData.forEach((event) => {
       if (!this.availableCities.includes(event.city)) {
@@ -77,13 +107,19 @@ export class OrganizerCalendarComponent implements OnInit {
     const eventsData = this.events();
     const currentDate = new Date();
 
-    // Kaupunkiin perustuva suodatus
     let filteredEvents = eventsData;
+
     if (this.selectedCity) {
       filteredEvents = filteredEvents.filter(
         (event) => event.city.toLowerCase() === this.selectedCity.toLowerCase()
       );
     }
+    if (this.selectedTags && this.selectedTags.length > 0) {
+      filteredEvents = filteredEvents.filter((event) =>
+        event.eventTags.includes(this.selectedTags)
+      );
+    }
+    this.noEventsForTag = filteredEvents.length === 0;
 
     this.upcomingEvents = filteredEvents
       .filter((event) => {
@@ -115,7 +151,6 @@ export class OrganizerCalendarComponent implements OnInit {
         return dateB.getTime() - dateA.getTime();
       });
 
-    // Päivitetään kalenterin tapahtumat
     if (filteredEvents.length > 0) {
       this.calendarOptions.events = filteredEvents.map((event) => ({
         title: event.eventName,
@@ -130,6 +165,8 @@ export class OrganizerCalendarComponent implements OnInit {
           eventId: event._id,
         },
       }));
+    } else {
+      this.calendarOptions.events = [];
     }
   }
 
@@ -171,9 +208,12 @@ export class OrganizerCalendarComponent implements OnInit {
     this.eventSubscription.unsubscribe();
   }
 
-  // Kaupungin suodatusmuutokset
   onCityChange(city: string): void {
     this.selectedCity = city;
-    this.eventsUpdated(); // Suodatetaan uudelleen, kun kaupunki muuttuu
+    this.eventsUpdated();
+  }
+  onTagChange(selectedTag: string): void {
+    this.selectedTags = selectedTag;
+    this.eventsUpdated();
   }
 }

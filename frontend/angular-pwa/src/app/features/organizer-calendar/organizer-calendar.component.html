@@ -2,8 +2,6 @@
   <h1>Järjestäjäkalenteri</h1>
 
   <div class="filters">
-
-
     <select
       [(ngModel)]="selectedCity"
       (ngModelChange)="onCityChange(selectedCity)"
@@ -14,6 +12,16 @@
       </option>
     </select>
 
+    <select
+      [(ngModel)]="selectedTags"
+      (ngModelChange)="onTagChange(selectedTags)"
+    >
+      <option value="">Valise Tagi</option>
+      <option *ngFor="let tag of availableTags" [value]="tag">{{ tag }}</option>
+    </select>
+    <div *ngIf="noEventsForTag" class="no-events-message">
+      <p>Valitsemallesi tagille ei ole tapahtumia.</p>
+    </div>
   </div>
 
   <!-- FullCalendar -->

@@ -1,33 +1,69 @@
 <div class="page-container">
   <h2>Tervetuloa järjestäjänäkymään</h2>
+
   <div class="organizer-buttons">
-    <button class="button2" (click)="goToCreateEvent()">
+    <button class="button2 big" (click)="goToCreateEvent()">
       Luo uusi tapahtuma
     </button>
-    <button class="button2" (click)="goToOrganizerCalendar()">
+    <button class="button2 big" (click)="goToOrganizerCalendar()">
       Siirry Järjestäjäkalenteriin
     </button>
   </div>
 
-  <div>
+  <div class="">
     <h2>Sinun tapahtumasi:</h2>
-    <hr />
-    <div *ngIf="events.length > 0; else noEvents">
-      <div *ngFor="let event of events" class="your-events">
-        <div class="eventname">
-          <p>
-            <strong>{{ event.eventName }}</strong>
-          </p>
+    <div class="tab-container">
+      <button
+        (click)="activeTab = 'upcoming'"
+        [class.active]="activeTab === 'upcoming'"
+        class="tab-button"
+      >
+        Tulevat tapahtumat
+      </button>
+      <button
+        (click)="activeTab = 'past'"
+        [class.active]="activeTab === 'past'"
+        class="tab-button"
+      >
+        Menneet tapahtumat
+      </button>
+    </div>
+
+    <div *ngIf="activeTab === 'upcoming'" class="events-div">
+      <div *ngFor="let event of upcomingEvents" class="your-events">
+        <div class="event-text">
+          <strong>
+            <p class="event-name">{{ event.eventName }}</p></strong
+          >
+          <p>{{ event.date }}</p>
         </div>
         <div class="eventbuttons">
-          <button (click)="editEvent(event)">Muokkaa tapahtuman tietoja</button>
-
-          <button (click)="goToEventPage(event)">
+          <button class="button2" (click)="editEvent(event)">
+            Muokkaa tapahtuman tietoja
+          </button>
+          <button class="button2" (click)="goToEventPage(event)">
             Siirry tapahtuman sivulle <span class="arrow">&#8250;</span>
           </button>
         </div>
       </div>
     </div>
+
+    <div *ngIf="activeTab === 'past'" class="events-div">
+      <div *ngFor="let event of pastEvents" class="your-events">
+        <div class="event-text">
+          <strong>
+            <p class="event-name">{{ event.eventName }}</p></strong
+          >
+          <p>{{ event.date }}</p>
+        </div>
+        <div class="eventbuttons">
+          <button class="button2" (click)="goToEventPage(event)">
+            Siirry tapahtuman sivulle <span class="arrow">&#8250;</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <ng-template #noEvents>
       <p>Ei tapahtumia.</p>
     </ng-template>
