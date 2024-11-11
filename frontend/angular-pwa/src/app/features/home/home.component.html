@@ -1,32 +1,34 @@
-<img class="banner-img" [src]="'assets/stunite_banner.png'" />
-<h1>students unite, tonite, in the nite!</h1>
+<div class="page-container">
+  <img class="banner-img" [src]="'assets/stunite_banner.png'" />
+  <h1>students unite, tonite, in the nite!</h1>
 
-<div class="featured-events">
-  <div class="featured-events-left">
-    <p>🔥 Kuuminta juuri nyt 🔥</p>
-    <div class="events-section">
-      <app-eventcard *ngFor="let event of featuredEvents()" [event]="event" [onlyImage]="true"></app-eventcard>
-      <button (click)="goToEvents()">Katso kaikki tapahtumat</button>
+  <div class="featured-events">
+    <div class="featured-events-left">
+      <p>🔥 Kuuminta juuri nyt 🔥</p>
+      <div class="events-section">
+        <app-eventcard *ngFor="let event of featuredEvents()" [event]="event" [onlyImage]="true"></app-eventcard>
+        <button (click)="goToEvents()">Katso kaikki tapahtumat</button>
+      </div>
     </div>
-  </div>
 
-  <div class="calendar-section">
-    <!-- ngSkipHydration skips Angular's hydration process
+    <div class="calendar-section">
+      <!-- ngSkipHydration skips Angular's hydration process
       for this part of the DOM. (necessary when rendering components
       that can have discrepancies between server-side and client-side rendering)
       In here it's used because we want to ensure that igx-clandar component
       operates correctly without Angular trying to reconcile differences during hydration-->
-    <app-calendar ngSkipHydration></app-calendar>
-  </div>
-</div>
-
-<div class="featured-associations">
-  <p>Tutustu yhteisöihin</p>
-  <div class="associations-container">
-    <div class="associations">
-      <app-associationcard *ngFor="let association of featuredAssociations()" [association]="association">
-      </app-associationcard>
+      <app-calendar ngSkipHydration></app-calendar>
     </div>
-    <div class="toAssociationPage" (click)="goToAssociations()">&#8250;</div>
+  </div>
+
+  <div class="featured-associations">
+    <p>Tutustu yhteisöihin</p>
+    <div class="associations-container">
+      <div class="associations">
+        <app-associationcard *ngFor="let association of featuredAssociations()" [association]="association">
+        </app-associationcard>
+      </div>
+      <div class="toAssociationPage" (click)="goToAssociations()">&#8250;</div>
+    </div>
   </div>
 </div>

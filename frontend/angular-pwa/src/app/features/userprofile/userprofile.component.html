@@ -1,128 +1,93 @@
-<div class="profile-container">
-  <h2>Profiili</h2>
-  <div class="container">
-    <form [formGroup]="lomake" (ngSubmit)="onSubmit()">
-      <div class="profile-details">
-        <h3>Omat tiedot:</h3>
-        <div class="profile-image">
-          <img src="../../../assets/unicorn.webp" alt="Profiilikuva" />
-          <p>
-            Foorumilla näkyvä nimi:
-            <strong>{{ lomake.get("etunimi")?.value || "Tuntematon" }}</strong>
-          </p>
+<div class="page-container">
+  <div class="profile-container">
+    <h2>Profiili</h2>
+    <div class="container">
+      <form [formGroup]="lomake" (ngSubmit)="onSubmit()">
+        <div class="profile-details">
+          <h3>Omat tiedot:</h3>
+          <div class="profile-image">
+            <img src="../../../assets/unicorn.webp" alt="Profiilikuva" />
+            <p>
+              Foorumilla näkyvä nimi:
+              <strong>{{ lomake.get("etunimi")?.value || "Tuntematon" }}</strong>
+            </p>
+          </div>
+
+          <div class="info-fields">
+            <div class="form-field">
+              <label for="etunimi">Etunimi:</label>
+              <input id="etunimi" formControlName="etunimi" type="text" placeholder="Syötä etunimi"
+                [readonly]="!canEdit" />
+            </div>
+            <div class="form-field">
+              <label for="sukunimi">Sukunimi:</label>
+              <input id="sukunimi" formControlName="sukunimi" type="text" placeholder="Syötä sukunimi"
+                [readonly]="!canEdit" />
+            </div>
+            <div class="form-field">
+              <label for="sahkoposti">Sähköposti:</label>
+              <input id="sahkoposti" formControlName="sahkoposti" type="email" placeholder="Syötä sähköposti"
+                [readonly]="!canEdit" />
+            </div>
+            <div class="form-field">
+              <label for="puhelin">Puhelinnumero:</label>
+              <input id="puhelin" formControlName="puhelin" type="tel" placeholder="Syötä numero"
+                [readonly]="!canEdit" />
+            </div>
+            <div class="form-field">
+              <label for="koulu">Koulu:</label>
+              <input id="koulu" formControlName="koulu" type="text" placeholder="Syötä koulu" [readonly]="!canEdit" />
+            </div>
+            <div class="form-field">
+              <label for="ala">Koulutusala:</label>
+              <input id="ala" formControlName="ala" type="text" placeholder="Syötä koulutusala" [readonly]="!canEdit" />
+            </div>
+            <div class="form-field">
+              <label for="paikallisyhdistys">Paikallisyhdistys:</label>
+              <input id="paikallisyhdistys" formControlName="paikallisyhdistys" type="text"
+                placeholder="Syötä paikallisyhdistys" [readonly]="!canEdit" />
+            </div>
+          </div>
         </div>
 
-        <div class="info-fields">
-          <div class="form-field">
-            <label for="etunimi">Etunimi:</label>
-            <input
-              id="etunimi"
-              formControlName="etunimi"
-              type="text"
-              placeholder="Syötä etunimi"
-              [readonly]="!canEdit"
-            />
-          </div>
-          <div class="form-field">
-            <label for="sukunimi">Sukunimi:</label>
-            <input
-              id="sukunimi"
-              formControlName="sukunimi"
-              type="text"
-              placeholder="Syötä sukunimi"
-              [readonly]="!canEdit"
-            />
-          </div>
-          <div class="form-field">
-            <label for="sahkoposti">Sähköposti:</label>
-            <input
-              id="sahkoposti"
-              formControlName="sahkoposti"
-              type="email"
-              placeholder="Syötä sähköposti"
-              [readonly]="!canEdit"
-            />
-          </div>
-          <div class="form-field">
-            <label for="puhelin">Puhelinnumero:</label>
-            <input
-              id="puhelin"
-              formControlName="puhelin"
-              type="tel"
-              placeholder="Syötä numero"
-              [readonly]="!canEdit"
-            />
-          </div>
-          <div class="form-field">
-            <label for="koulu">Koulu:</label>
-            <input
-              id="koulu"
-              formControlName="koulu"
-              type="text"
-              placeholder="Syötä koulu"
-              [readonly]="!canEdit"
-            />
-          </div>
-          <div class="form-field">
-            <label for="ala">Koulutusala:</label>
-            <input
-              id="ala"
-              formControlName="ala"
-              type="text"
-              placeholder="Syötä koulutusala"
-              [readonly]="!canEdit"
-            />
-          </div>
-          <div class="form-field">
-            <label for="paikallisyhdistys">Paikallisyhdistys:</label>
-            <input
-              id="paikallisyhdistys"
-              formControlName="paikallisyhdistys"
-              type="text"
-              placeholder="Syötä paikallisyhdistys"
-              [readonly]="!canEdit"
-            />
-          </div>
-        </div>
-      </div>
-
-      <ng-container *ngIf="canEdit; else editbutton">
-        <button type="submit" class="button2">Tallenna muutokset</button>
-        <button type="button" (click)="cancelEdit()" class="button2">
-          Peruuta
-        </button>
-      </ng-container>
-      <ng-template #editbutton>
-        <button type="button" (click)="enableEdit()" class="button2">
-          Muokkaa tietoja
-        </button>
-      </ng-template>
-    </form>
-  </div>
-
-  <div class="container">
-    <div class="interests-section">
-      <h3>Mielenkiinnon kohteet:</h3>
-      <div class="button-group">
-        <button type="button" (click)="selectKohde('yhdistys')">
-          Yhdistys
-        </button>
-        <button type="button" (click)="selectKohde('bileet')">Bileet</button>
-        <button type="button" (click)="selectKohde('urheilu')">Urheilu</button>
-        <button type="button" (click)="selectKohde('opiskelu')">
-          Opiskelu
-        </button>
-        <button type="button" (click)="selectKohde('deittailu')">
-          Deittailu
-        </button>
-        <button type="button" (click)="selectKohde('luonto')">Luonto</button>
-      </div>
+        <ng-container *ngIf="canEdit; else editbutton">
+          <button type="submit" class="button2">Tallenna muutokset</button>
+          <button type="button" (click)="cancelEdit()" class="button2">
+            Peruuta
+          </button>
+        </ng-container>
+        <ng-template #editbutton>
+          <button type="button" (click)="enableEdit()" class="button2">
+            Muokkaa tietoja
+          </button>
+        </ng-template>
+      </form>
     </div>
-    <p *ngIf="valitutKohteet.length > 0">
-      Valitsit mielenkiinnon kohteiksi: {{ valitutKohteet.join(", ") }}
-    </p>
-  </div>
-  <div class="logout-button">
-    <button (click)="logout()">Kirjaudu ulos</button>
+
+    <div class="container">
+      <div class="interests-section">
+        <h3>Mielenkiinnon kohteet:</h3>
+        <div class="button-group">
+          <button type="button" (click)="selectKohde('yhdistys')">
+            Yhdistys
+          </button>
+          <button type="button" (click)="selectKohde('bileet')">Bileet</button>
+          <button type="button" (click)="selectKohde('urheilu')">Urheilu</button>
+          <button type="button" (click)="selectKohde('opiskelu')">
+            Opiskelu
+          </button>
+          <button type="button" (click)="selectKohde('deittailu')">
+            Deittailu
+          </button>
+          <button type="button" (click)="selectKohde('luonto')">Luonto</button>
+        </div>
+      </div>
+      <p *ngIf="valitutKohteet.length > 0">
+        Valitsit mielenkiinnon kohteiksi: {{ valitutKohteet.join(", ") }}
+      </p>
+    </div>
+    <div class="logout-button">
+      <button (click)="logout()">Kirjaudu ulos</button>
+    </div>
   </div>
 </div>
