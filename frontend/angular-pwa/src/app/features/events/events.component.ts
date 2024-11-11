@@ -58,7 +58,7 @@ export class EventsComponent implements OnInit {
   constructor(private eventService: EventService, private router: Router) {}
 
   ngOnInit(): void {
-    this.eventsSignal = this.eventService.loadEvents();
+    this.eventsSignal = this.eventService.getPublishedEvents();
     this.eventsSignal.subscribe((eventsData) => {
       eventsData.forEach((event) => {
         if (!this.availableCities.includes(event.city)) {

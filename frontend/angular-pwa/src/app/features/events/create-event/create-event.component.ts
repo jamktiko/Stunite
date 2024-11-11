@@ -130,6 +130,11 @@ export class CreateEventComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.status === 'Tuotannossa' && this.publishDateTime) {
+      console.error('Alustavalle tapahtumalle ei voi asettaa julkaisuaikaa.');
+      alert('Alustavalle tapahtumalle ei voi asettaa julkaisuaikaa.');
+      return;
+    }
     const loggedInOrganizer = this.authService.getCurrUser();
 
     if (

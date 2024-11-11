@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Event } from '../../shared/models/event.model';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../enviroments/enviroment';
 import { Observable } from 'rxjs';
@@ -66,8 +66,11 @@ export class EventService {
 
   // must be tested
   getPublishedEvents(): Observable<Event[]> {
-    const url = `${this.apiUrl}?status=published`;
-    return this.http.get<Event[]>(url);
+    return this.http
+      .get<Event[]>(this.apiUrl)
+      .pipe(
+        map((events) => events.filter((event) => event.status === 'Varattu'))
+      );
   }
 
   getAllEvents(): Observable<Event[]> {
