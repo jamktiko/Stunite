@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng tes",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "serve:ssr:angular-pwa": "node dist/angular-pwa/server/server.mjs"
   },
   "private": true,
