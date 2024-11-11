@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, signal, Signal } from '@angular/core';
+import { Component, OnInit, signal, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -8,24 +8,28 @@ import { Router } from '@angular/router';
 import { Event } from '../../shared/models/event.model';
 import fiLocale from '@fullcalendar/core/locales/fi';
 import { Subscription } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-organizer-calendar',
   standalone: true,
-  imports: [CommonModule, FullCalendarModule],
+  imports: [CommonModule, FullCalendarModule, FormsModule],
   templateUrl: './organizer-calendar.component.html',
   styleUrls: ['./organizer-calendar.component.css'],
 })
-export class OrganizerCalendarComponent implements OnInit, OnDestroy {
-  events: Event[] = [];
-  filteredEvents: Event[] = [];
-  searchTerm: string = '';
+export class OrganizerCalendarComponent implements OnInit {
+  events!: Signal<any[]>;
+  upcomingEvents: Event[] = [];
+  pastEvents: Event[] = [];
+  activeTab: string = 'upcoming';
+
+  tooltipVisible = false;
+  tooltipContent = '';
+  tooltipPosition = { top: '0px', left: '0px' };
+
+  // Kaupungin suodatus
   selectedCity: string = '';
-  selectedTag: string = '';
-  selectedDateRange: { start: string | null; end: string | null } = {
-    start: null,
-    end: null,
-  };
+  availableCities: string[] = [];
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
@@ -41,6 +45,9 @@ export class OrganizerCalendarComponent implements OnInit, OnDestroy {
         this.router.navigate(['/events', eventId]);
       }
     },
+
+    eventMouseEnter: (info) => this.onEventMouseEnter(info),
+    eventMouseLeave: () => this.onEventMouseLeave(),
   };
 
   private eventSubscription: Subscription = new Subscription();
@@ -48,67 +55,111 @@ export class OrganizerCalendarComponent implements OnInit, OnDestroy {
   constructor(private eventService: EventService, private router: Router) {}
 
   ngOnInit(): void {
-    this.eventSubscription = this.eventService
-      .loadEvents()
-      .subscribe((eventsData) => {
-        this.events = eventsData;
-        this.filterEvents();
-      });
+    this.eventSubscription = this.eventService.getAllEvents().subscribe({
+      next: (eventsData) => {
+        this.events = signal(eventsData);
+        this.updateAvailableCities(eventsData);
+        this.eventsUpdated();
+      },
+      error: (err) => {
+        console.error('Error fetching events:', err);
+      },
+    });
   }
-
-  filterEvents(): void {
-    let filtered = this.events;
-
-    if (this.searchTerm) {
-      filtered = filtered.filter((event) =>
-        event.eventName.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
-    }
-
-    if (this.selectedCity) {
-      filtered = filtered.filter((event) => event.city === this.selectedCity);
-    }
-
-    if (this.selectedTag) {
-      filtered = filtered.filter((event) =>
-        event.eventTags?.includes(this.selectedTag)
-      );
-    }
-
-    if (this.selectedDateRange.start || this.selectedDateRange.end) {
-      filtered = filtered.filter((event) => {
-        const eventDate = new Date(this.formatDateToISO(event.date));
-        const { start, end } = this.selectedDateRange;
-        const startDate = start ? new Date(start) : null;
-        const endDate = end ? new Date(end) : null;
-
-        return (
-          (!startDate || eventDate >= startDate) &&
-          (!endDate || eventDate <= endDate)
-        );
-      });
-    }
-
-    this.filteredEvents = filtered;
-    this.updateCalendar(filtered);
+  updateAvailableCities(eventsData: Event[]): void {
+    eventsData.forEach((event) => {
+      if (!this.availableCities.includes(event.city)) {
+        this.availableCities.push(event.city);
+      }
+    });
   }
-
-  updateCalendar(eventsData: Event[]): void {
+  eventsUpdated() {
+    const eventsData = this.events();
     const currentDate = new Date();
 
-    this.calendarOptions.events = eventsData.map((event) => ({
-      title: event.eventName,
-      date: this.formatDateToISO(event.date),
-      color: event.status === 'Varattu' ? '#fe7775' : '#f0d37c',
-      url: `/events/${event._id}`,
-      extendedProps: {
-        startingTime: event.startingTime,
-        venue: event.venue,
-        date: event.date,
-        organizationName: event.organizationName,
-        eventId: event._id,
-      },
-    }));
+    // Kaupunkiin perustuva suodatus
+    let filteredEvents = eventsData;
+    if (this.selectedCity) {
+      filteredEvents = filteredEvents.filter(
+        (event) => event.city.toLowerCase() === this.selectedCity.toLowerCase()
+      );
+    }
+
+    this.upcomingEvents = filteredEvents
+      .filter((event) => {
+        const eventDate = new Date(this.formatDateToISO(event.date));
+        return eventDate >= currentDate;
+      })
+      .sort((a, b) => {
+        const dateA = new Date(
+          this.formatDateToISO(a.date) + 'T' + a.startingTime
+        );
+        const dateB = new Date(
+          this.formatDateToISO(b.date) + 'T' + b.startingTime
+        );
+        return dateA.getTime() - dateB.getTime();
+      });
+
+    this.pastEvents = filteredEvents
+      .filter((event) => {
+        const eventDate = new Date(this.formatDateToISO(event.date));
+        return eventDate < currentDate;
+      })
+      .sort((a, b) => {
+        const dateA = new Date(
+          this.formatDateToISO(a.date) + 'T' + a.startingTime
+        );
+        const dateB = new Date(
+          this.formatDateToISO(b.date) + 'T' + b.startingTime
+        );
+        return dateB.getTime() - dateA.getTime();
+      });
+
+    // Päivitetään kalenterin tapahtumat
+    if (filteredEvents.length > 0) {
+      this.calendarOptions.events = filteredEvents.map((event) => ({
+        title: event.eventName,
+        date: this.formatDateToISO(event.date),
+        color: event.status === 'Varattu' ? '#fe7775' : '#f0d37c',
+        url: `/events/${event._id}`,
+        extendedProps: {
+          startingTime: event.startingTime,
+          venue: event.venue,
+          date: event.date,
+          organizationName: event.organizationName,
+          eventId: event._id,
+        },
+      }));
+    }
+  }
+
+  onEventMouseEnter(info: any): void {
+    const eventDetails = info.event.extendedProps;
+    this.tooltipContent = `
+      <strong><span class="tooltip-title">${info.event.title}</span></strong><br>
+      <strong>Aika:</strong> ${eventDetails.date} klo ${eventDetails.startingTime} <br>
+      <strong>Paikka:</strong> ${eventDetails.venue} <br>
+      <strong>Järjestäjä:</strong> ${eventDetails.organizationName}
+    `;
+    this.tooltipVisible = true;
+
+    const rect = info.el.getBoundingClientRect();
+    this.tooltipPosition = {
+      top: `${rect.bottom + window.scrollY + 10}px`,
+      left: `${rect.left + window.scrollX / rect.width}px`,
+    };
+  }
+
+  onEventMouseLeave(): void {
+    this.tooltipVisible = false;
+  }
+
+  goToCreateEvent() {
+    this.router.navigate(['/organizer-view/create-event']);
+  }
+
+  goToEventPage(event: Event) {
+    this.router.navigate(['/events', event._id]);
   }
 
   private formatDateToISO(dateStr: string): string {
@@ -116,27 +167,13 @@ export class OrganizerCalendarComponent implements OnInit, OnDestroy {
     return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
   }
 
-  onSearchChange(searchTerm: string): void {
-    this.searchTerm = searchTerm;
-    this.filterEvents();
-  }
-
-  onCityChange(city: string): void {
-    this.selectedCity = city;
-    this.filterEvents();
-  }
-
-  onTagChange(tag: string): void {
-    this.selectedTag = tag;
-    this.filterEvents();
-  }
-
-  onDateRangeChange(start: string | null, end: string | null): void {
-    this.selectedDateRange = { start, end };
-    this.filterEvents();
-  }
-
   ngOnDestroy(): void {
     this.eventSubscription.unsubscribe();
+  }
+
+  // Kaupungin suodatusmuutokset
+  onCityChange(city: string): void {
+    this.selectedCity = city;
+    this.eventsUpdated(); // Suodatetaan uudelleen, kun kaupunki muuttuu
   }
 }

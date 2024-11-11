@@ -2,12 +2,7 @@
   <h1>Järjestäjäkalenteri</h1>
 
   <div class="filters">
-    <input
-      type="text"
-      [(ngModel)]="searchTerm"
-      placeholder="Etsi tapahtumaa..."
-      (ngModelChange)="onSearchChange(searchTerm)"
-    />
+
 
     <select
       [(ngModel)]="selectedCity"
@@ -19,33 +14,9 @@
       </option>
     </select>
 
-    <select
-      [(ngModel)]="selectedTag"
-      (ngModelChange)="onTagChange(selectedTag)"
-    >
-      <option value="">Valitse tunniste</option>
-      <option *ngFor="let tag of availableTags" [value]="tag">{{ tag }}</option>
-    </select>
-
-    <div class="date-range-filter">
-      <input
-        type="date"
-        [(ngModel)]="selectedDateRange.start"
-        (ngModelChange)="
-          onDateRangeChange(selectedDateRange.start, selectedDateRange.end)
-        "
-      />
-      -
-      <input
-        type="date"
-        [(ngModel)]="selectedDateRange.end"
-        (ngModelChange)="
-          onDateRangeChange(selectedDateRange.start, selectedDateRange.end)
-        "
-      />
-    </div>
   </div>
 
+  <!-- FullCalendar -->
   <full-calendar
     class="full-calendar"
     [options]="calendarOptions"
@@ -69,9 +40,9 @@
       <span class="dot-notconfirmed"></span>
       <p>Alustava tapahtumasuunnitelma</p>
       <span class="material-symbols-outlined notconfirmed-info"> help </span>
-      <span class="color-info-hover"
-        >Tapahtuman tiedot (esim. aika tai paikka) voivat vielä muuttua.</span
-      >
+      <span class="color-info-hover">
+        Tapahtuman tiedot voivat vielä muuttua.
+      </span>
     </div>
     <button class="button2" (click)="goToCreateEvent()">
       Luo uusi tapahtuma
