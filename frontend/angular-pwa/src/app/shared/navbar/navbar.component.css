@@ -1,8 +1,8 @@
 nav {
   display: flex;
-  padding: 10px;
+  justify-content: space-between;
   width: 100%;
-  height: 60px;
+  height: 65px;
   max-width: 100vw;
   box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.19);
   position: fixed;
@@ -23,6 +23,7 @@ a {
 
 div.menu-desktop {
   font-size: 1.2em;
+  padding: 10px;
 }
 
 li {
@@ -42,7 +43,7 @@ div {
 
 .login-icon {
   position: absolute;
-  right: 40px;
+  right: 25px;
   margin-left: 50px;
 }
 
@@ -94,9 +95,9 @@ div {
   position: absolute;
   display: flex;
   flex-direction: column;
-  top: 90px;
+  top: 70px;
   right: 30px;
-  width: 300px;
+  width: 250px;
   background-color: #fff5f9;
   border-radius: 10px;
   border: solid #b2b2b2 2px;
