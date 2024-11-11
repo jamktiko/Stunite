@@ -1,6 +1,51 @@
 <div class="page-container">
   <h1>Järjestäjäkalenteri</h1>
 
+  <div class="filters">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      placeholder="Etsi tapahtumaa..."
+      (ngModelChange)="onSearchChange(searchTerm)"
+    />
+
+    <select
+      [(ngModel)]="selectedCity"
+      (ngModelChange)="onCityChange(selectedCity)"
+    >
+      <option value="">Valitse kaupunki</option>
+      <option *ngFor="let city of availableCities" [value]="city">
+        {{ city }}
+      </option>
+    </select>
+
+    <select
+      [(ngModel)]="selectedTag"
+      (ngModelChange)="onTagChange(selectedTag)"
+    >
+      <option value="">Valitse tunniste</option>
+      <option *ngFor="let tag of availableTags" [value]="tag">{{ tag }}</option>
+    </select>
+
+    <div class="date-range-filter">
+      <input
+        type="date"
+        [(ngModel)]="selectedDateRange.start"
+        (ngModelChange)="
+          onDateRangeChange(selectedDateRange.start, selectedDateRange.end)
+        "
+      />
+      -
+      <input
+        type="date"
+        [(ngModel)]="selectedDateRange.end"
+        (ngModelChange)="
+          onDateRangeChange(selectedDateRange.start, selectedDateRange.end)
+        "
+      />
+    </div>
+  </div>
+
   <full-calendar
     class="full-calendar"
     [options]="calendarOptions"

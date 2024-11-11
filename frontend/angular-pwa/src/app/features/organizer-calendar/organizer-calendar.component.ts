@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, Signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -16,15 +16,16 @@ import { Subscription } from 'rxjs';
   templateUrl: './organizer-calendar.component.html',
   styleUrls: ['./organizer-calendar.component.css'],
 })
-export class OrganizerCalendarComponent implements OnInit {
-  events!: Signal<any[]>;
-  upcomingEvents: Event[] = [];
-  pastEvents: Event[] = [];
-  activeTab: string = 'upcoming';
-
-  tooltipVisible = false;
-  tooltipContent = '';
-  tooltipPosition = { top: '0px', left: '0px' };
+export class OrganizerCalendarComponent implements OnInit, OnDestroy {
+  events: Event[] = [];
+  filteredEvents: Event[] = [];
+  searchTerm: string = '';
+  selectedCity: string = '';
+  selectedTag: string = '';
+  selectedDateRange: { start: string | null; end: string | null } = {
+    start: null,
+    end: null,
+  };
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
@@ -38,12 +39,8 @@ export class OrganizerCalendarComponent implements OnInit {
 
       if (eventId) {
         this.router.navigate(['/events', eventId]);
-      } else {
       }
     },
-
-    eventMouseEnter: (info) => this.onEventMouseEnter(info),
-    eventMouseLeave: () => this.onEventMouseLeave(),
   };
 
   private eventSubscription: Subscription = new Subscription();
@@ -51,101 +48,92 @@ export class OrganizerCalendarComponent implements OnInit {
   constructor(private eventService: EventService, private router: Router) {}
 
   ngOnInit(): void {
-    this.eventSubscription = this.eventService.getAllEvents().subscribe({
-      next: (eventsData) => {
-        this.events = signal(eventsData);
-
-        this.eventsUpdated();
-      },
-      error: (err) => {
-        console.error('Error fetching events:', err);
-      },
-    });
+    this.eventSubscription = this.eventService
+      .loadEvents()
+      .subscribe((eventsData) => {
+        this.events = eventsData;
+        this.filterEvents();
+      });
   }
 
-  eventsUpdated() {
-    const eventsData = this.events();
-    const currentDate = new Date();
+  filterEvents(): void {
+    let filtered = this.events;
 
-    if (eventsData.length > 0) {
-      this.calendarOptions.events = eventsData.map((event) => ({
-        title: event.eventName,
-        date: this.formatDateToISO(event.date),
-        color: event.status === 'Varattu' ? '#fe7775' : '#f0d37c',
-        url: `/events/${event._id}`,
-        extendedProps: {
-          startingTime: event.startingTime,
-          venue: event.venue,
-          date: event.date,
-          organizationName: event.organizationName,
-          eventId: event._id,
-        },
-      }));
+    if (this.searchTerm) {
+      filtered = filtered.filter((event) =>
+        event.eventName.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
     }
 
-    this.upcomingEvents = eventsData
-      .filter((event) => {
+    if (this.selectedCity) {
+      filtered = filtered.filter((event) => event.city === this.selectedCity);
+    }
+
+    if (this.selectedTag) {
+      filtered = filtered.filter((event) =>
+        event.eventTags?.includes(this.selectedTag)
+      );
+    }
+
+    if (this.selectedDateRange.start || this.selectedDateRange.end) {
+      filtered = filtered.filter((event) => {
         const eventDate = new Date(this.formatDateToISO(event.date));
-        return eventDate >= currentDate;
-      })
-      .sort((a, b) => {
-        const dateA = new Date(
-          this.formatDateToISO(a.date) + 'T' + a.startingTime
+        const { start, end } = this.selectedDateRange;
+        const startDate = start ? new Date(start) : null;
+        const endDate = end ? new Date(end) : null;
+
+        return (
+          (!startDate || eventDate >= startDate) &&
+          (!endDate || eventDate <= endDate)
         );
-        const dateB = new Date(
-          this.formatDateToISO(b.date) + 'T' + b.startingTime
-        );
-        return dateA.getTime() - dateB.getTime();
       });
+    }
 
-    this.pastEvents = eventsData
-      .filter((event) => {
-        const eventDate = new Date(this.formatDateToISO(event.date));
-        return eventDate < currentDate;
-      })
-      .sort((a, b) => {
-        const dateA = new Date(
-          this.formatDateToISO(a.date) + 'T' + a.startingTime
-        );
-        const dateB = new Date(
-          this.formatDateToISO(b.date) + 'T' + b.startingTime
-        );
-        return dateB.getTime() - dateA.getTime();
-      });
+    this.filteredEvents = filtered;
+    this.updateCalendar(filtered);
   }
 
-  onEventMouseEnter(info: any): void {
-    const eventDetails = info.event.extendedProps;
-    this.tooltipContent = `
-      <strong><span class="tooltip-title">${info.event.title}</span></strong><br>
-      <strong>Aika:</strong> ${eventDetails.date} klo ${eventDetails.startingTime} <br>
-      <strong>Paikka:</strong> ${eventDetails.venue} <br>
-      <strong>Järjestäjä:</strong> ${eventDetails.organizationName}
-    `;
-    this.tooltipVisible = true;
+  updateCalendar(eventsData: Event[]): void {
+    const currentDate = new Date();
 
-    const rect = info.el.getBoundingClientRect();
-    this.tooltipPosition = {
-      top: `${rect.bottom + window.scrollY + 10}px`,
-      left: `${rect.left + window.scrollX / rect.width}px`,
-    };
-  }
-
-  onEventMouseLeave(): void {
-    this.tooltipVisible = false;
-  }
-
-  goToCreateEvent() {
-    this.router.navigate(['/organizer-view/create-event']);
-  }
-
-  goToEventPage(event: Event) {
-    this.router.navigate(['/events', event._id]);
+    this.calendarOptions.events = eventsData.map((event) => ({
+      title: event.eventName,
+      date: this.formatDateToISO(event.date),
+      color: event.status === 'Varattu' ? '#fe7775' : '#f0d37c',
+      url: `/events/${event._id}`,
+      extendedProps: {
+        startingTime: event.startingTime,
+        venue: event.venue,
+        date: event.date,
+        organizationName: event.organizationName,
+        eventId: event._id,
+      },
+    }));
   }
 
   private formatDateToISO(dateStr: string): string {
     const [day, month, year] = dateStr.split('.');
     return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  }
+
+  onSearchChange(searchTerm: string): void {
+    this.searchTerm = searchTerm;
+    this.filterEvents();
+  }
+
+  onCityChange(city: string): void {
+    this.selectedCity = city;
+    this.filterEvents();
+  }
+
+  onTagChange(tag: string): void {
+    this.selectedTag = tag;
+    this.filterEvents();
+  }
+
+  onDateRangeChange(start: string | null, end: string | null): void {
+    this.selectedDateRange = { start, end };
+    this.filterEvents();
   }
 
   ngOnDestroy(): void {

@@ -185,10 +185,8 @@ export class CreateEventComponent implements OnInit {
       status: this.status,
       organizerId: loggedInOrganizer.organizerId,
       organizationName: loggedInOrganizer.organizationName,
-      eventTags: this.eventTags, 
+      eventTags: this.eventTags,
     };
-
-  
 
     if (
       !updatedEvent.eventName ||
@@ -209,7 +207,7 @@ export class CreateEventComponent implements OnInit {
       this.eventService.createEvent(updatedEvent);
     }
 
-    this.router.navigate(['/organizer-view']);
+    this.router.navigate([`/events/${updatedEvent._id}`]);
   }
 
   private formatDate(dateStr: string): string {

@@ -14,6 +14,13 @@
       <li>
         <a routerLink="/associations" routerLinkActive="active">YHTEISÖ</a>
       </li>
+      <ng-container *ngIf="isOrganizer">
+        <li>
+        <a routerLink="/organizer-view" routerLinkActive="active">JÄRJESTÄJÄ NÄKYMÄ</a>
+        <a> </a>
+        </li>
+
+      </ng-container>
     </ul>
 
     <!-- Mobile view -->
@@ -57,10 +64,6 @@
           <li><a (click)="onProfileClick()">Oma profiili</a></li>
           <hr width="100%" size="2" />
         </ng-template>
-        <!-- <li><a>Suosikit(Coming soon)</a></li>
-        <hr width="100%" size="2" />
-        <li><a>Asetukset(Coming soon)</a></li>
-        <hr width="100%" size="2" /> -->
         <li>
           <div class="mobile-nav-logout">
             <a (click)="logOut()">Kirjaudu Ulos</a>
@@ -112,7 +115,6 @@
           <li><a (click)="onProfileClick()">Oma profiili</a></li>
         </ng-template>
 
-        <li><a>Suosikit</a></li>
         <li><a>Asetukset</a></li>
         <li><a (click)="logOut()">Kirjaudu ulos</a></li>
       </ul>

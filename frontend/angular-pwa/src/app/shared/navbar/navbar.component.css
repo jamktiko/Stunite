@@ -139,7 +139,7 @@ div {
   cursor: pointer;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 870px) {
   .menu-desktop {
     display: none;
   }
