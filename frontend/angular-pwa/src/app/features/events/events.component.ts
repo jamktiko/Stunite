@@ -28,7 +28,31 @@ export class EventsComponent implements OnInit {
 
   availableCities: string[] = [];
   availableTags: string[] = [
-    // add tags
+    'Sitsit',
+    'Appro',
+    'Alkoholiton',
+    'Lajikokeilu',
+    'Risteily',
+    'Ekskursio',
+    'Liikunta',
+    'Vuosijuhla',
+    'Sillis',
+    'Festivaali',
+    'Musiikki',
+    'Tanssiaiset',
+    'Turnaus',
+    'Online',
+    'Bileet',
+    'Bingo',
+    'Poikkitieteellinen',
+    'Vain jäsenille',
+    'Vaihto-opiskelijoille',
+    'Ilmainen',
+    'Vappu',
+    'Vapaa-aika',
+    'Ruoka',
+    'Kulttuuri',
+    'Ammatillinen tapahtuma',
   ];
 
   constructor(private eventService: EventService, private router: Router) {}

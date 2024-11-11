@@ -38,6 +38,12 @@
   justify-content: center;
   margin-bottom: 34px;
 }
+.no-events-message {
+  color: red;
+  font-weight: bold;
+  margin-top: 20px;
+  text-align: center;
+}
 
 .full-calendar {
   margin: 5%;
