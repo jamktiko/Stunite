@@ -22,6 +22,16 @@
     <div *ngIf="noEventsForTag" class="no-events-message">
       <p>Valitsemallesi tagille ei ole tapahtumia.</p>
     </div>
+
+    <select
+      [(ngModel)]="selectedOrganizer"
+      (ngModelChange)="onOrganizerChange(selectedOrganizer)"
+    >
+      <option value="">Valise järjestäjä</option>
+      <option *ngFor="let organizer of availableOrganizers" [value]="organizer">
+        {{ organizer }}
+      </option>
+    </select>
   </div>
 
   <!-- FullCalendar -->

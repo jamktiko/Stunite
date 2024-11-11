@@ -60,7 +60,6 @@ export class EventArchiveComponent implements OnInit {
   constructor(private eventService: EventService, private router: Router) {}
 
   ngOnInit(): void {
-    // Subscribe to the Observable to get the events
     this.eventSubscription = this.eventService.getPublishedEvents().subscribe({
       next: (events: Event[]) => {
         this.eventsSignal = signal(events);
