@@ -39,6 +39,9 @@ export class CreateEventComponent implements OnInit {
   eventId: string | null = null;
   eventTags: string[] = [];
 
+  // imagePreview: string | null = null;
+  // selectedFile: File | null = null;
+
   // Tapahtumatyypit
   availableEventTags: string[] = [
     'Sitsit',
@@ -121,6 +124,24 @@ export class CreateEventComponent implements OnInit {
     return dateStr;
   }
 
+  // onFileSelected(event: any): void {
+  //   const fileInput = event.target as HTMLInputElement;
+
+  //   // Check if fileInput.files is not null and has at least one file
+  //   if (fileInput.files && fileInput.files.length > 0) {
+  //     this.selectedFile = fileInput.files[0];
+
+  //     // Now you can safely use the file
+  //     const reader = new FileReader();
+  //     reader.onload = () => {
+  //       this.imagePreview = reader.result as string;
+  //     };
+  //     reader.readAsDataURL(this.selectedFile);
+  //   } else {
+  //     console.log('No file selected');
+  //   }
+  // }
+
   onCancel() {
     this.location.back();
   }
@@ -135,8 +156,8 @@ export class CreateEventComponent implements OnInit {
       alert('Alustavalle tapahtumalle ei voi asettaa julkaisuaikaa.');
       return;
     }
-    const loggedInOrganizer = this.authService.getCurrUser();
 
+    const loggedInOrganizer = this.authService.getCurrUser();
     if (
       !loggedInOrganizer ||
       !loggedInOrganizer.organizerId ||
@@ -193,6 +214,23 @@ export class CreateEventComponent implements OnInit {
       eventTags: this.eventTags,
     };
 
+    // if (this.selectedFile) {
+    //   const formData = new FormData();
+    //   formData.append('image', this.selectedFile);
+    //   formData.append('eventName', this.eventName);
+    //   // Add other form fields if necessary
+
+    //   this.eventService.uploadEventImage(formData).subscribe({
+    //     next: (response) => {
+    //       console.log('Event with image created:', response);
+    //       this.router.navigate([`/events/${response._id}`]);
+    //     },
+    //     error: (err) => console.error('Image upload failed:', err),
+    //   });
+    // } else {
+    //   console.error('No image selected!');
+    // }
+
     if (
       !updatedEvent.eventName ||
       !updatedEvent.date ||
@@ -212,7 +250,7 @@ export class CreateEventComponent implements OnInit {
       this.eventService.createEvent(updatedEvent);
     }
 
-    this.router.navigate([`/events/${updatedEvent._id}`]);
+    this.router.navigate([`/organizer-view`]);
   }
 
   private formatDate(dateStr: string): string {

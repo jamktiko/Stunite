@@ -134,6 +134,18 @@
       </div>
 
       <p>Alla olevan toiminnallisuutta ei ole vielä tehty.</p>
+      <!-- <div class="form-field">
+        <label>Lisää tapahtuman kuva</label>
+        <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+        <div *ngIf="imagePreview">
+          <img
+            [src]="imagePreview"
+            alt="Kuvan esikatselu"
+            class="image-preview"
+          />
+        </div>
+      </div> -->
+
       <div class="form-field">
         <label>Linkki lipunmyyntiin</label>
         <input type="text" [(ngModel)]="ticketLink" name="ticketLink" />

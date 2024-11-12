@@ -4,7 +4,7 @@ import { Event } from '../../shared/models/event.model';
 import { map, tap } from 'rxjs/operators';
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../enviroments/enviroment';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +37,24 @@ export class EventService {
       )
       .subscribe();
   }
+  deleteEvent(eventId: string): Observable<any> {
+    const token = this.authService.getToken();
+
+    if (!token) {
+      console.error('Token not found');
+      return throwError(() => new Error('Unauthorized: No token found'));
+    }
+
+    const headers = new HttpHeaders().set('x-access-token', token);
+    const url = `${this.apiUrl}/${eventId}`;
+
+    return this.http.delete<any>(url, { headers }).pipe(
+      tap((response) => {
+        console.log('Event deleted:', response);
+      }),
+      map((response) => response) 
+    );
+  }
 
   editEvent(updatedEvent: Event): void {
     const token = this.authService.getToken();
@@ -64,7 +82,7 @@ export class EventService {
     return this.http.get<Event>(url);
   }
 
-  // must be tested
+  // check if works wiith not published events, now only with "Varattu"
   getPublishedEvents(): Observable<Event[]> {
     return this.http
       .get<Event[]>(this.apiUrl)
@@ -76,4 +94,15 @@ export class EventService {
   getAllEvents(): Observable<Event[]> {
     return this.http.get<Event[]>(this.apiUrl);
   }
+
+  // uploadEventImage(formData: FormData): Observable<any> {
+  //   const token = this.authService.getToken();
+  //   if (token) {
+  //     const headers = new HttpHeaders().set('x-access-token', token);
+  //     return this.http.post(`${this.createEventapiUrl}`, formData, { headers });
+  //   } else {
+  //     console.error('Token not found');
+  //     return throwError(() => new Error('Unauthorized: No token found'));
+  //   }
+  // }
 }

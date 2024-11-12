@@ -37,7 +37,13 @@ export class EventDetailsComponent implements OnInit {
 
     this.isOrganizer = this.authService.getIsOrganizer();
   }
+  //
+  // getFullImageUrl(imageUrl: string): string {
+  //   const baseUrl = 'http://localhost:3001';
+  //   return imageUrl ? baseUrl + imageUrl : 'assets/placeholder.png';
+  // }
 
+  //
   // formats ticketsale times to ->  hh:mm dd.mm.yyyy
   formatDateTime(dateTime: string): string {
     if (!dateTime) return '';
