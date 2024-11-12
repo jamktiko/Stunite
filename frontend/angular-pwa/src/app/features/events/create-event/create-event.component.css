@@ -6,14 +6,19 @@
   min-height: 100vh;
   margin: 0 12px;
 }
+
 h1 {
   margin-bottom: 62px;
+  font-size: 2em;
 }
 
 .create-event-form {
   width: 100%;
   max-width: 900px;
   padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .create-event {
@@ -22,27 +27,48 @@ h1 {
   align-items: start;
   margin: 0px 24px 0px 24px;
 }
+
 .form-field {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
   flex-wrap: nowrap;
+  width: 100%;
 }
+
 label {
-  width: 400px;
+  width: 200px;
   margin-right: 10px;
   text-align: left;
   font-weight: bold;
+  font-size: 1em;
 }
 
-input {
+input,
+select,
+textarea {
   width: 100%;
-  max-width: 100%;
-  min-width: 267px;
   padding: 8px;
   border: 2px solid #b2b2b2;
   border-radius: 20px;
   background-color: #fff5f9;
+  font-size: 1em;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input[type="datetime-local"],
+input[type="date"],
+input[type="time"] {
+  padding: 6px;
+}
+
+.error {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 4px;
 }
 
 .form-buttons {
@@ -52,13 +78,30 @@ input {
   justify-content: center;
   gap: 12px;
 }
+
 .two-inputs {
   display: flex;
   gap: 10px;
   width: 100%;
 }
+
 button {
   width: 20%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+button:hover {
+  background-color: #0056b3;
 }
 
 @media (max-width: 1000px) {
@@ -73,6 +116,7 @@ button {
   .create-event-form {
     padding: 0;
   }
+
   label {
     width: 100%;
     margin-bottom: 8px;
@@ -87,15 +131,43 @@ button {
     min-width: 100px;
     padding: 10px;
   }
+
   .two-inputs {
     width: 100%;
     align-items: center;
     flex-direction: column;
   }
+
   .form-buttons {
     flex-direction: column-reverse;
   }
+
   button {
     width: 70%;
   }
+}
+
+small {
+  font-size: 0.85em;
+  color: #555;
+}
+
+p {
+  font-size: 0.9em;
+  color: #333;
+  margin: 5px 0;
+}
+.tags-selection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tags-selection input[type="checkbox"] {
+  margin-right: 6px;
+}
+
+.tags-selection label {
+  font-size: 1em;
+  cursor: pointer;
 }

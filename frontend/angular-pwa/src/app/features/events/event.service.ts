@@ -1,10 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Event } from '../../shared/models/event.model';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, Observable } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../enviroments/enviroment';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -19,44 +18,27 @@ export class EventService {
     return this.http.get<Event[]>(this.apiUrl);
   }
 
-  createEvent(newEvent: Event): void {
+  createEvent(newEvent: Event): Observable<Event> {
     const token = this.authService.getToken();
-
-    if (!token) {
-      console.log('Token not found');
-      return;
-    }
-    const headers = new HttpHeaders().set('x-access-token', token);
-
-    this.http
-      .post<Event>(this.createEventapiUrl, newEvent, { headers })
-      .pipe(
-        tap((createdEvent) => {
-          console.log('Event created:', createdEvent);
-        })
-      )
-      .subscribe();
-  }
-
-  editEvent(updatedEvent: Event): void {
-    const token = this.authService.getToken();
-
     if (!token) {
       console.error('Token not found');
-      return;
+      throw new Error('Token not found');
+    }
+
+    const headers = new HttpHeaders().set('x-access-token', token);
+    return this.http.post<Event>(this.createEventapiUrl, newEvent, { headers });
+  }
+
+  editEvent(updatedEvent: Event): Observable<Event> {
+    const token = this.authService.getToken();
+    if (!token) {
+      console.error('Token not found');
+      throw new Error('Token not found');
     }
 
     const headers = new HttpHeaders().set('x-access-token', token);
     const url = `${this.apiUrl}/${updatedEvent._id}`;
-
-    this.http
-      .put<Event>(url, updatedEvent, { headers })
-      .pipe(
-        tap((editedEvent) => {
-          console.log('Event edited:', editedEvent);
-        })
-      )
-      .subscribe();
+    return this.http.put<Event>(url, updatedEvent, { headers });
   }
 
   getEventById(eventId: string): Observable<Event> {
@@ -64,7 +46,6 @@ export class EventService {
     return this.http.get<Event>(url);
   }
 
-  // must be tested
   getPublishedEvents(): Observable<Event[]> {
     return this.http
       .get<Event[]>(this.apiUrl)

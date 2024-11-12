@@ -38,6 +38,7 @@ export class CreateEventComponent implements OnInit {
   isEditMode: boolean = false;
   eventId: string | null = null;
   eventTags: string[] = [];
+  errorMessage: string = '';
 
   // Tapahtumatyypit
   availableEventTags: string[] = [
@@ -67,6 +68,7 @@ export class CreateEventComponent implements OnInit {
     'Kulttuuri',
     'Ammatillinen tapahtuma',
   ];
+  tagsModel: any;
 
   constructor(
     private eventService: EventService,
@@ -130,11 +132,17 @@ export class CreateEventComponent implements OnInit {
   }
 
   onSubmit() {
+    // Tyhjennetään edellinen virheilmoitus
+    this.errorMessage = '';
+
     if (this.status === 'Tuotannossa' && this.publishDateTime) {
-      console.error('Alustavalle tapahtumalle ei voi asettaa julkaisuaikaa.');
-      alert('Alustavalle tapahtumalle ei voi asettaa julkaisuaikaa.');
+      this.errorMessage =
+        'Alustavalle tapahtumalle ei voi asettaa julkaisuaikaa.';
+      console.error(this.errorMessage);
+      alert(this.errorMessage);
       return;
     }
+
     const loggedInOrganizer = this.authService.getCurrUser();
 
     if (
@@ -142,6 +150,10 @@ export class CreateEventComponent implements OnInit {
       !loggedInOrganizer.organizerId ||
       !loggedInOrganizer.organizationName
     ) {
+      this.errorMessage =
+        'Kirjautuneen käyttäjän järjestäjän tiedot puuttuvat.';
+      console.error(this.errorMessage);
+      alert(this.errorMessage);
       return;
     }
 
@@ -151,17 +163,25 @@ export class CreateEventComponent implements OnInit {
     const eventDate = new Date(this.eventDate);
 
     if (saleStartDate < currentDateTime) {
-      console.error('Ticket sale start date cannot be in the past.');
+      this.errorMessage =
+        'Lipunmyynnin aloituspäivä ei voi olla menneisyydessä.';
+      console.error(this.errorMessage);
+      alert(this.errorMessage);
       return;
     }
 
     if (saleEndDate <= saleStartDate) {
-      console.error('Ticket sale end date must be after the start date.');
+      this.errorMessage =
+        'Lipunmyynnin lopetuspäivä tulee olla aloituspäivän jälkeen.';
+      console.error(this.errorMessage);
+      alert(this.errorMessage);
       return;
     }
 
     if (eventDate < currentDateTime) {
-      console.error('Event date cannot be in the past.');
+      this.errorMessage = 'Tapahtuman päivämäärä ei voi olla menneisyydessä.';
+      console.error(this.errorMessage);
+      alert(this.errorMessage);
       return;
     }
 
@@ -193,6 +213,7 @@ export class CreateEventComponent implements OnInit {
       eventTags: this.eventTags,
     };
 
+    // Tarkistetaan pakolliset kentät
     if (
       !updatedEvent.eventName ||
       !updatedEvent.date ||
@@ -202,17 +223,34 @@ export class CreateEventComponent implements OnInit {
       !updatedEvent.organizerId ||
       !updatedEvent.organizationName
     ) {
-      console.error('Missing required fields in event:', updatedEvent);
+      this.errorMessage = 'Tähdelliset kentät ovat pakollisia.';
+      console.error(this.errorMessage, updatedEvent);
+      alert(this.errorMessage);
       return;
     }
 
     if (this.isEditMode) {
-      this.eventService.editEvent(updatedEvent);
+      this.eventService.editEvent(updatedEvent).subscribe({
+        next: () => {
+          this.router.navigate([`/events/${updatedEvent._id}`]);
+        },
+        error: (err: any) => {
+          this.errorMessage =
+            'Tapahtuman muokkaaminen epäonnistui: ' + err.message;
+          console.error(this.errorMessage);
+        },
+      });
     } else {
-      this.eventService.createEvent(updatedEvent);
+      this.eventService.createEvent(updatedEvent).subscribe({
+        next: () => {
+          this.router.navigate([`/events/${updatedEvent._id}`]);
+        },
+        error: (err: any) => {
+          this.errorMessage = 'Tapahtuman luominen epäonnistui: ' + err.message;
+          console.error(this.errorMessage);
+        },
+      });
     }
-
-    this.router.navigate([`/events/${updatedEvent._id}`]);
   }
 
   private formatDate(dateStr: string): string {
