@@ -91,7 +91,6 @@ export class CalendarComponent implements OnInit {
       if (eventsOnDate.length > 0) {
         this.selectedEvents = this.selectedEvents.concat(eventsOnDate);
       } else {
-
       }
     });
   }
