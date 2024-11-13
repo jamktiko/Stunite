@@ -215,7 +215,7 @@ export class CreateEventComponent implements OnInit {
       date: this.formatDate(this.eventDate),
       startingTime: this.eventTime,
       endingTime: this.endingTime,
-      endingDate: this.endingDate,
+      endingDate: this.formatDate(this.endingDate),
       venue: this.venue,
       city: this.city,
       address: this.address,
