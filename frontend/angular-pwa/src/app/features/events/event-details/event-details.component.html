@@ -1,72 +1,77 @@
-<div *ngIf="event">
-  <p style="font-size: 36px; text-align: center; margin-bottom: 6px">
-    {{ event.eventName }}
-  </p>
-  <p
-    style="
-      text-align: center;
-      margin-bottom: 80px;
-      margin-top: 8px;
-      font-size: 24px;
-    "
-  >
-    {{ event.date }} {{ event.city }}
-  </p>
-  <div class="grid-container">
-    <div class="grid-item">
-      <img
-        [src]="event.imageUrl || 'assets/placeholder.png'"
-        alt="Event image"
-        class="eventimage"
-        onerror="this.src='assets/placeholder.png'"
-      />
-    </div>
-    <div class="grid-item info-box">
-      <div class="event-infobox">
-        <p>
-          <span class="material-symbols-outlined"> calendar_month </span>
-          {{ event.date }}
-        </p>
-        <p>
-          <span class="material-symbols-outlined">
-            nest_clock_farsight_analog
-          </span>
-          {{ event.startingTime }}
-        </p>
-        <p>
-          <span class="material-symbols-outlined"> distance </span>
-          {{ event.venue }}, {{ event.city }},
-          {{ event.address }}
-        </p>
-        <p>
-          <span class="material-symbols-outlined"> supervisor_account </span>
-          {{ event.organizationName }}
-        </p>
-        <p>
-          <span class="material-symbols-outlined"> sell </span>
-          {{ event.ticketprice.minticketprice }} -
-          {{ event.ticketprice.maxticketprice }} €
-        </p>
-      </div>
-    </div>
-    <div class="grid-item">
-      <p><strong>Lisätietoa:</strong> {{ event.details }}</p>
-    </div>
-    <div id="map" style="height: 400px; width: 100%; margin-bottom: 20px"></div>
-    <div
-      class="grid-item"
-      style="display: flex; flex-direction: column; text-align: center"
+<div class="page-container">
+  <div *ngIf="event">
+    <p style="font-size: 36px; text-align: center; margin-bottom: 6px">
+      {{ event.eventName }}
+    </p>
+    <p
+      style="
+        text-align: center;
+        margin-bottom: 80px;
+        margin-top: 8px;
+        font-size: 24px;
+      "
     >
-      <p *ngIf="isOrganizer">
-        Tapahtuman julkaisuaika: <br />
-        {{ formatDateTime(event.publishDateTime) }}
-      </p>
-      <p>
-        Lipunmyynti käynnissä:<br />
-        klo {{ formatDateTime(event.ticketSaleStart) }} - klo
-        {{ formatDateTime(event.ticketSaleEnd) }}
-      </p>
-      <button style="font-size: 30px"><strong>Osta liput</strong></button>
+      {{ event.date }} {{ event.city }}
+    </p>
+    <div class="grid-container">
+      <div class="grid-item">
+        <img
+          [src]="event.imageUrl || 'assets/placeholder.png'"
+          alt="Event image"
+          class="eventimage"
+          onerror="this.src='assets/placeholder.png'"
+        />
+      </div>
+      <div class="grid-item info-box">
+        <div class="event-infobox">
+          <p>
+            <span class="material-symbols-outlined"> calendar_month </span>
+            {{ event.date }}
+          </p>
+          <p>
+            <span class="material-symbols-outlined">
+              nest_clock_farsight_analog
+            </span>
+            {{ event.startingTime }}
+          </p>
+          <p>
+            <span class="material-symbols-outlined"> distance </span>
+            {{ event.venue }}, {{ event.city }},
+            {{ event.address }}
+          </p>
+          <p>
+            <span class="material-symbols-outlined"> supervisor_account </span>
+            {{ event.organizationName }}
+          </p>
+          <p>
+            <span class="material-symbols-outlined"> sell </span>
+            {{ event.ticketprice.minticketprice }} -
+            {{ event.ticketprice.maxticketprice }} €
+          </p>
+        </div>
+      </div>
+      <div class="grid-item">
+        <p><strong>Lisätietoa:</strong> {{ event.details }}</p>
+      </div>
+      <div
+        id="map"
+        style="height: 400px; width: 100%; margin-bottom: 20px"
+      ></div>
+      <div
+        class="grid-item"
+        style="display: flex; flex-direction: column; text-align: center"
+      >
+        <p *ngIf="isOrganizer">
+          Tapahtuman julkaisuaika: <br />
+          {{ formatDateTime(event.publishDateTime) }}
+        </p>
+        <p>
+          Lipunmyynti käynnissä:<br />
+          klo {{ formatDateTime(event.ticketSaleStart) }} - klo
+          {{ formatDateTime(event.ticketSaleEnd) }}
+        </p>
+        <button style="font-size: 30px"><strong>Osta liput</strong></button>
+      </div>
     </div>
   </div>
 </div>
