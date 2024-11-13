@@ -60,3 +60,9 @@ p {
   text-align: center;
   margin-top: 20px;
 }
+.login-buttons {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 52px;
+}

@@ -3,6 +3,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-organizer-login-modal',
@@ -13,15 +14,25 @@ import { CommonModule } from '@angular/common';
 })
 export class OrganizerLoginModalComponent {
   @Output() close = new EventEmitter<void>();
+  @Output() openLoginModal = new EventEmitter<void>();
 
   email: string = '';
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private location: Location
+  ) {}
 
   onClose() {
     this.close.emit();
+  }
+
+  onBack() {
+    this.onClose();
+    this.openLoginModal.emit();
   }
   onSubmit() {
     this.authService.loginAsOrganizer(this.email, this.password).subscribe({

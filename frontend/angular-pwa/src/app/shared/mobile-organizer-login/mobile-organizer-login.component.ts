@@ -18,6 +18,9 @@ export class MobileOrganizerLoginComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
+  onBack() {
+    this.router.navigate(['/mobile-login']);
+  }
   onSubmit() {
     this.authService.loginAsOrganizer(this.email, this.password).subscribe({
       next: () => {

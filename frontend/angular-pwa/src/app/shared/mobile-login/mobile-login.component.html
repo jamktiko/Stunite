@@ -1,41 +1,63 @@
-<img class="banner-img" [src]="'assets/stunite_banner.png'" />
-<h1>Kirjaudu sisään</h1>
-<div>
-  <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="mobile-login">
-    <label>Sähköposti</label>
-    <input
-      id="email"
-      placeholder="Sähköposti"
-      [(ngModel)]="email"
-      name="email"
-      required
-    />
-    <label>Salasana</label>
-    <input
-      id="password"
-      placeholder="Salasana"
-      [(ngModel)]="password"
-      name="password"
-      type="password"
-      required
-    />
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
+<div class="page-container">
+  <span
+    *ngIf="!showLoginButtons"
+    class="material-symbols-outlined"
+    (click)="onBack()"
+  >
+    arrow_back_ios</span
+  >
+  <img class="banner-img" [src]="'assets/stunite_banner.png'" />
+  <h1>Kirjaudu sisään</h1>
+  <div class="login-buttons" *ngIf="showLoginButtons">
+    <button class="button2" (click)="showLogin()">
+      Kirjaudu sisään tapahtumakävijänä
+    </button>
+    <button class="button2" (click)="openOrganizerLogin()">
+      Kirjaudu sisään järjestäjänä
+    </button>
+  </div>
 
-    <button type="submit" [disabled]="!loginForm.valid">Kirjaudu Sisään</button>
-  </form>
-  <div class="mobile-login">
-    <p>
-      Eikö sinulla ole tunnuksia?
-      <a (click)="goRegister()"><u> Voit rekisteröityä täällä.</u> </a>
-    </p>
-    <p>
-      Järjestäjä,
-      <a (click)="openOrganizerLogin()"><u>Kirjaudu täältä.</u></a>
-    </p>
-    <a href="https://forms.gle/GbSB8bNWTD57LAzW8">
-      <p>Järjestäjän rekisteröityminen</p>
-    </a>
+  <div>
+    <form
+      *ngIf="showLoginForm"
+      (ngSubmit)="onSubmit()"
+      #loginForm="ngForm"
+      class="mobile-login"
+    >
+      <label>Sähköposti</label>
+      <input
+        id="email"
+        placeholder="Sähköposti"
+        [(ngModel)]="email"
+        name="email"
+        required
+      />
+      <label>Salasana</label>
+      <input
+        id="password"
+        placeholder="Salasana"
+        [(ngModel)]="password"
+        name="password"
+        type="password"
+        required
+      />
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" [disabled]="!loginForm.valid">
+        Kirjaudu Sisään
+      </button>
+    </form>
+    <div class="mobile-login">
+      <p>
+        Eikö sinulla ole tunnuksia?
+        <a (click)="goRegister()"><u> Voit rekisteröityä täällä.</u> </a>
+      </p>
+
+      <a href="https://forms.gle/GbSB8bNWTD57LAzW8">
+        <p>Järjestäjän rekisteröityminen</p>
+      </a>
+    </div>
   </div>
 </div>

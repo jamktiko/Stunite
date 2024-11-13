@@ -12,6 +12,9 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './mobile-login.component.css',
 })
 export class MobileLoginComponent {
+  showLoginForm: boolean = false;
+  showLoginButtons: boolean = true;
+
   email: string = '';
   password: string = '';
   errorMessage: string = '';
@@ -20,6 +23,10 @@ export class MobileLoginComponent {
 
   goRegister() {
     this.router.navigate(['/register']);
+  }
+  onBack() {
+    this.showLoginForm = false;
+    this.showLoginButtons = true;
   }
 
   onSubmit() {
@@ -35,7 +42,10 @@ export class MobileLoginComponent {
       },
     });
   }
-
+  showLogin() {
+    this.showLoginForm = true;
+    this.showLoginButtons = false;
+  }
   openOrganizerLogin() {
     this.router.navigate(['/mobile-organizer-login']);
   }
