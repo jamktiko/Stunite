@@ -278,7 +278,7 @@ export class CreateEventComponent implements OnInit {
     } else {
       this.eventService.createEvent(updatedEvent).subscribe({
         next: () => {
-          this.router.navigate([`/events/${updatedEvent._id}`]);
+          this.router.navigate([`/events/`]);
         },
         error: (err: any) => {
           this.errorMessage = 'Tapahtuman luominen epäonnistui: ' + err.message;
@@ -297,5 +297,23 @@ export class CreateEventComponent implements OnInit {
       return `${day}.${month}.${year}`;
     }
     return dateStr;
+  }
+
+  onTagCheckboxChange(event: any) {
+    const checkbox = event.target as HTMLInputElement;
+
+    if (checkbox) {
+      const tagValue = checkbox.value;
+
+      if (checkbox.checked) {
+        // Lisää tagi valittujen listaan
+        if (!this.eventTags.includes(tagValue)) {
+          this.eventTags.push(tagValue);
+        }
+      } else {
+        // Poista tagi valituista
+        this.eventTags = this.eventTags.filter((tag) => tag !== tagValue);
+      }
+    }
   }
 }

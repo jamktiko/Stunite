@@ -25,6 +25,7 @@ router.post('/', verifyToken, async (req, res) => {
     eventName,
     date,
     startingTime,
+    endingTime,
     address,
     venue,
     city,
@@ -48,6 +49,7 @@ router.post('/', verifyToken, async (req, res) => {
     !eventName ||
     !date ||
     !startingTime ||
+    !endingTime ||
     !address ||
     !venue ||
     !city ||
@@ -71,6 +73,7 @@ router.post('/', verifyToken, async (req, res) => {
       eventName,
       date,
       startingTime,
+      endingTime,
       address,
       venue,
       city,
@@ -78,7 +81,7 @@ router.post('/', verifyToken, async (req, res) => {
       theme,
       isFavorite: isFavorite || false,
       details,
-      imageUrl,  ///uploads/${req.file.filename}
+      imageUrl, ///uploads/${req.file.filename}
       ticketLink,
       ticketSaleStart,
       ticketSaleEnd,
