@@ -18,6 +18,8 @@ export class CreateEventComponent implements OnInit {
   eventName: string = '';
   eventDate: string = '';
   eventTime: string = '';
+  endingDate: string = '';
+  endingTime: string = '';
   venue: string = '';
   city: string = '';
   address: string = '';
@@ -115,6 +117,8 @@ export class CreateEventComponent implements OnInit {
     this.status = event.status;
     this.imageUrl = event.imageUrl;
     this.eventTags = event.eventTags || [];
+    this.endingTime = event.endingTime;
+    this.endingDate = event.endingDate;
   }
 
   private formatDateForInput(dateStr: string): string {
@@ -210,6 +214,8 @@ export class CreateEventComponent implements OnInit {
       eventName: this.eventName,
       date: this.formatDate(this.eventDate),
       startingTime: this.eventTime,
+      endingTime: this.endingTime,
+      endingDate: this.endingDate,
       venue: this.venue,
       city: this.city,
       address: this.address,
