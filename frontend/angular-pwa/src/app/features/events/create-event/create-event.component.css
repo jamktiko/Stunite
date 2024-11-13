@@ -146,28 +146,3 @@ button:hover {
     width: 70%;
   }
 }
-
-small {
-  font-size: 0.85em;
-  color: #555;
-}
-
-p {
-  font-size: 0.9em;
-  color: #333;
-  margin: 5px 0;
-}
-.tags-selection {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.tags-selection input[type="checkbox"] {
-  margin-right: 6px;
-}
-
-.tags-selection label {
-  font-size: 1em;
-  cursor: pointer;
-}

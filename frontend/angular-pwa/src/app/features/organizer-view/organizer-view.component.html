@@ -44,6 +44,9 @@
           <button class="button2" (click)="goToEventPage(event)">
             Siirry tapahtuman sivulle <span class="arrow">&#8250;</span>
           </button>
+          <button class="button2" (click)="deleteEvent(event._id)">
+            Poista tapahtuma
+          </button>
         </div>
       </div>
     </div>
@@ -57,6 +60,9 @@
           <p>{{ event.date }}</p>
         </div>
         <div class="eventbuttons">
+          <button class="button2" (click)="editEvent(event)">
+            Muokkaa tapahtuman tietoja
+          </button>
           <button class="button2" (click)="goToEventPage(event)">
             Siirry tapahtuman sivulle <span class="arrow">&#8250;</span>
           </button>

@@ -4,6 +4,7 @@ import { Event } from '../../shared/models/event.model';
 import { map, tap, Observable } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../enviroments/enviroment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -29,11 +30,11 @@ export class EventService {
     return this.http.post<Event>(this.createEventapiUrl, newEvent, { headers });
   }
 
-  editEvent(updatedEvent: Event): Observable<Event> {
+  editEvent(updatedEvent: Event): void {
     const token = this.authService.getToken();
     if (!token) {
       console.error('Token not found');
-      throw new Error('Token not found');
+      return;
     }
 
     const headers = new HttpHeaders().set('x-access-token', token);
@@ -46,6 +47,7 @@ export class EventService {
     return this.http.get<Event>(url);
   }
 
+  // must be tested
   getPublishedEvents(): Observable<Event[]> {
     return this.http
       .get<Event[]>(this.apiUrl)
@@ -57,4 +59,15 @@ export class EventService {
   getAllEvents(): Observable<Event[]> {
     return this.http.get<Event[]>(this.apiUrl);
   }
+
+  // uploadEventImage(formData: FormData): Observable<any> {
+  //   const token = this.authService.getToken();
+  //   if (token) {
+  //     const headers = new HttpHeaders().set('x-access-token', token);
+  //     return this.http.post(`${this.createEventapiUrl}`, formData, { headers });
+  //   } else {
+  //     console.error('Token not found');
+  //     return throwError(() => new Error('Unauthorized: No token found'));
+  //   }
+  // }
 }

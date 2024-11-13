@@ -38,7 +38,6 @@ export class CreateEventComponent implements OnInit {
   isEditMode: boolean = false;
   eventId: string | null = null;
   eventTags: string[] = [];
-  errorMessage: string = '';
 
   // Tapahtumatyypit
   availableEventTags: string[] = [
@@ -123,6 +122,24 @@ export class CreateEventComponent implements OnInit {
     return dateStr;
   }
 
+  // onFileSelected(event: any): void {
+  //   const fileInput = event.target as HTMLInputElement;
+
+  //   // Check if fileInput.files is not null and has at least one file
+  //   if (fileInput.files && fileInput.files.length > 0) {
+  //     this.selectedFile = fileInput.files[0];
+
+  //     // Now you can safely use the file
+  //     const reader = new FileReader();
+  //     reader.onload = () => {
+  //       this.imagePreview = reader.result as string;
+  //     };
+  //     reader.readAsDataURL(this.selectedFile);
+  //   } else {
+  //     console.log('No file selected');
+  //   }
+  // }
+
   onCancel() {
     this.location.back();
   }
@@ -144,7 +161,6 @@ export class CreateEventComponent implements OnInit {
     }
 
     const loggedInOrganizer = this.authService.getCurrUser();
-
     if (
       !loggedInOrganizer ||
       !loggedInOrganizer.organizerId ||
@@ -161,7 +177,6 @@ export class CreateEventComponent implements OnInit {
     const saleStartDate = new Date(this.ticketSaleStart);
     const saleEndDate = new Date(this.ticketSaleEnd);
     const eventDate = new Date(this.eventDate);
-
     if (saleStartDate < currentDateTime) {
       this.errorMessage =
         'Lipunmyynnin aloituspäivä ei voi olla menneisyydessä.';
@@ -213,7 +228,6 @@ export class CreateEventComponent implements OnInit {
       eventTags: this.eventTags,
     };
 
-    // Tarkistetaan pakolliset kentät
     if (
       !updatedEvent.eventName ||
       !updatedEvent.date ||

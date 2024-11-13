@@ -5,6 +5,7 @@ import { Event } from '../../shared/models/event.model';
 import { EventService } from '../events/event.service';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
+import { response } from 'express';
 
 @Component({
   selector: 'app-organizer-view',
@@ -75,6 +76,28 @@ export class OrganizerViewComponent implements OnInit {
     this.router.navigate(['/organizer-view/edit-event', event._id]);
   }
 
+  deleteEvent(eventId: string): void {
+    const confirmDelete = window.confirm(
+      'Haluatko varmasti poistaa tämän tapahtuman pysyvästi?'
+    );
+
+    if (confirmDelete) {
+      this.eventService.deleteEvent(eventId).subscribe(
+        (response) => {
+          console.log('Event deleted successfully:', response);
+          // Päivitetään tapahtumat ilman selaimen refreashausta
+          this.events = this.events.filter((event) => event._id !== eventId);
+          this.loadOrganizerEvents();
+        },
+        (error) => {
+          console.error('Error deleting event:', error);
+        }
+      );
+    } else {
+      console.log('Event deletion cancelled');
+    }
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/home']);
@@ -83,8 +106,8 @@ export class OrganizerViewComponent implements OnInit {
   goToEventPage(event: Event) {
     this.router.navigate(['/events', event._id]);
   }
-  goToPastEventPage(event:Event) {
-    this.router.navigate(['/event-archive', event._id])
+  goToPastEventPage(event: Event) {
+    this.router.navigate(['/event-archive', event._id]);
   }
   goToCreateEvent() {
     this.router.navigate(['/organizer-view/create-event']);
