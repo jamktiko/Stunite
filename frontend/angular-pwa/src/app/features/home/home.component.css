@@ -10,6 +10,7 @@ h1 {
 p {
   font-size: 24px;
   text-align: center;
+  font-weight: 550;
 }
 
 :host ::ng-deep .eventimage {
@@ -128,9 +129,11 @@ app-calendar {
   justify-content: center;
   border-radius: 0px 19px 19px 0px;
   color: black;
-  font-size: 24px;
+  font-size: 4em;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: white;
   cursor: pointer;
-  width: 60px;
+  width: 70px;
   position: absolute;
   right: 0;
   top: 0;
