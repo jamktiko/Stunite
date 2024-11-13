@@ -67,6 +67,9 @@ export class NavbarComponent {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
+    if (!target.closest('.menu-mobile') && !target.closest('.menu')) {
+      this.menuOpen = false;
+    }
     if (!target.closest('.profile-menu') && !target.closest('.login-icon')) {
       this.showProfileMenu = false;
     }
