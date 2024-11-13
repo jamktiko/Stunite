@@ -209,12 +209,6 @@
         <input type="text" [(ngModel)]="ticketLink" name="ticketLink" />
       </div>
 
-      <div class="form-buttons">
-        <button (click)="onCancel()">Peruuta</button>
-        <button type="submit" [disabled]="eventForm.invalid">
-          {{ isEditMode ? "Tallenna muutokset" : "Luo tapahtuma" }}
-        </button>
-      </div>
       <div class="form-field">
         <label>Tapahtuman tagit*</label>
         <div class="tags-container">
@@ -232,6 +226,13 @@
         <div class="error" *ngIf="eventTags.length === 0">
           Valitse vähintään yksi tagi.
         </div>
+      </div>
+
+      <div class="form-buttons">
+        <button (click)="onCancel()">Peruuta</button>
+        <button type="submit" [disabled]="eventForm.invalid">
+          {{ isEditMode ? "Tallenna muutokset" : "Luo tapahtuma" }}
+        </button>
       </div>
     </form>
   </div>

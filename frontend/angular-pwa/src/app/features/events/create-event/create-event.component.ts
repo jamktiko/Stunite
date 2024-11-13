@@ -299,15 +299,21 @@ export class CreateEventComponent implements OnInit {
     return dateStr;
   }
 
-  onTagCheckboxChange(tag: string, isChecked: boolean) {
-    if (isChecked) {
-      // Lisää tagi eventTags-listaan, jos sitä ei ole jo siellä
-      if (!this.eventTags.includes(tag)) {
-        this.eventTags.push(tag);
+  onTagCheckboxChange(event: any) {
+    const checkbox = event.target as HTMLInputElement;
+
+    if (checkbox) {
+      const tagValue = checkbox.value;
+
+      if (checkbox.checked) {
+        // Lisää tagi valittujen listaan
+        if (!this.eventTags.includes(tagValue)) {
+          this.eventTags.push(tagValue);
+        }
+      } else {
+        // Poista tagi valituista
+        this.eventTags = this.eventTags.filter((tag) => tag !== tagValue);
       }
-    } else {
-      // Poista tagi eventTags-listasta
-      this.eventTags = this.eventTags.filter((t) => t !== tag);
     }
   }
 }

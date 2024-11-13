@@ -146,3 +146,69 @@ button:hover {
     width: 70%;
   }
 }
+
+/* Yleiset tyylit kentälle */
+.form-field {
+  margin-bottom: 20px;
+}
+
+/* Tagit-alueen tyylit */
+.tags-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Kolme saraketta */
+  gap: 10px; /* Väli tagien välillä */
+}
+
+/* Tagi-checkbox-tyylit */
+.tag-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Väli checkboxin ja labelin välillä */
+  font-size: 14px;
+  justify-content: flex-start;
+}
+
+/* Custom checkbox - tyylit */
+input[type="checkbox"] {
+  width: 15px; /* Pienempi leveys */
+  height: 15px; /* Pienempi korkeus */
+  cursor: pointer;
+  appearance: none;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  background-color: #fff;
+  position: relative;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #4caf50; /* Vihreä väri, kun valittu */
+  border-color: #4caf50;
+}
+
+input[type="checkbox"]:checked::before {
+  content: "✓";
+  position: absolute;
+  top: 0;
+  left: 4px;
+  font-size: 12px; /* Pienempi tarkistuksen merkki */
+  color: white;
+}
+
+/* Checkboxin hover-efekti */
+input[type="checkbox"]:hover {
+  border-color: #888;
+}
+
+/* Tagin labelin tyylit */
+label[for] {
+  font-size: 12px; /* Pienempi fonttikoko */
+  cursor: pointer;
+  color: #333;
+  transition: color 0.3s;
+}
+
+/* Hover-efekti labelille */
+label[for]:hover {
+  color: grey; /* Muutetaan väri vihreäksi, kun hover */
+}
