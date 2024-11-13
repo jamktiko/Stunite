@@ -26,6 +26,7 @@ router.post('/', verifyToken, async (req, res) => {
     date,
     startingTime,
     endingTime,
+    endingDate,
     address,
     venue,
     city,
@@ -50,6 +51,7 @@ router.post('/', verifyToken, async (req, res) => {
     !date ||
     !startingTime ||
     !endingTime ||
+    !endingDate ||
     !address ||
     !venue ||
     !city ||
@@ -74,6 +76,7 @@ router.post('/', verifyToken, async (req, res) => {
       date,
       startingTime,
       endingTime,
+      endingDate,
       address,
       venue,
       city,
