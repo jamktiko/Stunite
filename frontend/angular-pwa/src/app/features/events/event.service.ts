@@ -19,24 +19,17 @@ export class EventService {
     return this.http.get<Event[]>(this.apiUrl);
   }
 
-  createEvent(newEvent: Event): void {
+  createEvent(newEvent: Event): Observable<Event> {
     const token = this.authService.getToken();
-
     if (!token) {
-      console.log('Token not found');
-      return;
+      console.error('Token not found');
+      throw new Error('Token not found');
     }
-    const headers = new HttpHeaders().set('x-access-token', token);
 
-    this.http
-      .post<Event>(this.createEventapiUrl, newEvent, { headers })
-      .pipe(
-        tap((createdEvent) => {
-          console.log('Event created:', createdEvent);
-        })
-      )
-      .subscribe();
+    const headers = new HttpHeaders().set('x-access-token', token);
+    return this.http.post<Event>(this.createEventapiUrl, newEvent, { headers });
   }
+
   deleteEvent(eventId: string): Observable<any> {
     const token = this.authService.getToken();
 
@@ -52,29 +45,20 @@ export class EventService {
       tap((response) => {
         console.log('Event deleted:', response);
       }),
-      map((response) => response) 
+      map((response) => response)
     );
   }
 
-  editEvent(updatedEvent: Event): void {
+  editEvent(updatedEvent: Event): Observable<Event> {
     const token = this.authService.getToken();
-
     if (!token) {
       console.error('Token not found');
-      return;
+      throw new Error('Token not found');
     }
 
     const headers = new HttpHeaders().set('x-access-token', token);
     const url = `${this.apiUrl}/${updatedEvent._id}`;
-
-    this.http
-      .put<Event>(url, updatedEvent, { headers })
-      .pipe(
-        tap((editedEvent) => {
-          console.log('Event edited:', editedEvent);
-        })
-      )
-      .subscribe();
+    return this.http.put<Event>(url, updatedEvent, { headers });
   }
 
   getEventById(eventId: string): Observable<Event> {

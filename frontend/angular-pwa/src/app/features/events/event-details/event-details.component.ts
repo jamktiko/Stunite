@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+
 import { EventService } from '../event.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -16,34 +18,80 @@ export class EventDetailsComponent implements OnInit {
   event: Event | undefined;
   isOrganizer: boolean = false;
 
+  private map: any; // Lazy-load: ei suoraa viittausta Leafletin tyyppiin
+
   constructor(
+    @Inject(PLATFORM_ID) private platformId: object, // SSR-tuki
     private eventService: EventService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    const eventId = this.activatedRoute.snapshot.paramMap.get('id');
-    if (eventId) {
-      this.eventService.getEventById(eventId).subscribe({
-        next: (event: Event) => {
-          this.event = event;
-        },
-        error: (err) => {
-          console.error('Error fetching event:', err);
-        },
-      });
+    if (isPlatformBrowser(this.platformId)) {
+      const eventId = this.activatedRoute.snapshot.paramMap.get('id');
+      if (eventId) {
+        this.eventService.getEventById(eventId).subscribe({
+          next: (event: Event) => {
+            this.event = event;
+            this.loadMap(); // Lataa kartta vain selaimessa
+          },
+          error: (err) => {
+            console.error('Error fetching event:', err);
+          },
+        });
+      }
+
+      this.isOrganizer = this.authService.getIsOrganizer();
     }
-
-    this.isOrganizer = this.authService.getIsOrganizer();
   }
-  //
-  // getFullImageUrl(imageUrl: string): string {
-  //   const baseUrl = 'http://localhost:3001';
-  //   return imageUrl ? baseUrl + imageUrl : 'assets/placeholder.png';
-  // }
 
-  //
+  private async loadMap(): Promise<void> {
+    if (!this.event || !this.event.address) return;
+
+    if (isPlatformBrowser(this.platformId)) {
+      const defaultCoords: [number, number] = [60.192059, 24.945831]; // Helsinki
+
+      // Lazy-load Leaflet vasta tässä kohtaa
+      const L = await import('leaflet');
+
+      if (!this.map) {
+        this.map = L.map('map').setView(defaultCoords, 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenStreetMap contributors',
+        }).addTo(this.map);
+      }
+
+      const geocodeServiceUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+        `${this.event.address}, ${this.event.city}`
+      )}`;
+
+      fetch(geocodeServiceUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.length > 0) {
+            const lat = parseFloat(data[0].lat);
+            const lon = parseFloat(data[0].lon);
+
+            if (this.map) {
+              this.map.setView([lat, lon], 15);
+
+              L.marker([lat, lon])
+                .addTo(this.map)
+                .bindPopup(this.event?.venue || 'Event Venue')
+                .openPopup();
+            }
+          } else {
+            console.error('Address not found');
+          }
+        })
+        .catch((error) => {
+          console.error('Geocoding error:', error);
+        });
+    }
+  }
+
   // formats ticketsale times to ->  hh:mm dd.mm.yyyy
   formatDateTime(dateTime: string): string {
     if (!dateTime) return '';
