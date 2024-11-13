@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Event } from '../../shared/models/event.model';
-import { map, tap, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../enviroments/enviroment';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -30,11 +30,30 @@ export class EventService {
     return this.http.post<Event>(this.createEventapiUrl, newEvent, { headers });
   }
 
-  editEvent(updatedEvent: Event): void {
+  deleteEvent(eventId: string): Observable<any> {
+    const token = this.authService.getToken();
+
+    if (!token) {
+      console.error('Token not found');
+      return throwError(() => new Error('Unauthorized: No token found'));
+    }
+
+    const headers = new HttpHeaders().set('x-access-token', token);
+    const url = `${this.apiUrl}/${eventId}`;
+
+    return this.http.delete<any>(url, { headers }).pipe(
+      tap((response) => {
+        console.log('Event deleted:', response);
+      }),
+      map((response) => response)
+    );
+  }
+
+  editEvent(updatedEvent: Event): Observable<Event> {
     const token = this.authService.getToken();
     if (!token) {
       console.error('Token not found');
-      return;
+      throw new Error('Token not found');
     }
 
     const headers = new HttpHeaders().set('x-access-token', token);
@@ -47,7 +66,7 @@ export class EventService {
     return this.http.get<Event>(url);
   }
 
-  // must be tested
+  // check if works wiith not published events, now only with "Varattu"
   getPublishedEvents(): Observable<Event[]> {
     return this.http
       .get<Event[]>(this.apiUrl)

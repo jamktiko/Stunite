@@ -38,6 +38,10 @@ export class CreateEventComponent implements OnInit {
   isEditMode: boolean = false;
   eventId: string | null = null;
   eventTags: string[] = [];
+  errorMessage: string = '';
+
+  // imagePreview: string | null = null;
+  // selectedFile: File | null = null;
 
   // Tapahtumatyypit
   availableEventTags: string[] = [
@@ -67,7 +71,6 @@ export class CreateEventComponent implements OnInit {
     'Kulttuuri',
     'Ammatillinen tapahtuma',
   ];
-  tagsModel: any;
 
   constructor(
     private eventService: EventService,
@@ -228,6 +231,24 @@ export class CreateEventComponent implements OnInit {
       eventTags: this.eventTags,
     };
 
+    // if (this.selectedFile) {
+    //   const formData = new FormData();
+    //   formData.append('image', this.selectedFile);
+    //   formData.append('eventName', this.eventName);
+    //   // Add other form fields if necessary
+
+    //   this.eventService.uploadEventImage(formData).subscribe({
+    //     next: (response) => {
+    //       console.log('Event with image created:', response);
+    //       this.router.navigate([`/events/${response._id}`]);
+    //     },
+    //     error: (err) => console.error('Image upload failed:', err),
+    //   });
+    // } else {
+    //   console.error('No image selected!');
+    // }
+
+    // Tarkistetaan pakolliset kentät
     if (
       !updatedEvent.eventName ||
       !updatedEvent.date ||
