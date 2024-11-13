@@ -278,7 +278,7 @@ export class CreateEventComponent implements OnInit {
     } else {
       this.eventService.createEvent(updatedEvent).subscribe({
         next: () => {
-          this.router.navigate([`/events/${updatedEvent._id}`]);
+          this.router.navigate([`/events/`]);
         },
         error: (err: any) => {
           this.errorMessage = 'Tapahtuman luominen epäonnistui: ' + err.message;
