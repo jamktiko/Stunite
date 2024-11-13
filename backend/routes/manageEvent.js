@@ -1,5 +1,5 @@
 const express = require('express');
-const Event = require('../models/event'); // Malli tiedostosta, johon skeema on tallennettu
+const Event = require('../models/event');
 const verifyToken = require('../verifytoken');
 
 const router = express.Router();
