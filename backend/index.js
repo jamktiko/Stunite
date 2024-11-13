@@ -32,7 +32,7 @@ const app = express();
 //         .json({ message: 'Image upload failed', error: err });
 //     }
 
-//     // HUOM localhostissa 
+//     // HUOM localhostissa
 //     const imageUrl = `http://localhost:3001/uploads/${req.file.filename}`;
 
 //     // Send the image URL back to the client
@@ -49,7 +49,7 @@ app.use(
   cors({
     origin: [
       'http://localhost:4200',
-      'http://stunite.eu-north-1.elasticbeanstalk.com/',
+      'https://stunite.eu-north-1.elasticbeanstalk.com/',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,

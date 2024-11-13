@@ -190,27 +190,6 @@
         </select>
       </div>
       <div class="form-field">
-        <label>Tapahtuman tagit*</label>
-        <select
-          [(ngModel)]="eventTags"
-          name="eventTags"
-          #tagsModel="ngModel"
-          multiple
-          required
-        >
-          <option *ngFor="let tag of availableEventTags" [value]="tag">
-            {{ tag }}
-          </option>
-        </select>
-        <p>
-          Valitse haluamasi tagit (pidä Ctrl-näppäintä painettuna valitaksesi
-          useita)
-        </p>
-        <div class="error" *ngIf="tagsModel.invalid && tagsModel.touched">
-          Valitse vähintään yksi tagi.
-        </div>
-      </div>
-      <div class="form-field">
         <label>Tapahtuman julkaisupäivä ja kellonaika*</label>
         <input
           type="datetime-local"
@@ -235,6 +214,24 @@
         <button type="submit" [disabled]="eventForm.invalid">
           {{ isEditMode ? "Tallenna muutokset" : "Luo tapahtuma" }}
         </button>
+      </div>
+      <div class="form-field">
+        <label>Tapahtuman tagit*</label>
+        <div class="tags-container">
+          <div *ngFor="let tag of availableEventTags" class="tag-checkbox">
+            <input
+              type="checkbox"
+              [id]="tag"
+              [value]="tag"
+              (change)="onTagCheckboxChange($event)"
+              [checked]="eventTags.includes(tag)"
+            />
+            <label [for]="tag">{{ tag }}</label>
+          </div>
+        </div>
+        <div class="error" *ngIf="eventTags.length === 0">
+          Valitse vähintään yksi tagi.
+        </div>
       </div>
     </form>
   </div>

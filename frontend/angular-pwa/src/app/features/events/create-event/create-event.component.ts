@@ -298,4 +298,16 @@ export class CreateEventComponent implements OnInit {
     }
     return dateStr;
   }
+
+  onTagCheckboxChange(tag: string, isChecked: boolean) {
+    if (isChecked) {
+      // Lisää tagi eventTags-listaan, jos sitä ei ole jo siellä
+      if (!this.eventTags.includes(tag)) {
+        this.eventTags.push(tag);
+      }
+    } else {
+      // Poista tagi eventTags-listasta
+      this.eventTags = this.eventTags.filter((t) => t !== tag);
+    }
+  }
 }
