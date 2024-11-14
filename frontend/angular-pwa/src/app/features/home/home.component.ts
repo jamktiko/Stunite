@@ -40,10 +40,15 @@ export class HomeComponent implements OnInit {
         console.error('Error fetching featured events:', err);
       },
     });
-
-    this.featuredAssociations = computed(() =>
-      this.associationService.getAssociations()()
-    );
+    this.featuredAssociations = signal([]);
+    this.associationService.getAssociations().subscribe({
+      next: (associationsData) => {
+        this.featuredAssociations = signal(associationsData); // All associations without slice
+      },
+      error: (err) => {
+        console.error('Error fetching associations:', err);
+      },
+    });
   }
 
   goToEvents(): void {

@@ -10,38 +10,19 @@ import { environment } from '../../../enviroments/enviroment';
 export class AssociationService {
   private apiUrl = `${environment.baseUrl}/manage/organizer/`; // GET
 
-  private associationsSignal: WritableSignal<Organizer[]> = signal([]);
-
   constructor(private http: HttpClient) {
     this.loadAssociations();
   }
-  private loadAssociations(): void {
-    this.http
-      .get<Organizer[]>(this.apiUrl)
-      .pipe(
-        tap((organizers) => {
-          this.associationsSignal.set(organizers);
-        })
-      )
-      .subscribe(() => {
-      });
+  private loadAssociations(): Observable<Organizer[]> {
+    return this.http.get<Organizer[]>(this.apiUrl);
   }
 
-  getAssociations(): WritableSignal<Organizer[]> {
-    return this.associationsSignal;
+  getAssociations(): Observable<Organizer[]> {
+    return this.loadAssociations();
   }
 
   getAssociationById(id: string): Observable<Organizer | null> {
-    if (!id) {
-      return of(null);
-    }
-    const url = `${this.apiUrl}${id}`;
-    return this.http.get<Organizer>(url).pipe(
-      tap((association) => {
-      }),
-      catchError((error) => {
-        return of(null);
-      })
-    );
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.get<Organizer>(url);
   }
 }

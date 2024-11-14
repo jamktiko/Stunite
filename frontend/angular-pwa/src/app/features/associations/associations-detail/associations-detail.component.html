@@ -1,10 +1,14 @@
 <div class="page-container">
   <div class="association-page">
-    <p class="name">{{ association()?.organizationName }}</p>
-    <p>{{ association()?.officialName }}</p>
-    <div *ngIf="association()" class="association-container">
+    <p class="name">{{ association?.organizationName }}</p>
+    <p>{{ association?.officialName }}</p>
+    <div *ngIf="association" class="association-container">
       <div class="pic">
-        <img src="../assets/konkurssi.png" alt="Association image" class="associationimage" />
+        <img
+          src="../assets/konkurssi.png"
+          alt="Association image"
+          class="associationimage"
+        />
       </div>
       <div class="association-info">
         <p>
@@ -14,32 +18,38 @@
 
         <p>
           <span class="material-symbols-outlined"> distance </span>
-          {{ association()?.city }}, {{ association()?.address }}
+          {{ association.city }}, {{ association.address }}
         </p>
 
         <p>
           <span class="material-symbols-outlined"> captive_portal </span>
-
-          {{ association()?.website }}
+          {{ association.website }}
         </p>
         <p>
           <span class="material-symbols-outlined"> mail </span>
-          {{ association()?.email }}
+          {{ association.email }}
         </p>
       </div>
     </div>
     <div>
       <p><strong>Kuvaus</strong></p>
-      <p>{{ association()?.description }}</p>
+      <p>{{ association?.description }}</p>
     </div>
     <div>
       <p><strong>Koulutusalat</strong></p>
     </div>
+
     <div>
-      <p><strong>Tulevat tapahtumat</strong></p>
-    </div>
-    <div>
-      <p><strong>Menneet tapahtumat</strong></p>
+      <p><strong>Tapahtumat</strong></p>
+      <div class="events" *ngIf="allEvents.length > 0; else noEvents">
+        <app-eventcard
+          *ngFor="let event of allEvents"
+          [event]="event"
+        ></app-eventcard>
+      </div>
+      <ng-template #noEvents>
+        <p>Ei tapahtumia.</p>
+      </ng-template>
     </div>
   </div>
 </div>
