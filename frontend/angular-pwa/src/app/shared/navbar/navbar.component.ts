@@ -27,11 +27,11 @@ export class NavbarComponent {
   email = computed(() => this.authService.getCurrUser()?.email || '');
 
   constructor(private authService: AuthService, private router: Router) {}
-  //
+
   get authenticated(): boolean {
     return this.authService.isAuthenticated();
   }
-  //
+
   get isOrganizer(): boolean {
     return this.authenticated && this.authService.getIsOrganizer();
   }
@@ -62,6 +62,22 @@ export class NavbarComponent {
   }
   onMenuClick() {
     this.menuOpen = !this.menuOpen;
+    const body = document.body;
+    const html = document.documentElement;
+
+    if (this.menuOpen) {
+
+      body.style.overflow = 'hidden';
+      html.style.overflow = 'hidden';
+      body.style.height = '100%';
+      html.style.height = '100%';
+    } else {
+      // enable scroll after clicking menu link
+      body.style.overflow = '';
+      html.style.overflow = '';
+      body.style.height = ''; 
+      html.style.height = ''; 
+    }
   }
 
   @HostListener('document:click', ['$event'])
@@ -69,10 +85,22 @@ export class NavbarComponent {
     const target = event.target as HTMLElement;
     if (!target.closest('.menu-mobile') && !target.closest('.menu')) {
       this.menuOpen = false;
+      this.restoreScroll();
     }
     if (!target.closest('.profile-menu') && !target.closest('.login-icon')) {
       this.showProfileMenu = false;
     }
+  }
+
+  // enable scroll when closing menu by clicking outside  the element
+  restoreScroll() {
+    const body = document.body;
+    const html = document.documentElement;
+
+    body.style.overflow = '';
+    html.style.overflow = '';
+    body.style.height = '';
+    html.style.height = '';
   }
 
   closeProfileMenu(event: MouseEvent) {

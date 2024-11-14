@@ -87,19 +87,21 @@ export class EventArchiveComponent implements OnInit {
 
         let matchesDate = true;
         if (start || end) {
-          const eventDate = this.parseCustomDate(event.date);
+          const eventStartDate = this.parseCustomDate(event.date);
           matchesDate =
-            (!start || eventDate >= new Date(start)) &&
-            (!end || eventDate <= new Date(end));
+            (!start || eventStartDate >= new Date(start)) &&
+            (!end || eventStartDate <= new Date(end));
         }
 
         const currentDate = new Date();
         currentDate.setHours(0, 0, 0, 0);
 
-        const eventDate = this.parseCustomDate(event.date);
-        eventDate.setHours(0, 0, 0, 0);
+        const eventEndDate = event.endingDate
+          ? this.parseCustomDate(event.endingDate)
+          : this.parseCustomDate(event.date);
+        eventEndDate.setHours(0, 0, 0, 0);
 
-        const isPastEvent = eventDate < currentDate;
+        const isPastEvent = eventEndDate < currentDate;
 
         return (
           matchesSearch &&
@@ -110,11 +112,9 @@ export class EventArchiveComponent implements OnInit {
         );
       });
 
-
       filteredPastEvents = filteredPastEvents.sort((a, b) => {
         const dateA = this.parseCustomDate(a.date);
         const dateB = this.parseCustomDate(b.date);
-
         return dateB.getTime() - dateA.getTime();
       });
 

@@ -152,6 +152,17 @@ div {
   cursor: pointer;
 }
 
+
+
+.menu-mobile {
+  display: none;
+}
+
+body.menu-open .menu-mobile {
+  display: flex;
+}
+
+
 @media (max-width: 870px) {
   .menu-desktop {
     display: none;
@@ -163,6 +174,7 @@ div {
   .menu-mobile {
     display: flex;
     align-items: start;
+    height: 100vh;
   }
   .menu-mobile li {
     margin: 12px 5px;

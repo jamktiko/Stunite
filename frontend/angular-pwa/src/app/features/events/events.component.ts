@@ -83,19 +83,22 @@ export class EventsComponent implements OnInit {
 
         let matchesDate = true;
         if (start || end) {
-          const eventDate = this.parseCustomDate(event.date);
+          const eventStartDate = this.parseCustomDate(event.date);
           matchesDate =
-            (!start || eventDate >= new Date(start)) &&
-            (!end || eventDate <= new Date(end));
+            (!start || eventStartDate >= new Date(start)) &&
+            (!end || eventStartDate <= new Date(end));
         }
 
         const currentDate = new Date();
         currentDate.setHours(0, 0, 0, 0);
 
-        const eventDate = this.parseCustomDate(event.date);
-        eventDate.setHours(0, 0, 0, 0);
+        // Use endingDate if available, otherwise fallback to event.date (starting date)
+        const eventEndDate = event.endingDate
+          ? this.parseCustomDate(event.endingDate)
+          : this.parseCustomDate(event.date); // Fall back to starting date
+        eventEndDate.setHours(0, 0, 0, 0);
 
-        const isFutureEvent = eventDate >= currentDate;
+        const isFutureEvent = eventEndDate >= currentDate;
 
         return (
           matchesSearch &&
@@ -117,6 +120,10 @@ export class EventsComponent implements OnInit {
   }
 
   parseCustomDate(dateString: string): Date {
+    if (!dateString) {
+      console.warn('Invalid date string:', dateString);
+      return new Date();
+    }
     const [day, month, year] = dateString.split('.').map(Number);
     return new Date(year, month - 1, day);
   }
