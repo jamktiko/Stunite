@@ -18,6 +18,7 @@ import { MobileOrganizerLoginComponent } from './shared/mobile-organizer-login/m
 import { EventArchiveComponent } from './features/events/event-archive/event-archive.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', redirectTo: '/home' },
   { path: 'home', component: HomeComponent },
   { path: 'events', component: EventsComponent },
   { path: 'register', component: RegisterComponent },
