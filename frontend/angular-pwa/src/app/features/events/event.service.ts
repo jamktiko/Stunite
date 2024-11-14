@@ -79,6 +79,22 @@ export class EventService {
     return this.http.get<Event[]>(this.apiUrl);
   }
 
+  getEventsByOrganizerId(organizerId: string): Observable<Event[]> {
+    return this.http
+      .get<Event[]>(`${this.apiUrl}`)
+      .pipe(
+        map((events) =>
+          events.filter(
+            (event) =>
+              event.organizerId === organizerId &&
+              event.status === 'Varattu' &&
+              event.publishDateTime &&
+              new Date(event.publishDateTime) <= new Date()
+          )
+        )
+      );
+  }
+
   // uploadEventImage(formData: FormData): Observable<any> {
   //   const token = this.authService.getToken();
   //   if (token) {

@@ -90,8 +90,8 @@
         <div class="event-list-line" (click)="goToEventPage(event)">
           <span
             [ngClass]="{
-              'dot-confirmed': event.status === 'Tuotannossa',
-              'dot-notconfirmed': event.status === 'Varattu'
+              'dot-confirmed': event.status === 'Varattu',
+              'dot-notconfirmed': event.status === 'Tuotannossa'
             }"
           ></span>
           <div class="event-list-text">
@@ -110,8 +110,8 @@
         <div class="event-list-line" (click)="goToEventPage(event)">
           <span
             [ngClass]="{
-              'dot-confirmed': event.status === 'Tuotannossa',
-              'dot-notconfirmed': event.status === 'Varattu'
+              'dot-confirmed': event.status === 'Varattu',
+              'dot-notconfirmed': event.status === 'Tuotannossa'
             }"
           ></span>
           <div class="event-list-text">

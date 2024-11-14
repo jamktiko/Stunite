@@ -8,6 +8,11 @@
   margin-bottom: 30px; /* Lisätään alaraja */
 }
 
+.events {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
 .association-container {
   display: grid; /* Vaihdetaan flexbox gridiksi */
   grid-template-columns: repeat(2, 1fr); /* Kaksi saraketta */
@@ -45,7 +50,6 @@
   margin: 8px 0;
   line-height: 1.6;
 }
-
 
 .association-info p:last-child {
   color: #15395f; /* Linkin väri */
