@@ -15,6 +15,8 @@ export class LoginModalComponent {
   @Output() close = new EventEmitter<void>();
   @Output() openOrganizerModal = new EventEmitter<void>();
 
+  showLoginForm: boolean = false;
+  showLoginButtons: boolean = true;
   email: string = '';
   password: string = '';
   errorMessage: string = '';
@@ -24,7 +26,10 @@ export class LoginModalComponent {
   onClose() {
     this.close.emit();
   }
-
+  onBack() {
+    this.showLoginForm = false;
+    this.showLoginButtons = true;
+  }
   goRegister() {
     this.onClose();
     this.router.navigate(['/register']);
@@ -45,6 +50,10 @@ export class LoginModalComponent {
     });
   }
 
+  showLogin() {
+    this.showLoginForm = true;
+    this.showLoginButtons = false;
+  }
   openOrganizerLogin() {
     this.onClose();
     this.openOrganizerModal.emit();

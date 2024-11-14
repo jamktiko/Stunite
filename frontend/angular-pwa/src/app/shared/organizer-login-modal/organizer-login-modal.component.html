@@ -1,6 +1,9 @@
 <div class="modal">
   <div class="modal-content">
     <span (click)="onClose()" class="close">&times;</span>
+    <span class="material-symbols-outlined" (click)="onBack()">
+      arrow_back_ios</span
+    >
     <h2>Järjestäjä kirjautuminen</h2>
 
     <form (ngSubmit)="onSubmit()" #organizerLoginForm="ngForm">

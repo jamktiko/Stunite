@@ -1,30 +1,40 @@
-<img class="banner-img" [src]="'assets/stunite_banner.png'" />
+<div class="page-container">
+  <span class="material-symbols-outlined" (click)="onBack()">
+    arrow_back_ios</span
+  >
+  <img class="banner-img" [src]="'assets/stunite_banner.png'" />
 
-<h2>Järjestäjä kirjautuminen</h2>
+  <h2>Järjestäjä kirjautuminen</h2>
 
-<form (ngSubmit)="onSubmit()" #organizerLoginForm="ngForm" class="mobile-login">
-  <input
-    id="email"
-    placeholder="Sähköposti"
-    [(ngModel)]="email"
-    name="email"
-    required
-  />
-  <input
-    id="password"
-    placeholder="Salasana"
-    [(ngModel)]="password"
-    name="password"
-    type="password"
-    required
-  />
-  <div *ngIf="errorMessage" class="error-message">
-    {{ errorMessage }}
-  </div>
-  <button type="submit" [disabled]="!organizerLoginForm.valid">
-    Kirjaudu Sisään
-  </button>
-  <a href="https://forms.gle/GbSB8bNWTD57LAzW8">
-    <p>Järjestäjän rekisteröityminen</p>
-  </a>
-</form>
+  <form
+    (ngSubmit)="onSubmit()"
+    #organizerLoginForm="ngForm"
+    class="mobile-login"
+  >
+    <input
+      id="email"
+      placeholder="Sähköposti"
+      [(ngModel)]="email"
+      name="email"
+      required
+    />
+    <input
+      id="password"
+      placeholder="Salasana"
+      [(ngModel)]="password"
+      name="password"
+      type="password"
+      required
+    />
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+    <button type="submit" [disabled]="!organizerLoginForm.valid">
+      Kirjaudu Sisään
+    </button>
+    <p>
+      Järjestäjä, rekisteröidy
+      <u href="https://forms.gle/GbSB8bNWTD57LAzW8">täältä.</u>
+    </p>
+  </form>
+</div>

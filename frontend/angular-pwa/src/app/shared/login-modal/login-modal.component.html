@@ -1,9 +1,25 @@
 <div class="modal">
   <div class="modal-content">
     <span (click)="onClose()" class="close">&times;</span>
+    <span
+      *ngIf="!showLoginButtons"
+      class="material-symbols-outlined"
+      (click)="onBack()"
+    >
+      arrow_back_ios</span
+    >
 
     <h1>stunite</h1>
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <div class="login-buttons" *ngIf="showLoginButtons">
+      <button class="button2" (click)="showLogin()">
+        Kirjaudu sisään tapahtumakävijänä
+      </button>
+      <button class="button2" (click)="openOrganizerLogin()">
+        Kirjaudu sisään järjestäjänä
+      </button>
+    </div>
+
+    <form *ngIf="showLoginForm" (ngSubmit)="onSubmit()" #loginForm="ngForm">
       <input
         id="email"
         placeholder="Sähköposti"
@@ -27,7 +43,6 @@
       <button type="submit" [disabled]="!loginForm.valid">
         Kirjaudu Sisään
       </button>
-      <!-- Estä lähetys tyhjällä lomakkeella -->
     </form>
 
     <p>
@@ -35,12 +50,8 @@
       <a (click)="goRegister()"><u> Voit rekisteröityä täällä.</u> </a>
     </p>
     <p>
-      Oletko järjestäjä?
-      <a (click)="openOrganizerLogin()"><u>Kirjaudu täältä.</u></a>
+      Järjestäjä, rekisteröidy
+      <u href="https://forms.gle/GbSB8bNWTD57LAzW8">täältä.</u>
     </p>
-
-    <a href="https://forms.gle/GbSB8bNWTD57LAzW8">
-      <p>Järjestäjän rekisteröityminen</p>
-    </a>
   </div>
 </div>
