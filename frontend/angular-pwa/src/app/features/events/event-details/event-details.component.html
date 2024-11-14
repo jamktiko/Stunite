@@ -24,10 +24,18 @@
       </div>
       <div class="grid-item info-box">
         <div class="event-infobox">
-          <p>
+          <!-- If the starting and ending dates are different, show both dates -->
+          <p *ngIf="event.date !== event.endingDate">
             <span class="material-symbols-outlined"> calendar_month </span>
             {{ event.date }} - {{ event.endingDate }}
           </p>
+          <!-- If the starting and ending dates are the same, show only the starting date -->
+          <p *ngIf="event.date === event.endingDate">
+            <span class="material-symbols-outlined"> calendar_month </span>
+            {{ event.date }}
+          </p>
+
+          <!-- Always show the starting time and ending time -->
           <p>
             <span class="material-symbols-outlined">
               nest_clock_farsight_analog
@@ -36,8 +44,7 @@
           </p>
           <p>
             <span class="material-symbols-outlined"> distance </span>
-            {{ event.venue }}, {{ event.city }},
-            {{ event.address }}
+            {{ event.venue }}, {{ event.city }}, {{ event.address }}
           </p>
           <p>
             <span class="material-symbols-outlined"> supervisor_account </span>
