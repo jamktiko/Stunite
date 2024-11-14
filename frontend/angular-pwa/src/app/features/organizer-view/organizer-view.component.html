@@ -1,30 +1,22 @@
 <div class="page-container">
-  <h2>Tervetuloa järjestäjänäkymään</h2>
+  <h1>Tervetuloa järjestäjänäkymään!</h1>
 
   <div class="organizer-buttons">
     <button class="button2 big" (click)="goToCreateEvent()">
       Luo uusi tapahtuma
     </button>
     <button class="button2 big" (click)="goToOrganizerCalendar()">
-      Siirry Järjestäjäkalenteriin
+      Siirry järjestäjäkalenteriin
     </button>
   </div>
 
   <div class="">
     <h2>Sinun tapahtumasi:</h2>
     <div class="tab-container">
-      <button
-        (click)="activeTab = 'upcoming'"
-        [class.active]="activeTab === 'upcoming'"
-        class="tab-button"
-      >
+      <button (click)="activeTab = 'upcoming'" [class.active]="activeTab === 'upcoming'" class="tab-button">
         Tulevat tapahtumat
       </button>
-      <button
-        (click)="activeTab = 'past'"
-        [class.active]="activeTab === 'past'"
-        class="tab-button"
-      >
+      <button (click)="activeTab = 'past'" [class.active]="activeTab === 'past'" class="tab-button">
         Menneet tapahtumat
       </button>
     </div>
@@ -32,10 +24,11 @@
     <div *ngIf="activeTab === 'upcoming'" class="events-div">
       <div *ngFor="let event of upcomingEvents" class="your-events">
         <div class="event-text">
+          <p class="date">{{ event.date }}</p>
           <strong>
-            <p class="event-name">{{ event.eventName }}</p></strong
-          >
-          <p>{{ event.date }}</p>
+            <p class="event-name">{{ event.eventName }}</p>
+          </strong>
+
         </div>
         <div class="eventbuttons">
           <button class="button2" (click)="editEvent(event)">
@@ -54,10 +47,10 @@
     <div *ngIf="activeTab === 'past'" class="events-div">
       <div *ngFor="let event of pastEvents" class="your-events">
         <div class="event-text">
+          <p class="date">{{ event.date }}</p>
           <strong>
-            <p class="event-name">{{ event.eventName }}</p></strong
-          >
-          <p>{{ event.date }}</p>
+            <p class="event-name">{{ event.eventName }}</p>
+          </strong>
         </div>
         <div class="eventbuttons">
           <button class="button2" (click)="goToEventPage(event)">
@@ -75,5 +68,5 @@
     </ng-template>
   </div>
 
-  <button (click)="logout()" class="button2">Kirjaudu ulos</button>
+  <button (click)="logout()" class="button2 logout-button">Kirjaudu ulos</button>
 </div>

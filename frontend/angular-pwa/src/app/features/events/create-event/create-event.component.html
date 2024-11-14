@@ -4,17 +4,8 @@
     <form (ngSubmit)="onSubmit()" class="create-event-form" #eventForm="ngForm">
       <div class="form-field">
         <label>Tapahtuman nimi*</label>
-        <input
-          type="text"
-          [(ngModel)]="eventName"
-          name="eventName"
-          #eventNameModel="ngModel"
-          required
-        />
-        <div
-          class="error"
-          *ngIf="eventNameModel.invalid && eventNameModel.touched"
-        >
+        <input type="text" [(ngModel)]="eventName" name="eventName" #eventNameModel="ngModel" required />
+        <div class="error" *ngIf="eventNameModel.invalid && eventNameModel.touched">
           Tapahtuman nimi on pakollinen.
         </div>
       </div>
@@ -22,68 +13,32 @@
       <div class="form-field form-field-two">
         <label>Päivämäärä ja aloitusaika*</label>
         <div class="two-inputs">
-          <input
-            type="date"
-            [(ngModel)]="eventDate"
-            name="eventDate"
-            #eventDateModel="ngModel"
-            required
-          />
-          <input
-            type="time"
-            [(ngModel)]="eventTime"
-            name="eventTime"
-            #eventTimeModel="ngModel"
-            required
-          />
+          <input type="date" [(ngModel)]="eventDate" name="eventDate" #eventDateModel="ngModel" required />
+          <input type="time" [(ngModel)]="eventTime" name="eventTime" #eventTimeModel="ngModel" required />
         </div>
-        <div
-          class="error"
-          *ngIf="
+        <div class="error" *ngIf="
             (eventDateModel.invalid || eventTimeModel.invalid) &&
             (eventDateModel.touched || eventTimeModel.touched)
-          "
-        >
+          ">
           Päivämäärä ja aloitusaika ovat pakollisia.
         </div>
       </div>
       <div class="form-field form-field-two">
         <label>Lopetus päivämäärä ja aika*</label>
         <div class="two-inputs">
-          <input
-            type="date"
-            [(ngModel)]="endingDate"
-            name="endingDate"
-            #endingDateModel="ngModel"
-            required
-          />
-          <input
-            type="time"
-            [(ngModel)]="endingTime"
-            name="endingtime"
-            #endingTimeModel="ngModel"
-            required
-          />
+          <input type="date" [(ngModel)]="endingDate" name="endingDate" #endingDateModel="ngModel" required />
+          <input type="time" [(ngModel)]="endingTime" name="endingtime" #endingTimeModel="ngModel" required />
         </div>
-        <div
-          class="error"
-          *ngIf="
+        <div class="error" *ngIf="
             (endingTimeModel.invalid || endingTimeModel.invalid) &&
             (endingDateModel.touched || endingDateModel.touched)
-          "
-        >
+          ">
           Lopetus päivämäärä ja aika ovat pakollisia.
         </div>
       </div>
       <div class="form-field">
         <label>Kaupunki*</label>
-        <input
-          type="text"
-          [(ngModel)]="city"
-          name="city"
-          #cityModel="ngModel"
-          required
-        />
+        <input type="text" [(ngModel)]="city" name="city" #cityModel="ngModel" required />
         <div class="error" *ngIf="cityModel.invalid && cityModel.touched">
           Kaupunki on pakollinen.
         </div>
@@ -91,13 +46,7 @@
 
       <div class="form-field">
         <label>Osoite*</label>
-        <input
-          type="text"
-          [(ngModel)]="address"
-          name="address"
-          #addressModel="ngModel"
-          required
-        />
+        <input type="text" [(ngModel)]="address" name="address" #addressModel="ngModel" required />
         <div class="error" *ngIf="addressModel.invalid && addressModel.touched">
           Osoite on pakollinen.
         </div>
@@ -105,97 +54,51 @@
 
       <div class="form-field">
         <label>Tapahtumapaikka*</label>
-        <input
-          type="text"
-          [(ngModel)]="venue"
-          name="venue"
-          #venueModel="ngModel"
-          required
-        />
+        <input type="text" [(ngModel)]="venue" name="venue" #venueModel="ngModel" required />
         <div class="error" *ngIf="venueModel.invalid && venueModel.touched">
           Tapahtumapaikka on pakollinen.
         </div>
       </div>
       <div class="form-field">
         <label>Tapahtuman kuvaus</label>
-        <textarea
-          placeholder="Tapahtuman kuvaus"
-          [(ngModel)]="details"
-          name="details"
-          rows="4"
-        ></textarea>
+        <textarea placeholder="Tapahtuman kuvaus" [(ngModel)]="details" name="details" rows="4"></textarea>
       </div>
       <div class="form-field">
         <label>Lipun hinta (min-max)*</label>
         <div class="two-inputs">
-          <input
-            type="number"
-            placeholder="min"
-            [(ngModel)]="minticketprice"
-            name="ticketpriceMin"
-            #ticketMinModel="ngModel"
-            required
-          />
-          <input
-            type="number"
-            placeholder="max"
-            [(ngModel)]="maxticketprice"
-            name="ticketpriceMax"
-            #ticketMaxModel="ngModel"
-            required
-          />
+          <input type="number" placeholder="min" [(ngModel)]="minticketprice" name="ticketpriceMin"
+            #ticketMinModel="ngModel" required />
+          <input type="number" placeholder="max" [(ngModel)]="maxticketprice" name="ticketpriceMax"
+            #ticketMaxModel="ngModel" required />
         </div>
-        <div
-          class="error"
-          *ngIf="
+        <div class="error" *ngIf="
             (ticketMinModel.invalid || ticketMaxModel.invalid) &&
             (ticketMinModel.touched || ticketMaxModel.touched)
-          "
-        >
+          ">
           Lipun hinta on pakollinen.
         </div>
       </div>
       <div class="form-field">
         <label>Lipunmyynnin aloitusaika*</label>
-        <input
-          type="datetime-local"
-          placeholder="Lipunmyynnin aloitusaika"
-          [(ngModel)]="ticketSaleStart"
-          name="ticketSaleStart"
-          #ticketSaleStartModel="ngModel"
-          required
-        />
-        <div
-          class="error"
-          *ngIf="ticketSaleStartModel.invalid && ticketSaleStartModel.touched"
-        >
+        <input type="datetime-local" placeholder="Lipunmyynnin aloitusaika" [(ngModel)]="ticketSaleStart"
+          name="ticketSaleStart" #ticketSaleStartModel="ngModel" required />
+        <div class="error" *ngIf="ticketSaleStartModel.invalid && ticketSaleStartModel.touched">
           Lipunmyynnin aloitusaika on pakollinen.
         </div>
       </div>
 
       <div class="form-field">
         <label>Lipunmyynnin loppumisaika*</label>
-        <input
-          type="datetime-local"
-          placeholder="Lipunmyynnin loppumisaika"
-          [(ngModel)]="ticketSaleEnd"
-          name="ticketSaleEnd"
-          #ticketSaleEndModel="ngModel"
-          required
-        />
-        <div
-          class="error"
-          *ngIf="ticketSaleEndModel.invalid && ticketSaleEndModel.touched"
-        >
+        <input type="datetime-local" placeholder="Lipunmyynnin loppumisaika" [(ngModel)]="ticketSaleEnd"
+          name="ticketSaleEnd" #ticketSaleEndModel="ngModel" required />
+        <div class="error" *ngIf="ticketSaleEndModel.invalid && ticketSaleEndModel.touched">
           Lipunmyynnin loppumisaika on pakollinen.
         </div>
       </div>
 
       <div class="form-field">
-        <label
-          >Onko tapahtuma alustava suunnitelma vai vahvistettu tapahtuma?*
-          :</label
-        >
+        <label>Onko tapahtuma alustava suunnitelma vai vahvistettu tapahtuma?*
+          :</label>
         <!-- <p>
           Vahvistetun tapahtuman tiedot on ns. lyöty lukkoon ja on sille voi
           asettaa julkaisupäivän. Voit kuitenkin muokata vielä tapahtuman
@@ -218,13 +121,8 @@
       </div>
       <div class="form-field">
         <label>Tapahtuman julkaisupäivä ja kellonaika*</label>
-        <input
-          type="datetime-local"
-          placeholder="Julkaisupäivä ja kellonaika"
-          [(ngModel)]="publishDateTime"
-          name="publishDateTime"
-          [disabled]="status === 'Tuotannossa'"
-        />
+        <input type="datetime-local" placeholder="Julkaisupäivä ja kellonaika" [(ngModel)]="publishDateTime"
+          name="publishDateTime" [disabled]="status === 'Tuotannossa'" />
         <small *ngIf="status === 'Tuotannossa'">
           Ei voi asettaa julkaisuaikaa alustavalle tapahtumalle.
         </small>
@@ -240,18 +138,15 @@
         <label>Tapahtuman tagit*</label>
         <div class="tags-container">
           <div *ngFor="let tag of availableEventTags" class="tag-checkbox">
-            <input
-              type="checkbox"
-              [id]="tag"
-              [value]="tag"
-              (change)="onTagCheckboxChange($event)"
-              [checked]="eventTags.includes(tag)"
-            />
+            <input type="checkbox" [id]="tag" [value]="tag" (change)="onTagCheckboxChange($event)"
+              [checked]="eventTags.includes(tag)" />
             <label [for]="tag">{{ tag }}</label>
           </div>
         </div>
         <div class="error" *ngIf="eventTags.length === 0">
-          Valitse vähintään yksi tagi.
+          <p>Valitse</p>
+          <p>vähintään</p>
+          <p>yksi tagi.</p>
         </div>
       </div>
 

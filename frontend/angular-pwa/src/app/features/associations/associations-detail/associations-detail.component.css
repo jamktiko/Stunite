@@ -1,23 +1,26 @@
-.association-page {
-  margin: 20px;
-}
-
 .name {
   text-align: center;
-  font-size: 40px;
-  margin-bottom: 30px; /* Lisätään alaraja */
+  font-size: 2.5em;
+  margin-bottom: 0px; /* Lisätään alaraja */
+}
+
+.official-name {
+  text-align: center;
+  font-size: 1.2em;
+  margin: 10px 0 20px 0;
 }
 
 .events {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  column-gap: 24px;
+  row-gap: 16px;
 }
+
 .association-container {
   display: grid; /* Vaihdetaan flexbox gridiksi */
   grid-template-columns: repeat(2, 1fr); /* Kaksi saraketta */
   gap: 24px; /* Välit kuvien ja korttien välillä */
-  margin: 12px; /* Marginaali ympärille */
   justify-items: center; /* Kohdistaa elementit keskelle */
   align-items: stretch; /* Kohdistaa elementit täyttämään tilan */
 }
@@ -30,9 +33,9 @@
 
 .associationimage {
   max-width: 100%; /* Kuvan leveys 100% */
-  height: 400px; /* Määritellään korkeus, jotta kaikki kuvat ovat saman kokoisia */
+  height: 300px; /* Määritellään korkeus, jotta kaikki kuvat ovat saman kokoisia */
   object-fit: cover; /* Varmistaa, että kuva täyttää tilan oikein */
-  border-radius: 8px; /* Pyöristetyt kulmat */
+  border-radius: 20px; /* Pyöristetyt kulmat */
 }
 
 .association-info {
@@ -42,13 +45,13 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 12px;
   max-width: 100%;
 }
 
 .association-info p {
-  margin: 8px 0;
-  line-height: 1.6;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .association-info p:last-child {
@@ -67,14 +70,13 @@
   margin: 5px 0; /* Lisää vähän tilaa listakohteiden väliin */
 }
 
+.association-paragraphs {
+  margin-top: 40px;
+}
+
 @media (max-width: 768px) {
   .association-container {
     grid-template-columns: 1fr; /* Yksi sarake pienillä näytöillä */
-  }
-
-  .association-info {
-    width: 90%; /* Infokortti on 90% leveä */
-    margin: 0 auto; /* Keskittää kortin */
   }
 
   .associationimage {

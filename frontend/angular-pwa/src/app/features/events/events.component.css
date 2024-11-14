@@ -1,17 +1,16 @@
 .events {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 20px;
   justify-content: space-evenly;
 }
 
 .events-start {
-  margin: 24px;
   display: flex;
 }
 
 .searchbar {
-  margin: 18px 0px;
+  margin-bottom: 35px;
   width: 100%;
   max-width: 400px;
   box-sizing: border-box;
@@ -19,8 +18,10 @@
 
 .searchbar input {
   width: 100%;
-  padding: 8px 16px;
+  padding: 12.5px 16px;
   box-sizing: border-box;
+  margin: 0 10px 0 0;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
 }
 
 .left-side {
@@ -30,15 +31,43 @@
 input[type="date"] {
   z-index: 0;
   position: relative;
+  border: 1px solid #b2b2b2;
 }
 .right-side {
   display: flex;
 }
 .filters {
   display: flex;
+  align-items: center;
+  padding-top: 15px;
 }
+
+.single-filter {
+  height: 45px;
+  margin-right: 10px;
+  border: 1px solid #b2b2b2;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background-color: #fff5f9;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
 .banner-img {
-  max-width: 400px;
+  height: 190px;
+  margin-top: 10px;
+}
+
+h1 {
+  margin-left: 0;
+  margin-bottom: 20px;
+}
+
+button {
+  margin-top: 15px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  padding: 5px 16px;
+  border-width: 2px;
+  font-size: 0.9em;
 }
 
 @media (max-width: 768px) {
@@ -48,6 +77,25 @@ input[type="date"] {
 
   .searchbar {
     max-width: 300px;
+    margin: auto;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 0px;
+    padding-top: 5px;
+  }
+
+  .single-filter {
+    margin-bottom: 10px;
+    margin-top: 0;
+  }
+
+  button {
+    width: 150px;
+    margin: 0 0 30px 25%;
   }
 
   .right-side {
@@ -58,13 +106,10 @@ input[type="date"] {
     flex-direction: column;
   }
 
-  .left-side {
-    align-items: center;
-  }
-
   .searchbar input {
     width: 100%;
     max-width: 300px;
     margin: auto;
+    margin-bottom: 10px;
   }
 }

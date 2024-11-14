@@ -1,7 +1,7 @@
 .organizer-buttons {
   display: flex;
   gap: 8%;
-  margin-bottom: 32px;
+  margin-bottom: 0;
 }
 .button2.big {
   max-height: 100px;
@@ -11,14 +11,22 @@
 
 .eventbuttons {
   display: flex;
-
   gap: 12px;
 }
 
-h1,
+.logout-button {
+  margin-top: 50px;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 h2 {
   text-align: center;
-  margin-top: 50px;
+  margin-top: 20px;
+  font-size: 3.5em;
 }
 .arrow {
   font-size: 30px;
@@ -28,16 +36,17 @@ h2 {
 .important-button {
   max-width: 400px;
 }
+
 .page-container {
   display: flex;
   flex-direction: column;
-  gap: 50px;
   align-items: center;
 }
 
 .tab-container {
   display: flex;
 }
+
 .tab-button {
   border-radius: 17px 17px 0 0;
   background-image: none;
@@ -54,10 +63,10 @@ h2 {
         #f1b8e5
       )
       border-box;
-  border-bottom: 3px solid transparent;
+  border-bottom: 2px solid transparent;
 }
 .tab-button.active {
-  background: linear-gradient(white, white) padding-box,
+  background: linear-gradient(#fff5f9, #fff5f9) padding-box,
     linear-gradient(
         to right,
         #f3afab,
@@ -68,11 +77,11 @@ h2 {
         #f1b8e5
       )
       border-box;
-  border: 3px solid transparent;
+  border: 2px solid transparent;
   border-bottom: none;
 }
 .events-div {
-  background: linear-gradient(white, white) padding-box,
+  background: linear-gradient(#fff5f9, #fff5f9) padding-box,
     linear-gradient(
         to right,
         #f3afab,
@@ -83,7 +92,7 @@ h2 {
         #f1b8e5
       )
       border-box;
-  border: 3px solid transparent;
+  border: 2px solid transparent;
   border-top: none;
   border-radius: 0 0 20px 20px;
   width: 900px;
@@ -101,8 +110,13 @@ h2 {
   gap: 12px;
   margin: 0px 24px;
 }
+
+.date {
+  margin-right: 10px;
+}
+
 .event-name {
-  width: 300px;
+  width: 285px;
 }
 
 .eventbuttons button {

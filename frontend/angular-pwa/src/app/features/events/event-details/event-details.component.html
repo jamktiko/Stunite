@@ -3,26 +3,20 @@
     <p style="font-size: 36px; text-align: center; margin-bottom: 6px">
       {{ event.eventName }}
     </p>
-    <p
-      style="
+    <p style="
         text-align: center;
-        margin-bottom: 80px;
+        margin-bottom: 40px;
         margin-top: 8px;
         font-size: 24px;
-      "
-    >
+      ">
       {{ event.date }} {{ event.city }}
     </p>
     <div class="grid-container">
-      <div class="grid-item">
-        <img
-          [src]="event.imageUrl || 'assets/placeholder.png'"
-          alt="Event image"
-          class="eventimage"
-          onerror="this.src='assets/placeholder.png'"
-        />
+      <div class="grid-item" id="image-g1">
+        <img [src]="event.imageUrl || 'assets/placeholder.png'" alt="Event image" class="eventimage"
+          onerror="this.src='assets/placeholder.png'" />
       </div>
-      <div class="grid-item info-box">
+      <div class="grid-item info-box" id="info-g2">
         <div class="event-infobox">
           <!-- If the starting and ending dates are different, show both dates -->
           <p *ngIf="event.date !== event.endingDate">
@@ -57,28 +51,23 @@
           </p>
         </div>
       </div>
-      <div class="grid-item">
-        <p><strong>Lisätietoa:</strong> {{ event.details }}</p>
+      <div class="grid-item" id="details-g3">
+        <p>{{ event.details }}</p>
       </div>
-      <div
-        id="map"
-        style="height: 400px; width: 100%; margin-bottom: 20px"
-      ></div>
-      <div
-        class="grid-item"
-        style="display: flex; flex-direction: column; text-align: center"
-      >
+      <div class="grid-item" id="sales-g4" style="display: flex; flex-direction: column; text-align: center">
         <p *ngIf="isOrganizer">
           Tapahtuman julkaisuaika: <br />
           {{ formatDateTime(event.publishDateTime) }}
         </p>
         <p>
-          Lipunmyynti käynnissä:<br />
+          <strong>Lipunmyynti käynnissä:</strong><br />
           klo {{ formatDateTime(event.ticketSaleStart) }} - klo
           {{ formatDateTime(event.ticketSaleEnd) }}
         </p>
-        <button style="font-size: 30px"><strong>Osta liput</strong></button>
+        <button style="font-size: 28px"><strong>Osta liput</strong></button>
       </div>
+      <div class="grid-item" id="map" style="height: 400px; width: 100%; margin-bottom: 20px"></div>
+
     </div>
   </div>
 </div>

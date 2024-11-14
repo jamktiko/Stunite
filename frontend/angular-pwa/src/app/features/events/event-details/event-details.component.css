@@ -2,7 +2,6 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
-  margin: 12px;
   justify-items: center;
   align-items: stretch;
 }
@@ -14,9 +13,15 @@
   width: 100%;
 }
 
+#details-g3 {
+  grid-row: 2 / span 2;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
 .eventimage {
   max-width: 100%;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 .event-infobox p {
   display: flex;
@@ -37,6 +42,8 @@
 #map {
   position: relative;
   z-index: 0;
+  margin-top: 15px;
+  grid-area: 3/2/3/2;
 }
 
 button {
@@ -47,7 +54,33 @@ button {
 
 @media (max-width: 768px) {
   .grid-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: 250px 250px 220px auto 400px;
+  }
+
+  #image-g1 {
+    grid-row: 1 / span 1;
+    grid-column: 1;
+  }
+
+  #info-g2 {
+    grid-row: 2 / span 1;
+    grid-column: 1;
+  }
+
+  #sales-g4 {
+    grid-row: 3 / span 1;
+    grid-column: 1;
+  }
+
+  #details-g3 {
+    grid-row: 4 / span 1;
+    grid-column: 1;
+  }
+
+  #map {
+    grid-row: 5 / span 1;
+    grid-column: 1;
   }
 
   .grid-item {
@@ -62,7 +95,7 @@ button {
   }
 
   .info-box {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
   }
 }

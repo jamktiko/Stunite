@@ -1,14 +1,10 @@
 <div class="page-container">
   <div class="association-page">
     <p class="name">{{ association?.organizationName }}</p>
-    <p>{{ association?.officialName }}</p>
+    <p class="official-name">{{ association?.officialName }}</p>
     <div *ngIf="association" class="association-container">
       <div class="pic">
-        <img
-          src="../assets/konkurssi.png"
-          alt="Association image"
-          class="associationimage"
-        />
+        <img src="../assets/konkurssi.png" alt="Association image" class="associationimage" />
       </div>
       <div class="association-info">
         <p>
@@ -31,21 +27,24 @@
         </p>
       </div>
     </div>
-    <div>
+    <div class="association-paragraphs">
       <p><strong>Kuvaus</strong></p>
       <p>{{ association?.description }}</p>
     </div>
-    <div>
+    <div class="association-paragraphs">
       <p><strong>Koulutusalat</strong></p>
+      <ul>
+        <li>Tähän</li>
+        <li>Lista</li>
+        <li>Opiskelijajärjestön</li>
+        <li>Koulutusaloista</li>
+      </ul>
     </div>
 
-    <div>
+    <div class="association-paragraphs">
       <p><strong>Tapahtumat</strong></p>
       <div class="events" *ngIf="allEvents.length > 0; else noEvents">
-        <app-eventcard
-          *ngFor="let event of allEvents"
-          [event]="event"
-        ></app-eventcard>
+        <app-eventcard *ngFor="let event of allEvents" [event]="event"></app-eventcard>
       </div>
       <ng-template #noEvents>
         <p>Ei tapahtumia.</p>
