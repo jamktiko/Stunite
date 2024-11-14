@@ -7,14 +7,14 @@
     <h2><a routerLink="/home" routerLinkActive="active">stunite</a></h2>
 
     <div class="menu-desktop">
-      <div><a routerLink="/home" routerLinkActive="active">ETUSIVU</a></div>
-      <div><a routerLink="/events" routerLinkActive="active">TAPAHTUMAT</a></div>
+      <div><a class="nav-link" routerLink="/home" routerLinkActive="active">ETUSIVU</a></div>
+      <div><a class="nav-link" routerLink="/events" routerLinkActive="active">TAPAHTUMAT</a></div>
       <div>
-        <a routerLink="/associations" routerLinkActive="active">YHTEISÖ</a>
+        <a class="nav-link" routerLink="/associations" routerLinkActive="active">YHTEISÖ</a>
       </div>
       <ng-container *ngIf="isOrganizer">
         <div>
-          <a routerLink="/organizer-view" routerLinkActive="active">JÄRJESTÄJÄNÄKYMÄ</a>
+          <a class="nav-link" routerLink="/organizer-view" routerLinkActive="active">JÄRJESTÄJÄNÄKYMÄ</a>
         </div>
       </ng-container>
     </div>
