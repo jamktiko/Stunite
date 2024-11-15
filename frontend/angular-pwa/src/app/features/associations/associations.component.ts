@@ -19,20 +19,21 @@ export class AssociationsComponent implements OnInit {
   filteredAssociationData!: Signal<Organizer[]>;
 
   constructor(private associationService: AssociationService) {}
+
   ngOnInit(): void {
     this.associationSignal = this.associationService.getAssociations();
+    this.associationSignal.subscribe((associationsData) => {
+      this.updateFilteredAssociations(associationsData);
+    });
+  }
 
+  updateFilteredAssociations(associationsData: Organizer[]) {
     this.filteredAssociationData = computed(() => {
       const search = this.searchTerm().toLowerCase();
 
-      let filteredAssociations: Organizer[] = [];
-      this.associationSignal.subscribe((associations) => {
-        filteredAssociations = associations.filter((association) =>
-          association.organizationName.toLowerCase().includes(search)
-        );
-      });
-
-      return filteredAssociations;
+      return associationsData.filter((association) =>
+        association.organizationName.toLowerCase().includes(search)
+      );
     });
   }
 }

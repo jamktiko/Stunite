@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Event } from '../../../shared/models/event.model';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-event-archive',
@@ -23,7 +23,7 @@ export class EventArchiveComponent implements OnInit {
     end: null,
   });
 
-  eventsSignal: Signal<Event[]> = signal([]);
+  eventsSignal!: Observable<Event[]>;
   filteredEventData!: Signal<Event[]>;
 
   availableCities: string[] = [];
@@ -60,27 +60,24 @@ export class EventArchiveComponent implements OnInit {
   constructor(private eventService: EventService, private router: Router) {}
 
   ngOnInit(): void {
-    this.eventSubscription = this.eventService.getPublishedEvents().subscribe({
-      next: (events: Event[]) => {
-        this.eventsSignal = signal(events);
-        events.forEach((event) => {
-          if (!this.availableCities.includes(event.city)) {
-            this.availableCities.push(event.city);
-          }
-        });
-      },
-      error: (err) => {
-        console.error('Error fetching events:', err);
-      },
+    this.eventsSignal = this.eventService.getPublishedEvents();
+    this.eventsSignal.subscribe((eventsData) => {
+      eventsData.forEach((event) => {
+        if (!this.availableCities.includes(event.city)) {
+          this.availableCities.push(event.city);
+        }
+      });
+      this.updateFilteredEvents(eventsData);
     });
-
+  }
+  updateFilteredEvents(eventData: Event[]) {
     this.filteredEventData = computed(() => {
       const search = this.searchTerm().toLowerCase();
       const city = this.selectedCity();
       const tag = this.selectedTag();
       const { start, end } = this.selectedDateRange();
 
-      let filteredPastEvents = this.eventsSignal().filter((event) => {
+      let filteredPastEvents = eventData.filter((event) => {
         const matchesSearch = event.eventName.toLowerCase().includes(search);
         const matchesCity = city ? event.city === city : true;
         const matchesTag = tag ? event.eventTags?.includes(tag) : true;
