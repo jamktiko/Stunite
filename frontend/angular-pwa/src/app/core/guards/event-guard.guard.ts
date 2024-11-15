@@ -42,15 +42,21 @@ export class EventGuard implements CanActivate {
   }
 
   private checkEventVisibility(event: Event): Observable<boolean> {
+    const currentUser = this.authService.getCurrUser();
+    const isOrganizer = this.authService.getIsOrganizer();
     const currentTime = new Date();
     const publishDateTime = new Date(event.publishDateTime);
 
+    if (isOrganizer) {
+      return of(true);
+    }
+
     if (currentTime >= publishDateTime) {
       return of(true);
-    } else {
-      this.router.navigate(['/home']);
-      return of(false);
     }
+
+    this.router.navigate(['/home']);
+    return of(false);
   }
 
   private redirectToHome(): Observable<boolean> {

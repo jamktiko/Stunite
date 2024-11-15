@@ -62,17 +62,29 @@ export class EventService {
   }
 
   getEventById(eventId: string): Observable<Event> {
-    const url = `${this.apiUrl}/${eventId}`;
-    return this.http.get<Event>(url);
+    const token = this.authService.getToken();
+    const headers = token
+      ? new HttpHeaders().set('x-access-token', token)
+      : undefined;
+    const url = `${this.apiUrl}${eventId}`;
+    return this.http.get<Event>(url, { headers });
   }
 
-  // check if works wiith not published events, now only with "Varattu"
   getPublishedEvents(): Observable<Event[]> {
-    return this.http
-      .get<Event[]>(this.apiUrl)
-      .pipe(
-        map((events) => events.filter((event) => event.status === 'Varattu'))
-      );
+    return this.http.get<Event[]>(this.apiUrl).pipe(
+      map((events) =>
+        events.filter((event) => {
+          const now = new Date();
+          const publishDate = new Date(event.publishDateTime);
+
+          return (
+            event.status === 'Varattu' &&
+            event.publishDateTime != null &&
+            publishDate <= now
+          );
+        })
+      )
+    );
   }
 
   getAllEvents(): Observable<Event[]> {
