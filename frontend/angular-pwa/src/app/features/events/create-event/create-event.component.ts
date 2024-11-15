@@ -294,6 +294,14 @@ export class CreateEventComponent implements OnInit {
     }
   }
 
+  openCalendar(event: any) {
+    const target = event.target as HTMLInputElement;
+    if (target && typeof target.showPicker === 'function') {
+      target.showPicker();
+    } else {
+      target.focus();
+    }
+  }
   private formatDate(dateStr: string): string {
     const parts = dateStr.split('-');
     if (parts.length === 3) {
