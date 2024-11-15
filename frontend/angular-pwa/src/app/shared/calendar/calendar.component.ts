@@ -1,33 +1,30 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  computed,
-  Signal,
-  signal,
-} from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, LOCALE_ID } from '@angular/core';
 import {
   IgxCalendarModule,
   IgxCalendarComponent,
-  DateRangeDescriptor,
   DateRangeType,
 } from 'igniteui-angular';
 import { EventService } from '../../features/events/event.service';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { registerLocaleData } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router'; 
+import localeFi from '@angular/common/locales/fi';
+
+// Register Finnish locale data
+registerLocaleData(localeFi);
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
   imports: [
-    RouterModule,
     IgxCalendarModule,
-    IgxCalendarComponent,
     CommonModule,
+    RouterModule,
   ],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
+  providers: [{ provide: LOCALE_ID, useValue: 'fi-FI' }],
 })
 export class CalendarComponent implements OnInit {
   @ViewChild('MyCalendar', { static: true })
@@ -37,7 +34,7 @@ export class CalendarComponent implements OnInit {
   public selectedEvents: any[] = [];
   selectedDate: string = '';
 
-  events!: Signal<any[]>;
+  events!: any[];
   private eventSubscription: Subscription = new Subscription();
 
   constructor(private eventService: EventService) {}
@@ -45,7 +42,7 @@ export class CalendarComponent implements OnInit {
   ngOnInit(): void {
     this.eventSubscription = this.eventService.getPublishedEvents().subscribe({
       next: (eventsData) => {
-        this.events = signal(eventsData);
+        this.events = eventsData;
         this.updateEventsMap(eventsData);
       },
       error: (err) => {
@@ -69,13 +66,12 @@ export class CalendarComponent implements OnInit {
         this.eventsMap.get(dateStr)?.push(event);
       }
     });
-
     this.calendar.specialDates = Array.from(this.eventsMap.keys()).map(
       (key) => {
         return {
           type: DateRangeType.Specific,
           dateRange: [new Date(key)],
-        } as DateRangeDescriptor;
+        };
       }
     );
   }
@@ -90,7 +86,6 @@ export class CalendarComponent implements OnInit {
       this.selectedDate = this.formatDateInFinnish(date);
       if (eventsOnDate.length > 0) {
         this.selectedEvents = this.selectedEvents.concat(eventsOnDate);
-      } else {
       }
     });
   }
