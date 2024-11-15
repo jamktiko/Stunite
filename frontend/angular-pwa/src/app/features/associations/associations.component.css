@@ -26,6 +26,9 @@ h1 {
 }
 
 @media (max-width: 768px) {
+  .associations {
+    justify-content: center;
+  }
   h1 {
     text-align: center;
   }

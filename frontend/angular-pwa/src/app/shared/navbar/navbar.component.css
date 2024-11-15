@@ -106,7 +106,8 @@ div {
   margin: 24px 0px;
 }
 .mobile-nav-logout {
-  text-align: center;
+  justify-content: start;
+  text-align: start;
   display: flex;
   gap: 12px;
 }

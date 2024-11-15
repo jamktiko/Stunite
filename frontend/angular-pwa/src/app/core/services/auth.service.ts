@@ -88,9 +88,6 @@ export class AuthService {
       );
   }
 
-  // organizer register
-  registerAsOrganizer() {}
-
   // organizer login
   loginAsOrganizer(email: string, password: string) {
     return this.http

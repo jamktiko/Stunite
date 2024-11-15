@@ -71,6 +71,9 @@ button {
 }
 
 @media (max-width: 768px) {
+  .events {
+    justify-content: center;
+  }
   h1 {
     text-align: center;
   }
