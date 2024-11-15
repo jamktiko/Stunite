@@ -95,7 +95,7 @@ h2 {
   border: 2px solid transparent;
   border-top: none;
   border-radius: 0 0 20px 20px;
-  width: 900px;
+  width: fit-content;
 }
 .your-events {
   display: flex;
@@ -132,7 +132,7 @@ h2 {
   min-width: 200px;
 }
 
-@media (max-width: 940px) {
+@media (max-width: 1200px) {
   .eventname p {
     font-size: 24px;
   }
