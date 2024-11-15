@@ -1,20 +1,37 @@
 <!-- Google Icon, Login icon and Menu icon -->
-<link rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+/>
 
 <nav id="grad">
   <div>
     <h2><a routerLink="/home" routerLinkActive="active">stunite</a></h2>
 
     <div class="menu-desktop">
-      <div><a class="nav-link" routerLink="/home" routerLinkActive="active">ETUSIVU</a></div>
-      <div><a class="nav-link" routerLink="/events" routerLinkActive="active">TAPAHTUMAT</a></div>
       <div>
-        <a class="nav-link" routerLink="/associations" routerLinkActive="active">YHTEISÖ</a>
+        <a class="nav-link" routerLink="/home" routerLinkActive="active"
+          >ETUSIVU</a
+        >
+      </div>
+      <div>
+        <a class="nav-link" routerLink="/events" routerLinkActive="active"
+          >TAPAHTUMAT</a
+        >
+      </div>
+      <div>
+        <a class="nav-link" routerLink="/associations" routerLinkActive="active"
+          >YHTEISÖ</a
+        >
       </div>
       <ng-container *ngIf="isOrganizer">
         <div>
-          <a class="nav-link" routerLink="/organizer-view" routerLinkActive="active">JÄRJESTÄJÄNÄKYMÄ</a>
+          <a
+            class="nav-link"
+            routerLink="/organizer-view"
+            routerLinkActive="active"
+            >JÄRJESTÄJÄNÄKYMÄ</a
+          >
         </div>
       </ng-container>
     </div>
@@ -25,7 +42,11 @@
       <ng-container *ngIf="authenticated">
         <div class="mobile-nav-user">
           <p>Terve {{ username() }}</p>
-          <img class="profile-picture" src="assets/unicorn.webp" alt="Profile Picture" />
+          <img
+            class="profile-picture"
+            src="assets/unicorn.webp"
+            alt="Profile Picture"
+          />
         </div>
       </ng-container>
 
@@ -37,23 +58,23 @@
         </div>
       </ng-container>
 
-      <li><a routerLink="/home" routerLinkActive="active">Etusivu</a></li>
+      <li routerLink="/home" routerLinkActive="active"><a>Etusivu</a></li>
       <hr width="100%" size="2" />
-      <li><a routerLink="/events" routerLinkActive="active">Tapahtumat</a></li>
+      <li routerLink="/events" routerLinkActive="active"><a>Tapahtumat</a></li>
       <hr width="100%" size="2" />
-      <li>
-        <a routerLink="/associations" routerLinkActive="active">Yhteisö</a>
+      <li routerLink="/associations" routerLinkActive="active">
+        <a>Yhteisö</a>
       </li>
       <hr width="100%" size="2" />
 
       <!--  -->
       <ng-container *ngIf="authenticated; else login">
         <ng-container *ngIf="isOrganizer; else normaluser">
-          <li><a routerLink="/organizer-view">Järjestäjänäkymä</a></li>
+          <li routerLink="/organizer-view"><a>Järjestäjänäkymä</a></li>
           <hr width="100%" size="2" />
         </ng-container>
         <ng-template #normaluser>
-          <li><a (click)="onProfileClick()">Oma profiili</a></li>
+          <li (click)="onProfileClick()"><a>Oma profiili</a></li>
           <hr width="100%" size="2" />
         </ng-template>
         <li>
@@ -65,12 +86,12 @@
       </ng-container>
 
       <ng-template #login>
-        <li>
-          <a (click)="toMobileLogin()">Kirjaudu sisään</a>
+        <li (click)="toMobileLogin()">
+          <a>Kirjaudu sisään</a>
         </li>
         <hr width="100%" size="2" />
-        <li>
-          <a routerLink="/register" routerLinkActive="active">Rekisteröidy</a>
+        <li routerLink="/register" routerLinkActive="active">
+          <a>Rekisteröidy</a>
         </li>
         <hr width="100%" size="2" />
       </ng-template>
@@ -84,9 +105,17 @@
       menu
     </span>
 
-    <div *ngIf="showProfileMenu" class="profile-menu" (click)="closeProfileMenu($event)">
+    <div
+      *ngIf="showProfileMenu"
+      class="profile-menu"
+      (click)="closeProfileMenu($event)"
+    >
       <div class="profile-info">
-        <img class="profile-picture" src="assets/unicorn.webp" alt="Profile Picture" />
+        <img
+          class="profile-picture"
+          src="assets/unicorn.webp"
+          alt="Profile Picture"
+        />
         <h4>{{ username() }}</h4>
         <p>{{ email() }}</p>
       </div>

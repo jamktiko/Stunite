@@ -97,6 +97,7 @@ div {
   margin: 16px;
   padding: 20px 25px;
   font-size: 18px;
+  width: 100%;
 }
 .mobile-nav-user {
   display: flex;
