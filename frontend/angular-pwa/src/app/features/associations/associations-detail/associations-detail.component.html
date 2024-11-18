@@ -4,13 +4,21 @@
     <p class="official-name">{{ association?.officialName }}</p>
     <div *ngIf="association" class="association-container">
       <div class="pic">
-        <img src="../assets/konkurssi.png" alt="Association image" class="associationimage" />
+        <img
+          src="../assets/konkurssi.png"
+          alt="Association image"
+          class="associationimage"
+        />
       </div>
       <div class="association-info">
         <p>
           <span class="material-symbols-outlined"> school </span>
-          Koulu
+          Koulu tähän ?
         </p>
+        <!-- <p>
+          <span></span>
+          {{ association.organizationType }}
+        </p> -->
 
         <p>
           <span class="material-symbols-outlined"> distance </span>
@@ -33,19 +41,20 @@
     </div>
     <div class="association-paragraphs">
       <p><strong>Koulutusalat</strong></p>
+
       <ul>
-        <li>Tähän</li>
-        <li>Lista</li>
-        <li>Opiskelijajärjestön</li>
-        <li>Koulutusaloista</li>
+        <li *ngFor="let field of association.fieldsOfStudy">
+          {{ field }}
+        </li>
       </ul>
     </div>
 
     <div class="association-paragraphs">
-      <p><strong>Tapahtumat</strong></p>
-      <div class="events" *ngIf="allEvents.length > 0; else noEvents">
-        <app-eventcard *ngFor="let event of allEvents" [event]="event"></app-eventcard>
+      <p><strong>Tulevat tapahtumat</strong></p>
+      <div *ngFor="let event of filteredEventsSignal()">
+        <app-eventcard [event]="event"></app-eventcard>
       </div>
+
       <ng-template #noEvents>
         <p>Ei tapahtumia.</p>
       </ng-template>

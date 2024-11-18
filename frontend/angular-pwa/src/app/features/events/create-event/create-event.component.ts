@@ -118,7 +118,7 @@ export class CreateEventComponent implements OnInit {
     this.imageUrl = event.imageUrl;
     this.eventTags = event.eventTags || [];
     this.endingTime = event.endingTime;
-    this.endingDate = event.endingDate;
+    this.endingDate = this.formatDateForInput(event.endingDate);
   }
 
   private formatDateForInput(dateStr: string): string {
