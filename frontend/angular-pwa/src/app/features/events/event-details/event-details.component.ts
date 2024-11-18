@@ -4,13 +4,16 @@ import { isPlatformBrowser } from '@angular/common';
 import { EventService } from '../event.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { Event } from '../../../shared/models/event.model';
+import { RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-event-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './event-details.component.html',
   styleUrls: ['./event-details.component.css'],
 })
@@ -18,13 +21,15 @@ export class EventDetailsComponent implements OnInit {
   event: Event | undefined;
   isOrganizer: boolean = false;
 
-  private map: any; // Lazy-load: ei suoraa viittausta Leafletin tyyppiin
+  organizer: any;
+
+  private map: any;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: object, // SSR-tuki
+    @Inject(PLATFORM_ID) private platformId: object,
     private eventService: EventService,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +39,7 @@ export class EventDetailsComponent implements OnInit {
         this.eventService.getEventById(eventId).subscribe({
           next: (event: Event) => {
             this.event = event;
-            this.loadMap(); // Lataa kartta vain selaimessa
+            this.loadMap();
           },
           error: (err) => {
             console.error('Error fetching event:', err);
