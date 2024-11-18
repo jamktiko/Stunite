@@ -1,6 +1,6 @@
 const express = require('express');
 const Event = require('../models/event');
-const verifyToken = require('../verifytoken');
+const verifyToken = require('../verifyToken');
 
 const router = express.Router();
 

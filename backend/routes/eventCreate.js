@@ -1,26 +1,25 @@
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
 const Event = require('../models/event');
-const verifyToken = require('../verifytoken');
+const verifyToken = require('../verifyToken');
 
 const router = express.Router();
 
-// Set up multer for file upload specific to event creation (if needed)
-// const multer = require('multer');
-// const path = require('path');
+// Asetetaan multer tallentamaan kuvat `uploads`-kansioon
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Luodaan uniikki tiedostonimi
+  },
+});
 
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, 'uploads/'); // Store images in the 'uploads' folder
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
-//   },
-// });
+const upload = multer({ storage }).single('image');
 
-// const upload = multer({ storage }).single('image');
-
-// Event creation route
-router.post('/', verifyToken, async (req, res) => {
+// Tapahtuman luontireitti
+router.post('/', verifyToken, upload, async (req, res) => {
   const {
     eventName,
     date,
@@ -34,7 +33,6 @@ router.post('/', verifyToken, async (req, res) => {
     theme,
     isFavorite,
     details,
-    imageUrl,
     ticketLink,
     ticketSaleStart,
     ticketSaleEnd,
@@ -45,32 +43,22 @@ router.post('/', verifyToken, async (req, res) => {
     eventTags,
   } = req.body;
 
-  // Ensure all required fields are present
   if (
     !eventName ||
     !date ||
     !startingTime ||
     !endingTime ||
-    !endingDate ||
     !address ||
-    !venue ||
-    !city ||
-    !ticketprice ||
     !status ||
     !organizerId ||
     !organizationName
   ) {
-    return res
-      .status(400)
-      .json({ error: 'All required fields must be filled' });
+    return res.status(400).json({ error: 'Pakolliset kentät puuttuvat' });
   }
 
-  // if (!req.file) {
-  //   return res.status(400).json({ error: 'Image is required' });
-  // }
+  const imageUrl = req.file ? `/uploads/${req.file.filename}` : '';
 
   try {
-    // Create a new event
     const newEvent = new Event({
       eventName,
       date,
@@ -84,7 +72,7 @@ router.post('/', verifyToken, async (req, res) => {
       theme,
       isFavorite: isFavorite || false,
       details,
-      imageUrl, ///uploads/${req.file.filename}
+      imageUrl,
       ticketLink,
       ticketSaleStart,
       ticketSaleEnd,
@@ -96,7 +84,9 @@ router.post('/', verifyToken, async (req, res) => {
     });
 
     await newEvent.save();
-    res.status(201).json({ message: 'Event created successfully' });
+    res
+      .status(201)
+      .json({ message: 'Tapahtuma luotu onnistuneesti', event: newEvent });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

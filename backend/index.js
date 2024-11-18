@@ -5,8 +5,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
-// const multer = require('multer');
-// const path = require('path');
+const multer = require('multer');
+const path = require('path');
 
 const signupUserRouter = require('./routes/signupUser');
 const loginUserRouter = require('./routes/loginUser');
@@ -17,28 +17,28 @@ const manageEventRouter = require('./routes/manageEvent');
 const manageUserRouter = require('./routes/manageUser');
 const manageOrganizerRouter = require('./routes/manageOrganizer');
 
-// const upload = multer({
-//   dest: 'uploads/', // Store files directly in the uploads folder
-//   limits: { fileSize: 5 * 1024 * 1024 }, // Max file size: 5MB
-// }).single('image');
+const upload = multer({
+  dest: 'uploads/',
+  limits: { fileSize: 5 * 1024 * 1024 },
+}).single('image');
 
 const app = express();
 
-// app.post('/upload-image', (req, res) => {
-//   upload(req, res, (err) => {
-//     if (err) {
-//       return res
-//         .status(400)
-//         .json({ message: 'Image upload failed', error: err });
-//     }
+app.post('/upload-image', (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      return res
+        .status(400)
+        .json({ message: 'Image upload failed', error: err });
+    }
 
-//     // HUOM localhostissa
-//     const imageUrl = `http://localhost:3001/uploads/${req.file.filename}`;
+    // HUOM localhostissa
+    const imageUrl = `http://localhost:3001/uploads/${req.file.filename}`;
 
-//     // Send the image URL back to the client
-//     res.json({ imageUrl });
-//   });
-// });
+    // Send the image URL back to the client
+    res.json({ imageUrl });
+  });
+});
 
 app.use(cookieParser());
 
@@ -56,7 +56,7 @@ app.use(
   })
 );
 app.use(express.static('dist'));
-// app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static('uploads'));
 
 app.use(
   session({

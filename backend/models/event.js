@@ -10,29 +10,17 @@ const eventSchema = new mongoose.Schema({
   venue: { type: String, required: true },
   city: { type: String, required: true },
   ticketprice: {
-    minticketprice: {
-      type: Number,
-      required: true,
-    },
-    maxticketprice: {
-      type: Number,
-      required: true,
-    },
+    minticketprice: { type: Number, required: true },
+    maxticketprice: { type: Number, required: true },
   },
   theme: { type: String },
   isFavorite: { type: Boolean },
   details: { type: String },
-  imageUrl: { type: String },
+  imageUrl: { type: String }, // Päivitetty kuva-URL
   ticketLink: { type: String },
-  ticketSaleStart: {
-    type: String,
-  },
-  ticketSaleEnd: {
-    type: String,
-  },
-  publishDateTime: {
-    type: String,
-  },
+  ticketSaleStart: { type: String },
+  ticketSaleEnd: { type: String },
+  publishDateTime: { type: String },
   status: {
     type: String,
     enum: ['Varattu', 'Tuotannossa'],
