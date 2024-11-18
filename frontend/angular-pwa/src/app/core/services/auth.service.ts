@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
-import { catchError, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from '../../shared/models/user.model';
 import { environment } from '../../../enviroments/enviroment';
@@ -20,6 +20,10 @@ export class AuthService {
   private isLoggedIn: WritableSignal<boolean> = signal(false);
   private isOrganizer: WritableSignal<boolean> = signal(false);
   private currUser: WritableSignal<any | null> = signal(null);
+
+  private currUserSubject: BehaviorSubject<any | null> = new BehaviorSubject<
+    any | null
+  >(null);
 
   private token: string | null = null;
 
@@ -47,6 +51,7 @@ export class AuthService {
         tap((response) => {
           const user = response.user;
           const token = response.token;
+          this.updateCurrUser(user);
           this.currUser.set(user);
           this.isLoggedIn.set(true);
           localStorage.setItem('currentUser', JSON.stringify(user));
@@ -113,29 +118,31 @@ export class AuthService {
         })
       );
   }
-
-  editUser(updatedUser: User): void {
+  editUser(updatedUser: User): Observable<User> {
     const token = this.getToken();
     if (!token) {
       console.error('No token found');
-      return;
+      return throwError(() => new Error('User not authenticated'));
     }
 
     const headers = new HttpHeaders().set('x-access-token', token);
     const url = `${this.apiUrlManageUser}/${updatedUser.id}`;
 
-    this.http
-      .put<User>(url, updatedUser, { headers })
-      .pipe(
-        tap((editedUser) => {
-          this.currUser.set(editedUser);
-        }),
-        catchError((error) => {
-          console.error('Päivitys epäonnistui:', error);
-          return throwError(error);
-        })
-      )
-      .subscribe();
+    // console.log('Updating user:', updatedUser); // DEBUG
+    // console.log('PUT URL:', url); // DEBUG
+
+    return this.http.put<User>(url, updatedUser, { headers }).pipe(
+      tap((editedUser) => {
+        // Päivitä currentUser ja localStorage
+        this.currUser.set(editedUser);
+        localStorage.setItem('currentUser', JSON.stringify(editedUser)); // Tallenna localStorageen
+        // console.log('User updated successfully:', editedUser);
+      }),
+      catchError((error) => {
+        console.error('Päivitys epäonnistui:', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   // Stored login session from localstorage, could be removed if needed/wanted
@@ -165,6 +172,8 @@ export class AuthService {
   getIsOrganizer(): boolean {
     return this.isOrganizer();
   }
+
+  // get current user signal
   getCurrUser(): any {
     const user = this.currUser();
     if (!user && isPlatformBrowser(this.platformId)) {
@@ -177,6 +186,43 @@ export class AuthService {
         : null;
     }
     return user;
+  }
+  // get current user observable
+  getCurrUserObser(): Observable<any> {
+    return this.currUserSubject.asObservable();
+  }
+  // update current user observable
+  updateCurrUser(user: any): void {
+    this.currUserSubject.next(user);
+  }
+
+  // fetches data from backend by using token and userId in localStorage
+  fetchCurrUser() {
+    const token = this.getToken();
+    const userId = localStorage.getItem('userId');
+
+    if (!token || !userId) {
+      console.error('No token or user ID found');
+      return throwError(() => new Error('User not authenticated'));
+    }
+
+    const headers = new HttpHeaders().set('x-access-token', token);
+
+    return this.http
+      .get<User>(`${this.apiUrlManageUser}/${userId}`, { headers })
+      .pipe(
+        tap((user) => {
+          if (user && user._id) {
+            user.id = user._id;
+            delete user._id;
+          }
+          return user;
+        }),
+        catchError((error) => {
+          console.error('Failed to fetch current user:', error);
+          return throwError(() => error);
+        })
+      );
   }
 
   logout(): void {

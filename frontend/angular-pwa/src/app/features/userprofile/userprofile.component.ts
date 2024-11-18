@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
-import { User } from '../../shared/models/user.model';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-userprofile',
@@ -17,12 +17,12 @@ export class UserprofileComponent implements OnInit {
   valitutKohteet: string[] = [];
   canEdit: boolean = false;
 
+  user$: Observable<any> = new Observable();
   constructor(
     private authService: AuthService,
     private router: Router,
     private fb: FormBuilder
   ) {
-    // Initialize the form
     this.lomake = this.fb.group({
       etunimi: [''],
       sukunimi: [''],
@@ -35,25 +35,32 @@ export class UserprofileComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.user$ = this.authService.getCurrUserObser();
     this.loadUserData();
   }
 
   loadUserData() {
-    const currentUser = this.authService.getCurrUser();
-    if (currentUser) {
-      // put currentusers data to input fields
-      this.lomake.patchValue({
-        etunimi: currentUser.firstName,
-        sukunimi: currentUser.lastName,
-        sahkoposti: currentUser.email,
-        puhelin: currentUser.phoneNumber,
-        koulu: currentUser.koulu,
-        ala: currentUser.ala,
-        paikallisyhdistys: currentUser.paikallisyhdistys,
-      });
-    } else {
-      console.error('Käyttäjä ei löytynyt.');
-    }
+    this.authService.fetchCurrUser().subscribe({
+      next: (user) => {
+        if (user) {
+          this.lomake.patchValue({
+            etunimi: user.firstName,
+            sukunimi: user.lastName,
+            sahkoposti: user.email,
+            puhelin: user.phoneNumber,
+            koulu: user.koulu,
+            ala: user.ala,
+            paikallisyhdistys: user.paikallisyhdistys,
+          });
+          console.log('User data loaded');
+        } else {
+          console.error('User data not found.');
+        }
+      },
+      error: (err) => {
+        console.error('Failed to load user data:', err);
+      },
+    });
   }
 
   enableEdit() {
@@ -62,7 +69,6 @@ export class UserprofileComponent implements OnInit {
 
   cancelEdit() {
     this.canEdit = false;
-    // reset values to original from backend
     this.loadUserData();
   }
 
@@ -82,29 +88,53 @@ export class UserprofileComponent implements OnInit {
 
   onSubmit() {
     if (this.lomake.valid) {
-      const currentUser = this.authService.getCurrUser();
-      if (currentUser) {
-        const updatedUser: any = {
-          id: currentUser.id,
-          firstName: this.lomake.value.etunimi,
-          lastName: this.lomake.value.sukunimi,
-          email: this.lomake.value.sahkoposti,
-          password: currentUser.password,
-          phoneNumber: this.lomake.value.puhelin,
-          koulu: this.lomake.value.koulu,
-          ala: this.lomake.value.ala,
-          paikallisyhdistys: this.lomake.value.paikallisyhdistys,
-          supporterMember: currentUser.supporterMember,
-          supporterPayment: currentUser.supporterPayment,
-        };
+      this.authService.fetchCurrUser().subscribe({
+        next: (currentUser) => {
+          if (currentUser) {
+            const updatedUser: any = {
+              id: currentUser.id,
+              firstName: this.lomake.value.etunimi,
+              lastName: this.lomake.value.sukunimi,
+              email: this.lomake.value.sahkoposti,
+              phoneNumber: this.lomake.value.puhelin,
+              koulu: this.lomake.value.koulu,
+              ala: this.lomake.value.ala,
+              paikallisyhdistys: this.lomake.value.paikallisyhdistys,
+            };
 
-        this.authService.editUser(updatedUser);
-        this.canEdit = false;
-      } else {
-        console.error('Käyttäjä ei löytynyt.');
-      }
+            // edit user
+            this.authService.editUser(updatedUser).subscribe({
+              next: (updatedUserFromBackend) => {
+                this.lomake.patchValue({
+                  etunimi: updatedUserFromBackend.firstName,
+                  sukunimi: updatedUserFromBackend.lastName,
+                  sahkoposti: updatedUserFromBackend.email,
+                  puhelin: updatedUserFromBackend.phoneNumber,
+                  koulu: updatedUserFromBackend.koulu,
+                  ala: updatedUserFromBackend.ala,
+                  paikallisyhdistys: updatedUserFromBackend.paikallisyhdistys,
+                });
+
+                this.authService.updateCurrUser(updatedUserFromBackend);
+
+                this.canEdit = false;
+                this.loadUserData();
+                console.log('Käyttäjän tiedot päivitetty onnistuneesti!');
+              },
+              error: (err) => {
+                console.error('Päivitys epäonnistui:', err);
+              },
+            });
+          } else {
+            console.error('Käyttäjä ei löytynyt.');
+          }
+        },
+        error: (err) => {
+          console.error('Käyttäjän haku epäonnistui:', err);
+        },
+      });
     } else {
-      console.error('Tarkista lomake!');
+      console.error('Lomake ei ole kelvollinen!');
     }
   }
 }

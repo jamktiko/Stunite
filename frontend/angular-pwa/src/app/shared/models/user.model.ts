@@ -1,6 +1,8 @@
-
-
 export interface User {
+  _id?: string;
+  koulu: any;
+  ala: any;
+  paikallisyhdistys: any;
   id: string;
   firstName: string;
   lastName: string;
