@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const Event = require('../models/event');
-const verifyToken = require('../verifyToken');
+const verifyToken = require('../verifytoken');
 
 const router = express.Router();
 

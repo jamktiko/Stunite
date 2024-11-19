@@ -55,7 +55,7 @@ app.use(
   cors({
     origin: [
       'http://localhost:4200',
-      'https://stunite.eu-north-1.elasticbeanstalk.com/',
+      'https://stunite.eu-north-1.elasticbeanstalk.com',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
