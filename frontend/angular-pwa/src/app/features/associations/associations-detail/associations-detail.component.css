@@ -1,23 +1,35 @@
+.association-page {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 70px 60px auto auto auto auto auto;
+
+  grid-template-areas:
+    "name name"
+    "official-name official-name"
+    "association-container association-container"
+    "association-description overall-picture"
+    "association-fields overall-picture"
+    "future-events future-events"
+    "past-events past-events";
+}
+
 .name {
+  grid-area: name;
   text-align: center;
   font-size: 2.5em;
   margin-bottom: 0px; /* Lisätään alaraja */
 }
 
 .official-name {
+  grid-area: official-name;
   text-align: center;
   font-size: 1.2em;
   margin: 10px 0 20px 0;
 }
 
-.events {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 24px;
-  row-gap: 16px;
-}
-
 .association-container {
+  grid-area: association-container;
   display: grid; /* Vaihdetaan flexbox gridiksi */
   grid-template-columns: repeat(2, 1fr); /* Kaksi saraketta */
   gap: 24px; /* Välit kuvien ja korttien välillä */
@@ -45,19 +57,54 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .association-info p {
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-left: 30px;
 }
 
 .association-info p:last-child {
   color: #15395f; /* Linkin väri */
   text-decoration: underline; /* Korostaa sähköpostia */
   cursor: pointer; /* Hiiren osoittimen muutos */
+}
+
+.association-description {
+  grid-area: association-description;
+}
+
+.association-fields {
+  grid-area: association-fields;
+}
+
+.overall-picture {
+  grid-area: overall-picture;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 100px;
+  border: #b2b2b2 solid 2px;
+  border-radius: 20px;
+}
+
+.future-events {
+  grid-area: future-events;
+}
+
+.past-events {
+  grid-area: past-events;
+}
+
+.events {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 24px;
+  row-gap: 16px;
 }
 
 .association-page ul {
@@ -70,11 +117,20 @@
   margin: 5px 0; /* Lisää vähän tilaa listakohteiden väliin */
 }
 
-.association-paragraphs {
-  margin-top: 40px;
-}
-
 @media (max-width: 768px) {
+  .association-page {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "name"
+      "official-name"
+      "association-container"
+      "association-description"
+      "overall-picture"
+      "association-fields"
+      "future-events"
+      "past-events";
+  }
+
   .association-container {
     grid-template-columns: 1fr; /* Yksi sarake pienillä näytöillä */
   }
