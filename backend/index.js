@@ -40,6 +40,7 @@ app.post('/create/event-with-image', upload.single('image'), (req, res) => {
       }`,
     });
   } catch (error) {
+        console.error('Error during file upload:', error);
     res.status(500).json({ error: 'Tiedoston lataus epäonnistui' });
   }
 });

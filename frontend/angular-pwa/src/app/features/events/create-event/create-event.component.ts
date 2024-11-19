@@ -255,21 +255,64 @@ export class CreateEventComponent implements OnInit {
       eventTags: this.eventTags,
     };
 
+    // ????
+    const ticketPrice = {
+      minticketprice: this.minticketprice ?? 0, // Default to 0 if null or undefined
+      maxticketprice: this.maxticketprice ?? 0, // Default to 0 if null or undefined
+    };
+    console.log('Ticket Price:', ticketPrice);
     if (this.selectedFile) {
       const formData = new FormData();
       formData.append('image', this.selectedFile);
       formData.append('eventName', this.eventName);
-      // Add other form fields if necessary
+      formData.append('date', this.eventDate);
+      formData.append('startingTime', this.eventTime);
+      formData.append('endingTime', this.endingTime);
+      formData.append('endingDate', this.endingDate);
+      formData.append('address', this.address);
+      formData.append('venue', this.venue);
+      formData.append('city', this.city);
+
+      formData.append('ticketprice', JSON.stringify(ticketPrice));  // ????
+
+      formData.append('theme', this.theme);
+      formData.append('isFavorite', this.isFavorite.toString());
+      formData.append('details', this.details);
+      formData.append('ticketLink', this.ticketLink);
+      formData.append('ticketSaleStart', this.ticketSaleStart);
+      formData.append('ticketSaleEnd', this.ticketSaleEnd);
+      formData.append('publishDateTime', this.publishDateTime);
+      formData.append('status', this.status);
+      formData.append('organizerId', loggedInOrganizer.organizerId);
+      formData.append('organizationName', loggedInOrganizer.organizationName);
+      this.eventTags.forEach((tag) => {
+        formData.append('eventTags[]', tag);
+      });
 
       this.eventService.uploadEventWithImage(formData).subscribe({
         next: (response) => {
           console.log('Event with image created:', response);
           this.router.navigate([`/events/${response._id}`]);
         },
-        error: (err) => console.error('Image upload failed:', err),
+        error: (err) => {
+          // Provide more specific error messages for image upload failure
+          if (err.status === 400) {
+            this.errorMessage =
+              'Virheellinen tiedostomuoto. Varmista, että kuva on oikeassa formaatissa (jpg, png).';
+          } else if (err.status === 500) {
+            this.errorMessage = 'Palvelinvirhe, kuvan lataus epäonnistui.';
+          } else {
+            this.errorMessage =
+              'Tapahtuman luominen epäonnistui kuvan kanssa: ' + err.message;
+          }
+          console.error(this.errorMessage);
+          alert(this.errorMessage);
+        },
       });
     } else {
       console.error('No image selected!');
+      this.errorMessage = 'Kuvaa ei ole valittu. Varmista, että lisäät kuvan.';
+      alert(this.errorMessage);
     }
 
     // Tarkistetaan pakolliset kentät
