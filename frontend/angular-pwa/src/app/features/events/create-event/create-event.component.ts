@@ -147,6 +147,24 @@ export class CreateEventComponent implements OnInit {
   //   }
   // }
 
+  selectedFile: File | null = null;
+  imagePreview: string | null = null;
+
+  // Käsittele tiedoston valinta
+  onFileSelected(event: any): void {
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files.length > 0) {
+      this.selectedFile = fileInput.files[0];
+
+      // Luo esikatselukuva
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result as string;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
+
   onCancel() {
     this.location.back();
   }
@@ -237,22 +255,22 @@ export class CreateEventComponent implements OnInit {
       eventTags: this.eventTags,
     };
 
-    // if (this.selectedFile) {
-    //   const formData = new FormData();
-    //   formData.append('image', this.selectedFile);
-    //   formData.append('eventName', this.eventName);
-    //   // Add other form fields if necessary
+    if (this.selectedFile) {
+      const formData = new FormData();
+      formData.append('image', this.selectedFile);
+      formData.append('eventName', this.eventName);
+      // Add other form fields if necessary
 
-    //   this.eventService.uploadEventImage(formData).subscribe({
-    //     next: (response) => {
-    //       console.log('Event with image created:', response);
-    //       this.router.navigate([`/events/${response._id}`]);
-    //     },
-    //     error: (err) => console.error('Image upload failed:', err),
-    //   });
-    // } else {
-    //   console.error('No image selected!');
-    // }
+      this.eventService.uploadEventWithImage(formData).subscribe({
+        next: (response) => {
+          console.log('Event with image created:', response);
+          this.router.navigate([`/events/${response._id}`]);
+        },
+        error: (err) => console.error('Image upload failed:', err),
+      });
+    } else {
+      console.error('No image selected!');
+    }
 
     // Tarkistetaan pakolliset kentät
     if (

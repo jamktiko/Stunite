@@ -19,7 +19,7 @@ export class EventService {
     return this.http.get<Event[]>(this.apiUrl);
   }
 
-  createEvent(newEvent: Event): Observable<Event> {
+  createEvent(newEvent: Event, imageFile?: File): Observable<Event> {
     const token = this.authService.getToken();
     if (!token) {
       console.error('Token not found');
@@ -27,7 +27,19 @@ export class EventService {
     }
 
     const headers = new HttpHeaders().set('x-access-token', token);
-    return this.http.post<Event>(this.createEventapiUrl, newEvent, { headers });
+    const formData = new FormData();
+
+    // Lisää kaikki eventin kentät FormDataan
+    Object.keys(newEvent).forEach((key) => {
+      formData.append(key, (newEvent as any)[key]);
+    });
+
+    // Lisää kuvatiedosto, jos sellainen on
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
+
+    return this.http.post<Event>(this.createEventapiUrl, formData, { headers });
   }
 
   deleteEvent(eventId: string): Observable<any> {
@@ -49,7 +61,7 @@ export class EventService {
     );
   }
 
-  editEvent(updatedEvent: Event): Observable<Event> {
+  editEvent(updatedEvent: Event, imageFile?: File): Observable<Event> {
     const token = this.authService.getToken();
     if (!token) {
       console.error('Token not found');
@@ -58,6 +70,23 @@ export class EventService {
 
     const headers = new HttpHeaders().set('x-access-token', token);
     const url = `${this.apiUrl}/${updatedEvent._id}`;
+
+    // Jos on kuvatiedosto, käytä FormDataa
+    if (imageFile) {
+      const formData = new FormData();
+
+      // Lisää kaikki eventin kentät FormDataan
+      Object.keys(updatedEvent).forEach((key) => {
+        formData.append(key, (updatedEvent as any)[key]);
+      });
+
+      // Lisää kuvatiedosto
+      formData.append('image', imageFile);
+
+      return this.http.put<Event>(url, formData, { headers });
+    }
+
+    // Muussa tapauksessa päivitä JSON-data
     return this.http.put<Event>(url, updatedEvent, { headers });
   }
 
@@ -107,14 +136,13 @@ export class EventService {
       );
   }
 
-  // uploadEventImage(formData: FormData): Observable<any> {
-  //   const token = this.authService.getToken();
-  //   if (token) {
-  //     const headers = new HttpHeaders().set('x-access-token', token);
-  //     return this.http.post(`${this.createEventapiUrl}`, formData, { headers });
-  //   } else {
-  //     console.error('Token not found');
-  //     return throwError(() => new Error('Unauthorized: No token found'));
-  //   }
-  // }
+  uploadEventWithImage(formData: FormData): Observable<Event> {
+    const token = this.authService.getToken();
+    if (!token) {
+      throw new Error('Token not found');
+    }
+
+    const headers = new HttpHeaders().set('x-access-token', token);
+    return this.http.post<Event>(this.createEventapiUrl, formData, { headers });
+  }
 }
