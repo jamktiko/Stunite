@@ -50,7 +50,7 @@ export class NavbarComponent {
 
   logOut() {
     this.authService.logout();
-    this.router.navigate(['/home']);
+    this.router.navigate(['/']);
   }
 
   triggerLoginModal() {
@@ -66,7 +66,6 @@ export class NavbarComponent {
     const html = document.documentElement;
 
     if (this.menuOpen) {
-
       body.style.overflow = 'hidden';
       html.style.overflow = 'hidden';
       body.style.height = '100%';
@@ -75,8 +74,8 @@ export class NavbarComponent {
       // enable scroll after clicking menu link
       body.style.overflow = '';
       html.style.overflow = '';
-      body.style.height = ''; 
-      html.style.height = ''; 
+      body.style.height = '';
+      html.style.height = '';
     }
   }
 

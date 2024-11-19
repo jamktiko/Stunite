@@ -55,12 +55,12 @@ export class EventGuard implements CanActivate {
       return of(true);
     }
 
-    this.router.navigate(['/home']);
+    this.router.navigate(['/']);
     return of(false);
   }
 
   private redirectToHome(): Observable<boolean> {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/']);
     return of(false);
   }
 }
