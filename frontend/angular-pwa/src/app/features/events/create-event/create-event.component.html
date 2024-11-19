@@ -28,7 +28,7 @@
             name="eventDate"
             #eventDateModel="ngModel"
             required
-            (click)="openCalendar($event)" 
+            (click)="openCalendar($event)"
           />
 
           <input
@@ -37,7 +37,7 @@
             name="eventTime"
             #eventTimeModel="ngModel"
             required
-            (click)="openCalendar($event)" 
+            (click)="openCalendar($event)"
           />
         </div>
         <div
@@ -59,7 +59,7 @@
             name="endingDate"
             #endingDateModel="ngModel"
             required
-            (click)="openCalendar($event)" 
+            (click)="openCalendar($event)"
           />
           <input
             type="time"
@@ -67,7 +67,7 @@
             name="endingtime"
             #endingTimeModel="ngModel"
             required
-            (click)="openCalendar($event)" 
+            (click)="openCalendar($event)"
           />
         </div>
         <div
@@ -169,7 +169,7 @@
           name="ticketSaleStart"
           #ticketSaleStartModel="ngModel"
           required
-          (click)="openCalendar($event)" 
+          (click)="openCalendar($event)"
         />
         <div
           class="error"
@@ -188,7 +188,7 @@
           name="ticketSaleEnd"
           #ticketSaleEndModel="ngModel"
           required
-          (click)="openCalendar($event)" 
+          (click)="openCalendar($event)"
         />
         <div
           class="error"
@@ -231,7 +231,7 @@
           [(ngModel)]="publishDateTime"
           name="publishDateTime"
           [disabled]="status === 'Tuotannossa'"
-          (click)="openCalendar($event)" 
+          (click)="openCalendar($event)"
         />
         <small *ngIf="status === 'Tuotannossa'">
           Ei voi asettaa julkaisuaikaa alustavalle tapahtumalle.
@@ -262,6 +262,18 @@
           <p>Valitse</p>
           <p>vähintään</p>
           <p>yksi tagi.</p>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>Tapahtuman kuva</label>
+        <input type="file" (change)="onFileSelected($event)" />
+        <div *ngIf="imagePreview">
+          <img
+            [src]="imagePreview"
+            alt="Esikatselukuva"
+            style="max-width: 200px"
+          />
         </div>
       </div>
 

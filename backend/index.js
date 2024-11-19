@@ -17,28 +17,34 @@ const manageEventRouter = require('./routes/manageEvent');
 const manageUserRouter = require('./routes/manageUser');
 const manageOrganizerRouter = require('./routes/manageOrganizer');
 
-const upload = multer({
-  dest: 'uploads/',
-  limits: { fileSize: 5 * 1024 * 1024 },
-}).single('image');
-
 const app = express();
+const router = express.Router();
 
-app.post('/upload-image', (req, res) => {
-  upload(req, res, (err) => {
-    if (err) {
-      return res
-        .status(400)
-        .json({ message: 'Image upload failed', error: err });
-    }
-
-    // HUOM localhostissa
-    const imageUrl = `http://localhost:3001/uploads/${req.file.filename}`;
-
-    // Send the image URL back to the client
-    res.json({ imageUrl });
-  });
+// Konfiguroi multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Määritä latauskansio
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); // Nimeä tiedosto
+  },
 });
+const upload = multer({ storage: storage });
+
+// POST-reitti kuvan lataamiseen
+app.post('/create/event-with-image', upload.single('image'), (req, res) => {
+  try {
+    res.status(200).json({
+      imageUrl: `${req.protocol}://${req.get('host')}/uploads/${
+        req.file.filename
+      }`,
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Tiedoston lataus epäonnistui' });
+  }
+});
+
+app.use('/uploads', express.static('uploads'));
 
 app.use(cookieParser());
 
@@ -49,7 +55,7 @@ app.use(
   cors({
     origin: [
       'http://localhost:4200',
-      'https://stunite.eu-north-1.elasticbeanstalk.com/',
+      'https://stunite.eu-north-1.elasticbeanstalk.com',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,

@@ -1,41 +1,25 @@
-// import { Injectable } from '@angular/core';
-// import { ToastrService } from 'ngx-toastr';
+import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
-// @Injectable({
-//   providedIn: 'root',
-// })
-// export class NotificationService {
-//   constructor(private toastr: ToastrService) {}
+@Injectable({
+  providedIn: 'root',
+})
+export class NotificationService {
+  constructor(private toastr: ToastrService) {}
 
-//   // success notifications
-//   success(message: string, title: string = 'Success') {
-//     this.toastr.success(message, title, {
-//       timeOut: 3000,
-//       positionClass: 'toast-top-right',
-//     });
-//   }
+  showSuccess(message: string, title: string = 'Success') {
+    this.toastr.success(message, title);
+  }
 
-//   // error notifications
-//   error(message: string, title: string = 'Error') {
-//     this.toastr.error(message, title, {
-//       timeOut: 3000,
-//       positionClass: 'toast-top-right',
-//     });
-//   }
+  showError(message: string, title: string = 'Error') {
+    this.toastr.error(message, title);
+  }
 
-//   // info notifications
-//   info(message: string, title: string = 'Info') {
-//     this.toastr.info(message, title, {
-//       timeOut: 3000,
-//       positionClass: 'toast-top-right',
-//     });
-//   }
+  showInfo(message: string, title: string = 'Info') {
+    this.toastr.info(message, title);
+  }
 
-//   // warning notifications
-//   warning(message: string, title: string = 'Warning') {
-//     this.toastr.warning(message, title, {
-//       timeOut: 3000,
-//       positionClass: 'toast-top-right',
-//     });
-//   }
-// }
+  showWarning(message: string, title: string = 'Warning') {
+    this.toastr.warning(message, title);
+  }
+}
