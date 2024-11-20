@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
 import { EventsComponent } from './features/events/events.component';
 import { AssociationsComponent } from './features/associations/associations.component';
-import { AdminViewComponent } from './features/admin-view/admin-view.component';
 // import { adminGuard } from './core/guards/admin-guard.guard';
 import { organizerGuard } from './core/guards/organizer-guard.guard';
 import { UserprofileComponent } from './features/userprofile/userprofile.component';

@@ -3,6 +3,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+// import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-login-modal',
@@ -21,7 +22,11 @@ export class LoginModalComponent {
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) // private notificationService: NotificationService
+  {}
 
   onClose() {
     this.close.emit();
@@ -41,6 +46,7 @@ export class LoginModalComponent {
         this.onClose();
         this.router.navigate(['/events']);
         console.log('Login successful');
+        // this.onSuccess();
         const currentUser = this.authService.getCurrUser();
       },
       error: () => {
@@ -58,4 +64,8 @@ export class LoginModalComponent {
     this.onClose();
     this.openOrganizerModal.emit();
   }
+
+  // onSuccess() {
+  //   this.notificationService.showSuccess('Sisäänkirjautuminen onnistui!');
+  // }
 }
