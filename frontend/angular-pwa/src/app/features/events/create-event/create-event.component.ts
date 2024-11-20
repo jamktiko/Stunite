@@ -6,6 +6,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Location } from '@angular/common';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-create-event',
@@ -79,7 +80,8 @@ export class CreateEventComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
-    private location: Location
+    private location: Location,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -273,7 +275,7 @@ export class CreateEventComponent implements OnInit {
       formData.append('venue', this.venue);
       formData.append('city', this.city);
 
-      formData.append('ticketprice', JSON.stringify(ticketPrice));  // ????
+      formData.append('ticketprice', JSON.stringify(ticketPrice)); // ????
 
       formData.append('theme', this.theme);
       formData.append('isFavorite', this.isFavorite.toString());
@@ -390,5 +392,8 @@ export class CreateEventComponent implements OnInit {
         this.eventTags = this.eventTags.filter((tag) => tag !== tagValue);
       }
     }
+  }
+  onCreateSuccess() {
+    this.notificationService.showSuccess('Tapahtuman luonti onnistui.','')
   }
 }

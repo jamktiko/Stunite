@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Location } from '@angular/common';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-organizer-login-modal',
@@ -23,7 +24,8 @@ export class OrganizerLoginModalComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private notificationService: NotificationService
   ) {}
 
   onClose() {
@@ -40,11 +42,15 @@ export class OrganizerLoginModalComponent {
         this.onClose();
         this.router.navigate(['/organizer-view']);
         console.log('Organizer login successful');
+        this.onLoginSuccess();
       },
       error: () => {
         this.errorMessage = 'Invalid email or password';
         console.log('Login failed');
       },
     });
+  }
+  onLoginSuccess() {
+    this.notificationService.showSuccess('Sisäänkirjautuminen onnistui.', '');
   }
 }

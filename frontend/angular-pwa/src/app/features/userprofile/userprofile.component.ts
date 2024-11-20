@@ -4,6 +4,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-userprofile',
@@ -21,7 +22,8 @@ export class UserprofileComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private notificationService: NotificationService
   ) {
     this.lomake = this.fb.group({
       etunimi: [''],
@@ -120,6 +122,7 @@ export class UserprofileComponent implements OnInit {
                 this.canEdit = false;
                 this.loadUserData();
                 console.log('Käyttäjän tiedot päivitetty onnistuneesti!');
+                this.onEditSuccess();
               },
               error: (err) => {
                 console.error('Päivitys epäonnistui:', err);
@@ -136,5 +139,11 @@ export class UserprofileComponent implements OnInit {
     } else {
       console.error('Lomake ei ole kelvollinen!');
     }
+  }
+  onEditSuccess() {
+    this.notificationService.showSuccess(
+      'Käyttäjätietojen muokkaus onnistui.',
+      ''
+    );
   }
 }

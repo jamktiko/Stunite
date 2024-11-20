@@ -3,7 +3,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { NotificationService } from '../../core/services/notification.service';
 @Component({
   selector: 'app-mobile-login',
   standalone: true,
@@ -19,7 +19,11 @@ export class MobileLoginComponent {
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private notificationService: NotificationService
+  ) {}
 
   goRegister() {
     this.router.navigate(['/register']);
@@ -34,6 +38,7 @@ export class MobileLoginComponent {
       next: (response) => {
         this.router.navigate(['/events']);
         console.log('Login successful');
+        this.onLoginSuccess();
         const currentUser = this.authService.getCurrUser();
       },
       error: () => {
@@ -48,5 +53,8 @@ export class MobileLoginComponent {
   }
   openOrganizerLogin() {
     this.router.navigate(['/mobile-organizer-login']);
+  }
+  onLoginSuccess() {
+    this.notificationService.showSuccess('Sisäänkirjautuminen onnistui.', '');
   }
 }

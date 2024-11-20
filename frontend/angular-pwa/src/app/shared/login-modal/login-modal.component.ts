@@ -3,7 +3,9 @@ import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-// import { NotificationService } from '../../core/services/notification.service';
+
+import { provideToastr } from 'ngx-toastr';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-login-modal',
@@ -24,9 +26,9 @@ export class LoginModalComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router
-  ) // private notificationService: NotificationService
-  {}
+    private router: Router,
+    private notificationService: NotificationService
+  ) {}
 
   onClose() {
     this.close.emit();
@@ -46,7 +48,7 @@ export class LoginModalComponent {
         this.onClose();
         this.router.navigate(['/events']);
         console.log('Login successful');
-        // this.onSuccess();
+        this.onLoginSuccess();
         const currentUser = this.authService.getCurrUser();
       },
       error: () => {
@@ -65,7 +67,9 @@ export class LoginModalComponent {
     this.openOrganizerModal.emit();
   }
 
-  // onSuccess() {
-  //   this.notificationService.showSuccess('Sisäänkirjautuminen onnistui!');
-  // }
+  onLoginSuccess() {
+    this.notificationService.showSuccess('Sisäänkirjautuminen onnistui.', '');
+
+  }
+
 }

@@ -3,6 +3,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-mobile-organizer-login',
@@ -16,7 +17,11 @@ export class MobileOrganizerLoginComponent {
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private notificationService: NotificationService
+  ) {}
 
   onBack() {
     this.router.navigate(['/mobile-login']);
@@ -26,11 +31,15 @@ export class MobileOrganizerLoginComponent {
       next: () => {
         this.router.navigate(['/organizer-view']);
         console.log('Organizer login successful');
+        this.onLoginSuccess();
       },
       error: () => {
         this.errorMessage = 'Invalid email or password';
         console.log('Login failed');
       },
     });
+  }
+  onLoginSuccess() {
+    this.notificationService.showSuccess('Sisäänkirjautuminen onnistui.', '');
   }
 }
