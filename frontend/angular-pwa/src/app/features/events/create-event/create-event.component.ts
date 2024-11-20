@@ -43,10 +43,6 @@ export class CreateEventComponent implements OnInit {
   eventTags: string[] = [];
   errorMessage: string = '';
 
-  // imagePreview: string | null = null;
-  // selectedFile: File | null = null;
-
-  // Tapahtumatyypit
   availableEventTags: string[] = [
     'Sitsit',
     'Appro',
@@ -121,6 +117,10 @@ export class CreateEventComponent implements OnInit {
     this.eventTags = event.eventTags || [];
     this.endingTime = event.endingTime;
     this.endingDate = this.formatDateForInput(event.endingDate);
+
+    if (event.imageUrl) {
+      this.imagePreview = event.imageUrl;
+    }
   }
 
   private formatDateForInput(dateStr: string): string {
@@ -131,28 +131,9 @@ export class CreateEventComponent implements OnInit {
     return dateStr;
   }
 
-  // onFileSelected(event: any): void {
-  //   const fileInput = event.target as HTMLInputElement;
-
-  //   // Check if fileInput.files is not null and has at least one file
-  //   if (fileInput.files && fileInput.files.length > 0) {
-  //     this.selectedFile = fileInput.files[0];
-
-  //     // Now you can safely use the file
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       this.imagePreview = reader.result as string;
-  //     };
-  //     reader.readAsDataURL(this.selectedFile);
-  //   } else {
-  //     console.log('No file selected');
-  //   }
-  // }
-
   selectedFile: File | null = null;
   imagePreview: string | null = null;
 
-  // Käsittele tiedoston valinta
   onFileSelected(event: any): void {
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files && fileInput.files.length > 0) {
@@ -176,12 +157,18 @@ export class CreateEventComponent implements OnInit {
   }
 
   onSubmit() {
-    // Tyhjennetään edellinen virheilmoitus
+    // Clear previous error message
     this.errorMessage = '';
 
-    if (this.status === 'Tuotannossa' && this.publishDateTime) {
-      this.errorMessage =
-        'Alustavalle tapahtumalle ei voi asettaa julkaisuaikaa.';
+    // Validate required fields
+    if (
+      !this.eventName ||
+      !this.eventDate ||
+      !this.eventTime ||
+      !this.venue ||
+      !this.city
+    ) {
+      this.errorMessage = 'Tähdelliset kentät ovat pakollisia.';
       console.error(this.errorMessage);
       alert(this.errorMessage);
       return;
@@ -200,33 +187,7 @@ export class CreateEventComponent implements OnInit {
       return;
     }
 
-    const currentDateTime = new Date();
-    const saleStartDate = new Date(this.ticketSaleStart);
-    const saleEndDate = new Date(this.ticketSaleEnd);
-    const eventDate = new Date(this.eventDate);
-    if (saleStartDate < currentDateTime) {
-      this.errorMessage =
-        'Lipunmyynnin aloituspäivä ei voi olla menneisyydessä.';
-      console.error(this.errorMessage);
-      alert(this.errorMessage);
-      return;
-    }
-
-    if (saleEndDate <= saleStartDate) {
-      this.errorMessage =
-        'Lipunmyynnin lopetuspäivä tulee olla aloituspäivän jälkeen.';
-      console.error(this.errorMessage);
-      alert(this.errorMessage);
-      return;
-    }
-
-    if (eventDate < currentDateTime) {
-      this.errorMessage = 'Tapahtuman päivämäärä ei voi olla menneisyydessä.';
-      console.error(this.errorMessage);
-      alert(this.errorMessage);
-      return;
-    }
-
+    // prepare event object for sending to the backend
     const updatedEvent: Event = {
       _id: this.isEditMode
         ? this.eventId!.toString()
@@ -257,103 +218,101 @@ export class CreateEventComponent implements OnInit {
       eventTags: this.eventTags,
     };
 
-    // ????
-    const ticketPrice = {
-      minticketprice: this.minticketprice ?? 0, // Default to 0 if null or undefined
-      maxticketprice: this.maxticketprice ?? 0, // Default to 0 if null or undefined
-    };
-    console.log('Ticket Price:', ticketPrice);
+    // upload image if selected
     if (this.selectedFile) {
       const formData = new FormData();
-      formData.append('image', this.selectedFile);
-      formData.append('eventName', this.eventName);
-      formData.append('date', this.eventDate);
-      formData.append('startingTime', this.eventTime);
-      formData.append('endingTime', this.endingTime);
-      formData.append('endingDate', this.endingDate);
-      formData.append('address', this.address);
-      formData.append('venue', this.venue);
-      formData.append('city', this.city);
+      formData.append('eventName', updatedEvent.eventName);
+      formData.append('date', updatedEvent.date);
+      formData.append('startingTime', updatedEvent.startingTime);
+      formData.append('endingTime', updatedEvent.endingTime);
+      formData.append('endingDate', updatedEvent.endingDate);
+      formData.append('address', updatedEvent.address);
+      formData.append('venue', updatedEvent.venue);
+      formData.append('city', updatedEvent.city);
+      formData.append(
+        'ticketprice[minticketprice]',
+        updatedEvent.ticketprice.minticketprice.toString()
+      );
+      formData.append(
+        'ticketprice[maxticketprice]',
+        updatedEvent.ticketprice.maxticketprice.toString()
+      );
+      formData.append('theme', updatedEvent.theme);
+      formData.append('isFavorite', updatedEvent.isFavorite.toString());
+      formData.append('details', updatedEvent.details);
+      formData.append('ticketLink', updatedEvent.ticketLink);
+      formData.append('ticketSaleStart', updatedEvent.ticketSaleStart);
+      formData.append('ticketSaleEnd', updatedEvent.ticketSaleEnd);
+      formData.append('publishDateTime', updatedEvent.publishDateTime);
+      formData.append('status', updatedEvent.status);
+      formData.append('organizerId', updatedEvent.organizerId);
+      formData.append('organizationName', updatedEvent.organizationName);
 
-      formData.append('ticketprice', JSON.stringify(ticketPrice)); // ????
-
-      formData.append('theme', this.theme);
-      formData.append('isFavorite', this.isFavorite.toString());
-      formData.append('details', this.details);
-      formData.append('ticketLink', this.ticketLink);
-      formData.append('ticketSaleStart', this.ticketSaleStart);
-      formData.append('ticketSaleEnd', this.ticketSaleEnd);
-      formData.append('publishDateTime', this.publishDateTime);
-      formData.append('status', this.status);
-      formData.append('organizerId', loggedInOrganizer.organizerId);
-      formData.append('organizationName', loggedInOrganizer.organizationName);
       this.eventTags.forEach((tag) => {
         formData.append('eventTags[]', tag);
       });
 
-      this.eventService.uploadEventWithImage(formData).subscribe({
-        next: (response) => {
-          console.log('Event with image created:', response);
-          this.router.navigate([`/events/${response._id}`]);
-        },
-        error: (err) => {
-          // Provide more specific error messages for image upload failure
-          if (err.status === 400) {
-            this.errorMessage =
-              'Virheellinen tiedostomuoto. Varmista, että kuva on oikeassa formaatissa (jpg, png).';
-          } else if (err.status === 500) {
-            this.errorMessage = 'Palvelinvirhe, kuvan lataus epäonnistui.';
-          } else {
-            this.errorMessage =
-              'Tapahtuman luominen epäonnistui kuvan kanssa: ' + err.message;
-          }
-          console.error(this.errorMessage);
-          alert(this.errorMessage);
-        },
-      });
-    } else {
-      console.error('No image selected!');
-      this.errorMessage = 'Kuvaa ei ole valittu. Varmista, että lisäät kuvan.';
-      alert(this.errorMessage);
-    }
+      formData.append('image', this.selectedFile, this.selectedFile.name);
 
-    // Tarkistetaan pakolliset kentät
-    if (
-      !updatedEvent.eventName ||
-      !updatedEvent.date ||
-      !updatedEvent.startingTime ||
-      !updatedEvent.venue ||
-      !updatedEvent.city ||
-      !updatedEvent.organizerId ||
-      !updatedEvent.organizationName
-    ) {
-      this.errorMessage = 'Tähdelliset kentät ovat pakollisia.';
-      console.error(this.errorMessage, updatedEvent);
-      alert(this.errorMessage);
-      return;
-    }
-
-    if (this.isEditMode) {
-      this.eventService.editEvent(updatedEvent).subscribe({
-        next: () => {
-          this.router.navigate([`/events/${updatedEvent._id}`]);
-        },
-        error: (err: any) => {
-          this.errorMessage =
-            'Tapahtuman muokkaaminen epäonnistui: ' + err.message;
-          console.error(this.errorMessage);
-        },
-      });
+      // if in edit mode, update the event
+      if (this.isEditMode) {
+        this.eventService.editEvent(updatedEvent, this.selectedFile).subscribe({
+          next: (response) => {
+            this.router.navigate([`/events/${updatedEvent._id}`]);
+            this.onEditSuccess()
+          },
+          error: (err) => {
+            console.error('Error editing event:', err);
+            this.errorMessage =
+              'Tapahtuman muokkaus epäonnistui: ' + err.message;
+            alert(this.errorMessage);
+          },
+        });
+      } else {
+        // if not in edit mode, create a new event
+        this.eventService.uploadEventWithImage(formData).subscribe({
+          next: (response) => {
+            this.router.navigate([`/events/${updatedEvent._id}`]);
+            this.onCreateSuccess();
+          },
+          error: (err) => {
+            console.error('Error creating event:', err);
+            this.errorMessage =
+              'Tapahtuman luominen epäonnistui: ' + err.message;
+            alert(this.errorMessage);
+          },
+        });
+      }
     } else {
-      this.eventService.createEvent(updatedEvent).subscribe({
-        next: () => {
-          this.router.navigate([`/events/`]);
-        },
-        error: (err: any) => {
-          this.errorMessage = 'Tapahtuman luominen epäonnistui: ' + err.message;
-          console.error(this.errorMessage);
-        },
-      });
+      // no image selected, submit the event without an image
+      if (this.isEditMode) {
+        this.eventService.editEvent(updatedEvent).subscribe({
+          next: (response) => {
+            console.log('Event edited without image');
+            this.router.navigate([`/events/${updatedEvent._id}`]);
+            this.onEditSuccess()
+          },
+          error: (err) => {
+            console.error('Error editing event:', err);
+            this.errorMessage =
+              'Tapahtuman muokkaus epäonnistui: ' + err.message;
+            alert(this.errorMessage);
+          },
+        });
+      } else {
+        this.eventService.createEvent(updatedEvent, null).subscribe({
+          next: (response) => {
+            this.router.navigate([`/events/${updatedEvent._id}`]);
+            this.onCreateSuccess();
+          },
+          error: (err) => {
+            console.error('Error creating event:', err);
+            this.errorMessage =
+              'Tapahtuman luominen epäonnistui: ' + err.message;
+            alert(this.errorMessage);
+          },
+        });
+      }
     }
   }
 
@@ -394,6 +353,9 @@ export class CreateEventComponent implements OnInit {
     }
   }
   onCreateSuccess() {
-    this.notificationService.showSuccess('Tapahtuman luonti onnistui.','')
+    this.notificationService.showSuccess('Tapahtuman luonti onnistui.', '');
+  }
+  onEditSuccess() {
+    this.notificationService.showSuccess('Tapahtuman muokkaus onnistui.', '');
   }
 }

@@ -19,27 +19,41 @@ export class EventService {
     return this.http.get<Event[]>(this.apiUrl);
   }
 
-  createEvent(newEvent: Event, imageFile?: File): Observable<Event> {
-    const token = this.authService.getToken();
-    if (!token) {
-      console.error('Token not found');
-      throw new Error('Token not found');
-    }
-
-    const headers = new HttpHeaders().set('x-access-token', token);
+  createEvent(eventData: any, imageFile: File | null): Observable<any> {
     const formData = new FormData();
+    formData.append('eventName', eventData.eventName);
+    formData.append('date', eventData.date);
+    formData.append('startingTime', eventData.startingTime);
+    formData.append('endingTime', eventData.endingTime);
+    formData.append('endingDate', eventData.endingDate);
+    formData.append('address', eventData.address);
+    formData.append('venue', eventData.venue);
+    formData.append('city', eventData.city);
+    formData.append(
+      'ticketprice[minticketprice]',
+      eventData.ticketprice.minticketprice
+    );
+    formData.append(
+      'ticketprice[maxticketprice]',
+      eventData.ticketprice.maxticketprice
+    );
+    formData.append('theme', eventData.theme);
+    formData.append('isFavorite', eventData.isFavorite);
+    formData.append('details', eventData.details);
+    formData.append('ticketLink', eventData.ticketLink);
+    formData.append('ticketSaleStart', eventData.ticketSaleStart);
+    formData.append('ticketSaleEnd', eventData.ticketSaleEnd);
+    formData.append('publishDateTime', eventData.publishDateTime);
+    formData.append('status', eventData.status);
+    formData.append('organizerId', eventData.organizerId);
+    formData.append('organizationName', eventData.organizationName);
+    formData.append('eventTags', eventData.eventTags.join(','));
 
-    // Lisää kaikki eventin kentät FormDataan
-    Object.keys(newEvent).forEach((key) => {
-      formData.append(key, (newEvent as any)[key]);
-    });
-
-    // Lisää kuvatiedosto, jos sellainen on
     if (imageFile) {
-      formData.append('image', imageFile);
+      formData.append('image', imageFile, imageFile.name);
     }
 
-    return this.http.post<Event>(this.createEventapiUrl, formData, { headers });
+    return this.http.post<any>(this.apiUrl, formData);
   }
 
   deleteEvent(eventId: string): Observable<any> {
@@ -71,23 +85,51 @@ export class EventService {
     const headers = new HttpHeaders().set('x-access-token', token);
     const url = `${this.apiUrl}/${updatedEvent._id}`;
 
-    // Jos on kuvatiedosto, käytä FormDataa
-    if (imageFile) {
-      const formData = new FormData();
+    // create the FormData object to append the updated event data
+    const formData = new FormData();
 
-      // Lisää kaikki eventin kentät FormDataan
-      Object.keys(updatedEvent).forEach((key) => {
-        formData.append(key, (updatedEvent as any)[key]);
+    // append all the updated event fields to the FormData object
+    formData.append('eventName', updatedEvent.eventName);
+    formData.append('date', updatedEvent.date);
+    formData.append('startingTime', updatedEvent.startingTime);
+    formData.append('endingTime', updatedEvent.endingTime);
+    formData.append('endingDate', updatedEvent.endingDate);
+    formData.append('address', updatedEvent.address);
+    formData.append('venue', updatedEvent.venue);
+    formData.append('city', updatedEvent.city);
+
+    formData.append(
+      'ticketprice[minticketprice]',
+      (updatedEvent.ticketprice.minticketprice || 0).toString()
+    );
+    formData.append(
+      'ticketprice[maxticketprice]',
+      (updatedEvent.ticketprice.maxticketprice || 0).toString()
+    );
+
+    formData.append('theme', updatedEvent.theme);
+    formData.append('isFavorite', updatedEvent.isFavorite.toString());
+    formData.append('details', updatedEvent.details);
+    formData.append('ticketLink', updatedEvent.ticketLink);
+    formData.append('ticketSaleStart', updatedEvent.ticketSaleStart);
+    formData.append('ticketSaleEnd', updatedEvent.ticketSaleEnd);
+    formData.append('publishDateTime', updatedEvent.publishDateTime);
+    formData.append('status', updatedEvent.status);
+    formData.append('organizerId', updatedEvent.organizerId);
+    formData.append('organizationName', updatedEvent.organizationName);
+
+    if (updatedEvent.eventTags && Array.isArray(updatedEvent.eventTags)) {
+      updatedEvent.eventTags.forEach((tag) => {
+        formData.append('eventTags[]', tag);
       });
-
-      // Lisää kuvatiedosto
-      formData.append('image', imageFile);
-
-      return this.http.put<Event>(url, formData, { headers });
     }
 
-    // Muussa tapauksessa päivitä JSON-data
-    return this.http.put<Event>(url, updatedEvent, { headers });
+    if (imageFile) {
+      formData.append('image', imageFile, imageFile.name);
+    }
+
+    // send the FormData with the PUT request
+    return this.http.put<Event>(url, formData, { headers });
   }
 
   getEventById(eventId: string): Observable<Event> {
