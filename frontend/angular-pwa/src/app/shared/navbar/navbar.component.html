@@ -10,7 +10,13 @@
 
     <div class="menu-desktop">
       <div>
-        <a class="nav-link" routerLink="/" routerLinkActive="active">ETUSIVU</a>
+        <a
+          class="nav-link"
+          routerLink="/"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >ETUSIVU</a
+        >
       </div>
       <div>
         <a class="nav-link" routerLink="/events" routerLinkActive="active"
