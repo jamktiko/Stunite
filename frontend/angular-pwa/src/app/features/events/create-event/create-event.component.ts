@@ -273,7 +273,7 @@ export class CreateEventComponent implements OnInit {
         // if not in edit mode, create a new event
         this.eventService.uploadEventWithImage(formData).subscribe({
           next: (response) => {
-            this.router.navigate([`/events/${updatedEvent._id}`]);
+            this.router.navigate([`organizer-view`]);
             this.onCreateSuccess();
           },
           error: (err) => {
@@ -305,7 +305,7 @@ export class CreateEventComponent implements OnInit {
       } else {
         this.eventService.createEvent(updatedEvent, null).subscribe({
           next: (response) => {
-            this.router.navigate([`/events/${updatedEvent._id}`]);
+            this.router.navigate([`organizer-view`]);
             this.onCreateSuccess();
           },
           error: (err) => {
