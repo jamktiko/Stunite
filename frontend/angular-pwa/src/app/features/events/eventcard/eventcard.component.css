@@ -51,14 +51,16 @@ p {
 .eventimage {
   border-radius: 18px 18px 0px 0px;
   width: 100%;
-  height: auto;
+  height: 100%;
+  max-width: 250px;
+  max-height: 160px;
 }
 
 .image-only {
   width: 100%;
   height: 100%;
   max-width: 200px;
-  max-height: 200px;
+  max-height: 120px;
   border-style: none;
 }
 .image-only .eventcard-info,
