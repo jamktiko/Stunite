@@ -15,8 +15,7 @@ p {
 
 :host ::ng-deep .eventimage {
   border-radius: 18px 18px 18px 18px !important;
-  width: 100% !important;
-  height: auto !important;
+
 }
 
 .featured-events-left {
@@ -74,13 +73,6 @@ p {
   display: flex;
   flex-direction: column;
   gap: 20px;
-}
-
-.events-section {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 15px;
 }
 
 button {

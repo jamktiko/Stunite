@@ -6,7 +6,11 @@
     <div class="featured-events-left">
       <p>🔥 Kuuminta juuri nyt 🔥</p>
       <div class="events-section">
-        <app-eventcard *ngFor="let event of featuredEvents()" [event]="event" [onlyImage]="true"></app-eventcard>
+        <app-eventcard
+          *ngFor="let event of featuredEvents()"
+          [event]="event"
+          [onlyImage]="true"
+        ></app-eventcard>
         <button (click)="goToEvents()">Katso kaikki tapahtumat</button>
       </div>
     </div>
@@ -25,7 +29,10 @@
     <p>Tutustu yhteisöihin</p>
     <div class="associations-container">
       <div class="associations">
-        <app-associationcard *ngFor="let association of featuredAssociations()" [association]="association">
+        <app-associationcard
+          *ngFor="let association of featuredAssociations()"
+          [association]="association"
+        >
         </app-associationcard>
       </div>
       <div class="toAssociationPage" (click)="goToAssociations()">&#8250;</div>
