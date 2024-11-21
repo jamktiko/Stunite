@@ -259,10 +259,11 @@ export class CreateEventComponent implements OnInit {
         this.eventService.editEvent(updatedEvent, this.selectedFile).subscribe({
           next: (response) => {
             this.router.navigate([`/events/${updatedEvent._id}`]);
-            this.onEditSuccess()
+            this.onEditSuccess();
           },
           error: (err) => {
             console.error('Error editing event:', err);
+            this.onEditError();
             this.errorMessage =
               'Tapahtuman muokkaus epäonnistui: ' + err.message;
             alert(this.errorMessage);
@@ -277,6 +278,7 @@ export class CreateEventComponent implements OnInit {
           },
           error: (err) => {
             console.error('Error creating event:', err);
+            this.onCreateError();
             this.errorMessage =
               'Tapahtuman luominen epäonnistui: ' + err.message;
             alert(this.errorMessage);
@@ -290,10 +292,11 @@ export class CreateEventComponent implements OnInit {
           next: (response) => {
             console.log('Event edited without image');
             this.router.navigate([`/events/${updatedEvent._id}`]);
-            this.onEditSuccess()
+            this.onEditSuccess();
           },
           error: (err) => {
             console.error('Error editing event:', err);
+            this.onEditError();
             this.errorMessage =
               'Tapahtuman muokkaus epäonnistui: ' + err.message;
             alert(this.errorMessage);
@@ -307,6 +310,7 @@ export class CreateEventComponent implements OnInit {
           },
           error: (err) => {
             console.error('Error creating event:', err);
+            this.onCreateError();
             this.errorMessage =
               'Tapahtuman luominen epäonnistui: ' + err.message;
             alert(this.errorMessage);
@@ -324,6 +328,7 @@ export class CreateEventComponent implements OnInit {
       target.focus();
     }
   }
+
   private formatDate(dateStr: string): string {
     const parts = dateStr.split('-');
     if (parts.length === 3) {
@@ -357,5 +362,11 @@ export class CreateEventComponent implements OnInit {
   }
   onEditSuccess() {
     this.notificationService.showSuccess('Tapahtuman muokkaus onnistui.', '');
+  }
+  onCreateError() {
+    this.notificationService.showError('Tapahtuman luonti epäonnistui.', '');
+  }
+  onEditError() {
+    this.notificationService.showError('Tapahtuman muokkaus epäonnistui.', '');
   }
 }
