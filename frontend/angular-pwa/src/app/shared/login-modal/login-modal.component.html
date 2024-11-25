@@ -26,7 +26,16 @@
         [(ngModel)]="email"
         name="email"
         required
+        #emailModel="ngModel"
       />
+
+      <div
+        *ngIf="emailModel.touched && emailModel.invalid"
+        class="error-message"
+      >
+        Sähköposti puuttuu
+      </div>
+
       <input
         id="password"
         placeholder="Salasana"
@@ -34,7 +43,14 @@
         name="password"
         type="password"
         required
+        #passwordModel="ngModel"
       />
+      <div
+        *ngIf="passwordModel.touched && passwordModel.invalid"
+        class="error-message"
+      >
+        Salasana puuttuu
+      </div>
 
       <div *ngIf="errorMessage" class="error-message">
         {{ errorMessage }}

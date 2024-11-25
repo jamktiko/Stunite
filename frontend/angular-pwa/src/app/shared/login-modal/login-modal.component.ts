@@ -52,7 +52,7 @@ export class LoginModalComponent {
         const currentUser = this.authService.getCurrUser();
       },
       error: () => {
-        this.errorMessage = 'Invalid email or password';
+        this.errorMessage = 'Sähköposti tai salasana väärin';
         console.log('Login failed');
       },
     });
@@ -69,7 +69,5 @@ export class LoginModalComponent {
 
   onLoginSuccess() {
     this.notificationService.showSuccess('Sisäänkirjautuminen onnistui.', '');
-
   }
-
 }
