@@ -59,7 +59,6 @@ describe('AuthService', () => {
     expect(service).toBeTruthy();
   });
 
-  // login method text + user and token stored in localStorage
   it('should log in a user and store the user and token in localStorage', () => {
     const email = 'testuser@example.com';
     const password = 'password123';
@@ -68,22 +67,30 @@ describe('AuthService', () => {
       token: 'fake-jwt-token',
       user: { id: 1, email: email },
     };
+    // spy on the localStorage.setItem method to ensure it is called correctly
+    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
 
+    // call the login method and subscribe to its response
     service.login(email, password).subscribe((response) => {
+      // check that response contains the expected token and user data
       expect(response.token).toBe(mockResponse.token);
       expect(response.user.email).toBe(mockResponse.user.email);
+
+      // verify that localStorage.setItem was called with the correct values
+      expect(setItemSpy).toHaveBeenCalledWith(
+        'currentUser',
+        JSON.stringify(mockResponse.user)
+      );
+      expect(setItemSpy).toHaveBeenCalledWith('token', mockResponse.token);
+      expect(setItemSpy).toHaveBeenCalledWith('userId', mockResponse.user.id);
     });
 
+    // expect an HTTP POST request to the login endpoint
     const req = httpMock.expectOne(`${environment.baseUrl}/login/user`);
     expect(req.request.method).toBe('POST');
-    req.flush(mockResponse);
 
-    expect(setItemSpy).toHaveBeenCalledWith(
-      'currentUser',
-      JSON.stringify(mockResponse.user)
-    );
-    expect(setItemSpy).toHaveBeenCalledWith('token', mockResponse.token);
-    expect(setItemSpy).toHaveBeenCalledWith('userId', mockResponse.user.id);
+    // simulate a server response by "flushing" the mockResponse
+    req.flush(mockResponse);
   });
 
   // logout method test + data removed from localStorage
