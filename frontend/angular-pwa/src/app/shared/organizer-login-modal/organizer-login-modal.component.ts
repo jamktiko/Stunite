@@ -45,7 +45,7 @@ export class OrganizerLoginModalComponent {
         this.onLoginSuccess();
       },
       error: () => {
-        this.errorMessage = 'Invalid email or password';
+        this.errorMessage = 'Sähköposti tai salasana väärin';
         console.log('Login failed');
       },
     });
