@@ -204,4 +204,15 @@ body.menu-open .menu-mobile {
   .material-symbols-outlined.logout {
     font-size: 30px;
   }
+
+  .profile-picture {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  .mobile-nav-user {
+    flex-direction: column-reverse;
+    gap: 0px;
+  }
 }
