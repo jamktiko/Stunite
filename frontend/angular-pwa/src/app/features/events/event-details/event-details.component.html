@@ -58,8 +58,33 @@
           </p>
           <p>
             <span class="material-symbols-outlined"> sell </span>
-            {{ event.ticketprice.minticketprice }} -
-            {{ event.ticketprice.maxticketprice }} €
+            <span
+              *ngIf="
+                event.ticketprice.minticketprice === 0 &&
+                event.ticketprice.maxticketprice === 0
+              "
+            >
+              Ilmainen
+            </span>
+            <span
+              *ngIf="
+                event.ticketprice.minticketprice ===
+                  event.ticketprice.maxticketprice &&
+                event.ticketprice.minticketprice !== 0
+              "
+            >
+              {{ event.ticketprice.minticketprice }} €
+            </span>
+            <span
+              *ngIf="
+                event.ticketprice.minticketprice !==
+                  event.ticketprice.maxticketprice &&
+                event.ticketprice.minticketprice !== 0
+              "
+            >
+              {{ event.ticketprice.minticketprice }} -
+              {{ event.ticketprice.maxticketprice }} €
+            </span>
           </p>
         </div>
       </div>
