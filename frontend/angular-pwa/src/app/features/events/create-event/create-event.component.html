@@ -278,11 +278,11 @@
       </div>
 
       <div class="form-buttons">
-        <button (click)="onCancel()">Peruuta</button>
-        <button type="submit" [disabled]="eventForm.invalid">
+        <button class="button2" type="submit" [disabled]="eventForm.invalid">
           {{ isEditMode ? "Tallenna muutokset" : "Luo tapahtuma" }}
         </button>
       </div>
     </form>
+      <button class="button2 cancel" (click)="onCancel()">Peruuta</button>
   </div>
 </div>

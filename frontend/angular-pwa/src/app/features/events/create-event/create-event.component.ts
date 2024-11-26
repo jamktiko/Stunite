@@ -16,6 +16,8 @@ import { NotificationService } from '../../../core/services/notification.service
   styleUrls: ['./create-event.component.css'],
 })
 export class CreateEventComponent implements OnInit {
+  originalEventData: any = {};
+
   eventName: string = '';
   eventDate: string = '';
   eventTime: string = '';
@@ -88,6 +90,7 @@ export class CreateEventComponent implements OnInit {
       this.eventService.getEventById(this.eventId).subscribe({
         next: (event: Event) => {
           this.populateFormFields(event);
+          this.originalEventData = { ...event };
         },
         error: (err) => {
           console.error('Error fetching event:', err);
@@ -149,7 +152,13 @@ export class CreateEventComponent implements OnInit {
   }
 
   onCancel() {
-    this.location.back();
+    if (this.isEditMode) {
+      this.populateFormFields(this.originalEventData);
+      this.onEditCancelInfo();
+    } else {
+      this.onCreateCancelInfo();
+    }
+    this.router.navigate([`/organizer-view`]);
   }
 
   onTagChange(selectedTags: string[]) {
@@ -360,13 +369,22 @@ export class CreateEventComponent implements OnInit {
   onCreateSuccess() {
     this.notificationService.showSuccess('Tapahtuman luonti onnistui.', '');
   }
+
   onEditSuccess() {
     this.notificationService.showSuccess('Tapahtuman muokkaus onnistui.', '');
   }
+
   onCreateError() {
     this.notificationService.showError('Tapahtuman luonti epäonnistui.', '');
   }
   onEditError() {
     this.notificationService.showError('Tapahtuman muokkaus epäonnistui.', '');
+  }
+
+  onEditCancelInfo() {
+    this.notificationService.showInfo('Tapahtuman muokkaus peruttiin.', '');
+  }
+  onCreateCancelInfo() {
+    this.notificationService.showInfo('Tapahtuman luonti peruttiin.', '');
   }
 }
