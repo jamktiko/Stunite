@@ -15,6 +15,11 @@ import { Observable } from 'rxjs';
 })
 export class AssociationsComponent implements OnInit {
   searchTerm = signal('');
+  selectedCity = signal('');
+  selectedType = signal('');
+
+  availableCities: string[] = [];
+  availableTypes: string[] = [];
   associationSignal!: Observable<Organizer[]>;
   filteredAssociationData!: Signal<Organizer[]>;
 
@@ -23,6 +28,15 @@ export class AssociationsComponent implements OnInit {
   ngOnInit(): void {
     this.associationSignal = this.associationService.getAssociations();
     this.associationSignal.subscribe((associationsData) => {
+      associationsData.forEach((association) => {
+        if (!this.availableCities.includes(association.city)) {
+          this.availableCities.push(association.city);
+        }
+        if (!this.availableTypes.includes(association.organizationType)) {
+          this.availableTypes.push(association.organizationType);
+        }
+      });
+
       this.updateFilteredAssociations(associationsData);
     });
   }
@@ -30,10 +44,20 @@ export class AssociationsComponent implements OnInit {
   updateFilteredAssociations(associationsData: Organizer[]) {
     this.filteredAssociationData = computed(() => {
       const search = this.searchTerm().toLowerCase();
+      const city = this.selectedCity();
+      const type = this.selectedType();
+      let filteredAssociations = associationsData.filter((associations) => {
+        const matchesSearch = associations.organizationName
+          .toLowerCase()
+          .includes(search);
+        const matchesCity = city ? associations.city === city : true;
+        const matchesType = type
+          ? associations.organizationType === type
+          : true;
 
-      return associationsData.filter((association) =>
-        association.organizationName.toLowerCase().includes(search)
-      );
+        return matchesCity && matchesSearch && matchesType;
+      });
+      return filteredAssociations;
     });
   }
 }

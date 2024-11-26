@@ -10,6 +10,28 @@
           (ngModelChange)="searchTerm.set($event)"
         />
       </div>
+      <div class="filters">
+        <select
+          class="single-filter"
+          [ngModel]="selectedCity()"
+          (ngModelChange)="selectedCity.set($event)"
+        >
+          <option value="">Kaikki kaupungit</option>
+          <option *ngFor="let city of availableCities" [value]="city">
+            {{ city }}
+          </option>
+        </select>
+        <select
+          class="single-filter"
+          [ngModel]="selectedType()"
+          (ngModelChange)="selectedType.set($event)"
+        >
+          <option value="">Kaikki tyypit</option>
+          <option *ngFor="let type of availableTypes" [value]="type">
+            {{ type }}
+          </option>
+        </select>
+      </div>
     </div>
   </div>
 

@@ -11,7 +11,6 @@ h1 {
 }
 
 .searchbar {
-  margin-bottom: 35px;
   width: 100%;
   max-width: 400px;
   box-sizing: border-box;
@@ -22,6 +21,22 @@ h1 {
   padding: 12.5px 16px;
   box-sizing: border-box;
   margin: 0 10px 0 0;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  padding-top: 15px;
+}
+
+.single-filter {
+  height: 45px;
+  margin-right: 10px;
+  border: 1px solid #b2b2b2;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background-color: #fff5f9;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
 }
 
