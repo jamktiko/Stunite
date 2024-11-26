@@ -1,4 +1,48 @@
 describe('Login Modal', () => {
+  it('should be ablo to close modal', () => {
+    // go to home page
+    cy.visit('http://localhost:4200/');
+
+    // open login modal
+    cy.get('.login-icon > .material-symbols-outlined')
+      .should('be.visible')
+      .click();
+
+    // check if modal is open
+    cy.get('.modal-content').should('be.visible');
+
+    // click X to close modal
+    cy.get('.close').click();
+
+    // check if modal is closed
+    cy.get('.modal-content').should('not.exist');
+  });
+
+  it('should be ablo to go back in modal', () => {
+    // go to home page
+    cy.visit('http://localhost:4200/');
+
+    // open login modal
+    cy.get('.login-icon > .material-symbols-outlined')
+      .should('be.visible')
+      .click();
+
+    // check if modal is open
+    cy.get('.modal-content').should('be.visible');
+
+    // go to normal user login
+    cy.get('.login-buttons > :nth-child(1)').should('be.visible').click();
+
+    // go back by pressing arrow
+    cy.get('.modal-content > .material-symbols-outlined')
+      .should('be.visible')
+      .click();
+
+    // check if back in the start point
+    cy.get('.login-buttons > :nth-child(1)').should('be.visible');
+    cy.get('.login-buttons > :nth-child(2)').should('be.visible');
+  });
+  
   it('should be able to log in as normal user', () => {
     // go to home page
     cy.visit('http://localhost:4200/');
@@ -29,6 +73,39 @@ describe('Login Modal', () => {
     cy.get('.ng-trigger').should('be.visible');
     // check if url has /events (routes to event page after succesful login)
     cy.url().should('include', '/events');
+  });
+
+  it('should be able to log in as organzier', () => {
+    // go to home page
+    cy.visit('http://localhost:4200/');
+
+    // open login modal
+    cy.get('.login-icon > .material-symbols-outlined')
+      .should('be.visible')
+      .click();
+
+    // check if modal is open
+    cy.get('.modal-content').should('be.visible');
+
+    // go to organizer log in
+    cy.get('.login-buttons > :nth-child(2)').should('be.visible').click();
+
+    // log in credentials come from cypress.env.json
+    const email = Cypress.env('CYPRESS_ORGANIZER_EMAIL');
+    const password = Cypress.env('CYPRESS_ORGANIZER_PASSWORD');
+
+    // write email and password
+    cy.get('#email').should('be.visible').type(email);
+    cy.get('#password').should('be.visible').type(password);
+
+    // press log in button
+    cy.get('form.ng-dirty > button').click();
+
+    // check if success log in toaster is visible
+    cy.get('.ng-trigger').should('be.visible');
+
+    // check if url has /organizer-view (routes to organizer-view after succesful login)
+    cy.url().should('include', '/organizer-view');
   });
 
   it('should display error message for incorrect email or password', () => {
