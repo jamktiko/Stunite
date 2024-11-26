@@ -180,4 +180,7 @@ h2 {
     align-items: center;
     gap: 12px;
   }
+  h1 {
+    font-size: 54px;
+  }
 }

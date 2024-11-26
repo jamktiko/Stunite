@@ -219,3 +219,20 @@ label[for] {
 label[for]:hover {
   color: grey; /* Muutetaan väri vihreäksi, kun hover */
 }
+
+@media (max-width: 460px) {
+  .create-event {
+    max-width: 300px;
+  }
+  .tags-container {
+    max-width: 300px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .checkbox {
+    min-width: 15px;
+    min-height: 15px;
+  }
+  label {
+    margin: 0px;
+  }
+}
