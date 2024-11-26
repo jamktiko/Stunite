@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
 
     this.eventService.getPublishedEvents().subscribe({
       next: (eventsData) => {
-        this.featuredEvents = signal(eventsData.slice(0, 4));
+        this.featuredEvents = signal(eventsData.reverse().slice(0, 4));
       },
       error: (err) => {
         console.error('Error fetching featured events:', err);
