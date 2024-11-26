@@ -8,6 +8,18 @@
 .events-start {
   display: flex;
 }
+.date-div {
+  display: flex;
+  align-items: center;
+  z-index: 0;
+  position: relative;
+}
+.date-input {
+  width: 150px !important;
+  z-index: 0;
+  position: relative;
+  border: 1px solid #b2b2b2;
+}
 
 .searchbar {
   margin-bottom: 35px;

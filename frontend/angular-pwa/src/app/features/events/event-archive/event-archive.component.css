@@ -13,7 +13,18 @@ h1 {
   margin: 12px 0;
   display: flex;
 }
-
+.date-div {
+  display: flex;
+  align-items: center;
+  z-index: 0;
+  position: relative;
+}
+.date-input {
+  width: 150px !important;
+  z-index: 0;
+  position: relative;
+  border: 1px solid #b2b2b2;
+}
 .searchbar {
   margin: 20px 0px;
   width: 100%;
@@ -39,6 +50,7 @@ input[type="date"] {
   position: relative;
   border: 1px solid #b2b2b2;
 }
+
 .right-side {
   display: flex;
 }

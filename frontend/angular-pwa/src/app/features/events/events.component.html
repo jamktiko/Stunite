@@ -1,32 +1,81 @@
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close"
+/>
 <div class="page-container">
   <div class="events-start">
     <div class="left-side">
       <h1>Tapahtumat</h1>
 
       <div class="searchbar">
-        <input type="text" placeholder="Hae tapahtumia" [ngModel]="searchTerm()"
-          (ngModelChange)="searchTerm.set($event)" />
+        <input
+          type="text"
+          placeholder="Hae tapahtumia"
+          [ngModel]="searchTerm()"
+          (ngModelChange)="searchTerm.set($event)"
+        />
         <div class="filters">
-          <select class="single-filter" [ngModel]="selectedCity()" (ngModelChange)="selectedCity.set($event)">
+          <select
+            class="single-filter"
+            [ngModel]="selectedCity()"
+            (ngModelChange)="selectedCity.set($event)"
+          >
             <option value="">Kaikki kaupungit</option>
             <option *ngFor="let city of availableCities" [value]="city">
               {{ city }}
             </option>
           </select>
 
-          <select class="single-filter" [ngModel]="selectedTag()" (ngModelChange)="selectedTag.set($event)">
+          <select
+            class="single-filter"
+            [ngModel]="selectedTag()"
+            (ngModelChange)="selectedTag.set($event)"
+          >
             <option value="">Kaikki tunnisteet</option>
             <option *ngFor="let tag of availableTags" [value]="tag">
               {{ tag }}
             </option>
           </select>
-          <input type="date" [ngModel]="selectedDateRange().start" (ngModelChange)="updateDateRange('start', $event)"
-            placeholder="Alkupäivä" />
-
-          <input type="date" [ngModel]="selectedDateRange().end" (ngModelChange)="updateDateRange('end', $event)"
-            placeholder="Loppupäivä" />
+          <div class="date-div">
+            <input
+              class="date-input"
+              type="text"
+              [ngModel]="selectedDateRange().start"
+              (ngModelChange)="updateDateRange('start', $event)"
+              placeholder="Alkupäivä"
+              onclick="(this.type='date')"
+              (click)="openCalendar($event)"
+            />
+            <span
+              *ngIf="selectedDateRange().start"
+              (click)="clearDate('start')"
+              class="material-symbols-outlined"
+            >
+              close
+            </span>
+          </div>
+          <div class="date-div">
+            <input
+              class="date-input"
+              type="text"
+              [ngModel]="selectedDateRange().end"
+              (ngModelChange)="updateDateRange('end', $event)"
+              placeholder="Loppupäivä"
+              onclick="(this.type='date')"
+              (click)="openCalendar($event)"
+            />
+            <span
+              *ngIf="selectedDateRange().end"
+              (click)="clearDate('end')"
+              class="material-symbols-outlined"
+            >
+              close
+            </span>
+          </div>
         </div>
-        <button class="button2" (click)="toEventArchive()">Selaa arkistoa</button>
+        <button class="button2" (click)="toEventArchive()">
+          Selaa arkistoa
+        </button>
       </div>
     </div>
 
@@ -36,7 +85,10 @@
   </div>
 
   <div *ngIf="filteredEventData().length" class="events">
-    <app-eventcard *ngFor="let event of filteredEventData()" [event]="event"></app-eventcard>
+    <app-eventcard
+      *ngFor="let event of filteredEventData()"
+      [event]="event"
+    ></app-eventcard>
   </div>
 
   <div *ngIf="!filteredEventData().length">

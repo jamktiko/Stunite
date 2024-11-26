@@ -135,8 +135,24 @@ export class EventsComponent implements OnInit {
       [field]: value,
     });
   }
+  clearDate(field: 'start' | 'end'): void {
+    const currentRange = this.selectedDateRange();
+    this.selectedDateRange.set({
+      ...currentRange,
+      [field]: null,
+    });
+  }
 
   toEventArchive() {
     this.router.navigate(['/event-archive']);
+  }
+
+  openCalendar(event: any) {
+    const target = event.target as HTMLInputElement;
+    if (target && typeof target.showPicker === 'function') {
+      target.showPicker();
+    } else {
+      target.focus();
+    }
   }
 }

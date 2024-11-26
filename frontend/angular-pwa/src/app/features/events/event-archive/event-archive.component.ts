@@ -124,6 +124,13 @@ export class EventArchiveComponent implements OnInit {
     return new Date(year, month - 1, day);
   }
 
+  clearDate(field: 'start' | 'end'): void {
+    const currentRange = this.selectedDateRange();
+    this.selectedDateRange.set({
+      ...currentRange,
+      [field]: null,
+    });
+  }
   updateDateRange(field: 'start' | 'end', value: string): void {
     const currentRange = this.selectedDateRange();
     this.selectedDateRange.set({
@@ -134,5 +141,13 @@ export class EventArchiveComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.eventSubscription.unsubscribe();
+  }
+  openCalendar(event: any) {
+    const target = event.target as HTMLInputElement;
+    if (target && typeof target.showPicker === 'function') {
+      target.showPicker();
+    } else {
+      target.focus();
+    }
   }
 }
