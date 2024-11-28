@@ -4,8 +4,37 @@ const verifyToken = require('../verifytoken');
 
 const multer = require('multer');
 const path = require('path');
+const mongoose = require('mongoose');
 
 const router = express.Router();
+
+// Multerin konfiguraatio tiedostojen tallentamiseen
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Määritä latauskansion sijainti
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Uniikki tiedostonimi aikaleimalla
+  },
+});
+
+// Tiedostotyypin tarkistus: sallitaan vain JPEG-, JPG- ja PNG-kuvat
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    const fileTypes = /jpeg|jpg|png/;
+    const extname = fileTypes.test(
+      path.extname(file.originalname).toLowerCase()
+    );
+    const mimetype = fileTypes.test(file.mimetype);
+
+    if (extname && mimetype) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only JPEG, JPG, and PNG images are allowed!'));
+    }
+  },
+}).single('image');
 
 // GET route to fetch all events
 router.get('/', async (req, res) => {
@@ -21,8 +50,11 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
 
+  if (!mongoose.isValidObjectId(id)) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
   try {
-    // Hakee tapahtuman ID:n perusteella
     const event = await Event.findById(id);
 
     if (!event) {
@@ -39,8 +71,11 @@ router.get('/:id', async (req, res) => {
 router.delete('/:id', verifyToken, async (req, res) => {
   const { id } = req.params;
 
+  if (!mongoose.isValidObjectId(id)) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
   try {
-    // Poista tapahtuma sen ID:n perusteella
     const deletedEvent = await Event.findByIdAndDelete(id);
 
     if (!deletedEvent) {
@@ -55,21 +90,14 @@ router.delete('/:id', verifyToken, async (req, res) => {
   }
 });
 
-// Asetetaan multer tallentamaan kuvat `uploads`-kansioon
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Luodaan uniikki tiedostonimi
-  },
-});
-
-const upload = multer({ storage }).single('image');
-
 // PUT reitti tapahtuman muokkaamiseksi ID:n perusteella
 router.put('/:id', verifyToken, upload, async (req, res) => {
   const { id } = req.params;
+
+  if (!mongoose.isValidObjectId(id)) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
   const updates = req.body; // Päivitettävät kentät tulevat pyynnön rungosta
 
   // Jos kuva on ladattu, päivitetään `imageUrl`
@@ -81,7 +109,6 @@ router.put('/:id', verifyToken, upload, async (req, res) => {
   }
 
   try {
-    // Etsi ja päivitä tapahtuma ID:n perusteella
     const updatedEvent = await Event.findByIdAndUpdate(
       id,
       { ...updates, imageUrl },

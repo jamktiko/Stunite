@@ -10,7 +10,6 @@ import { of } from 'rxjs';
 
 // Mock AuthService
 class MockAuthService {
-  // Mock methods used in UserprofileComponent
   someMethod() {
     return of({});
   }
@@ -18,7 +17,6 @@ class MockAuthService {
 
 // Mock NotificationService
 class MockNotificationService {
-  // Mock methods used in UserprofileComponent
   notifySuccess(message: string) {}
   notifyError(message: string) {}
 }
@@ -27,13 +25,13 @@ describe('UserprofileComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        UserprofileComponent, // Add standalone component
-        ReactiveFormsModule, // Include necessary modules
-        HttpClientTestingModule, // Mock HttpClient
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        UserprofileComponent, // Standalone component included in imports
       ],
       providers: [
-        { provide: AuthService, useClass: MockAuthService }, // Mock AuthService
-        { provide: NotificationService, useClass: MockNotificationService }, // Mock NotificationService
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: NotificationService, useClass: MockNotificationService },
       ],
     }).compileComponents();
   });
@@ -41,6 +39,6 @@ describe('UserprofileComponent', () => {
   it('should create the component', () => {
     const fixture = TestBed.createComponent(UserprofileComponent);
     const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+    expect(component).toBeTruthy(); // Jestin toBeTruthy toimii tässä
   });
 });

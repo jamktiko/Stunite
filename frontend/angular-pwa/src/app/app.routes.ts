@@ -16,8 +16,6 @@ import { MobileLoginComponent } from './shared/mobile-login/mobile-login.compone
 import { MobileOrganizerLoginComponent } from './shared/mobile-organizer-login/mobile-organizer-login.component';
 import { EventArchiveComponent } from './features/events/event-archive/event-archive.component';
 export const routes: Routes = [
-  // { path: '', redirectTo: '/home', pathMatch: 'full' },
-  // { path: '**', redirectTo: '/home' },
   { path: '', component: HomeComponent },
   { path: 'events', component: EventsComponent },
   { path: 'register', component: RegisterComponent },
@@ -43,4 +41,5 @@ export const routes: Routes = [
     component: OrganizerCalendarComponent,
   },
   { path: 'associations/:id', component: AssociationsDetailComponent },
+  { path: '**', redirectTo: '' },
 ];
