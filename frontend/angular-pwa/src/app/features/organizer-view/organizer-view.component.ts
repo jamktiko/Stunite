@@ -42,6 +42,7 @@ export class OrganizerViewComponent implements OnInit {
 
         // Separate events into upcoming and past
         const currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
         this.upcomingEvents = organizerEvents
           .filter((event) => {
             const eventDate = new Date(this.formatDateToISO(event.date));
