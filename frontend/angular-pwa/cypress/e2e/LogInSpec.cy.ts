@@ -1,5 +1,5 @@
 describe('Login Modal', () => {
-  it('should be ablo to close modal', () => {
+  it('should be able to close modal', () => {
     // go to home page
     cy.visit('http://localhost:4200/');
 
