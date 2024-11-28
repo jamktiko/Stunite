@@ -5,8 +5,7 @@ import {
   RouterStateSnapshot,
   Router,
 } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 import { EventService } from '../../features/events/event.service';
 import { AuthService } from '../../core/services/auth.service';
 import { Event } from '../../shared/models/event.model';
@@ -32,11 +31,13 @@ export class EventGuard implements CanActivate {
           if (event) {
             return this.checkEventVisibility(event);
           } else {
+            console.error('Event not found');
             return this.redirectToHome();
           }
         })
       );
     } else {
+      console.error('Invalid event ID');
       return this.redirectToHome();
     }
   }
@@ -45,16 +46,21 @@ export class EventGuard implements CanActivate {
     const currentUser = this.authService.getCurrUser();
     const isOrganizer = this.authService.getIsOrganizer();
     const currentTime = new Date();
-    const publishDateTime = new Date(event.publishDateTime);
+    const publishDateTime = event.publishDateTime
+      ? new Date(event.publishDateTime)
+      : null;
 
-    if (isOrganizer) {
+    if (!currentUser) {
+      console.warn('User not logged in');
+      this.router.navigate(['/mobile-login']); // Navigoi kirjautumissivulle
+      return of(false);
+    }
+
+    if (isOrganizer || (publishDateTime && currentTime >= publishDateTime)) {
       return of(true);
     }
 
-    if (currentTime >= publishDateTime) {
-      return of(true);
-    }
-
+    console.warn('Event not yet published or user unauthorized');
     this.router.navigate(['/']);
     return of(false);
   }
