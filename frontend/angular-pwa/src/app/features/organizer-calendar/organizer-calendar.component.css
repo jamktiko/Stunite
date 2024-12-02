@@ -246,6 +246,14 @@
     width: 400;
     height: 700px;
   }
+  .filters {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    max-width: 40%;
+    gap: 12px;
+  }
 }
 @media (max-width: 460px) {
   h1 {
@@ -263,5 +271,14 @@
   }
   :host ::ng-deep .fc .fc-today-button {
     font-size: 12px;
+  }
+
+  .filters {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    max-width: 40%;
+    gap: 12px;
   }
 }

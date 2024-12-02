@@ -9,6 +9,7 @@ import {
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-navbar',
@@ -26,7 +27,11 @@ export class NavbarComponent {
   username = computed(() => this.authService.getCurrUser()?.firstName || '');
   email = computed(() => this.authService.getCurrUser()?.email || '');
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private notificationsService: NotificationService
+  ) {}
 
   get authenticated(): boolean {
     return this.authService.isAuthenticated();
@@ -51,6 +56,7 @@ export class NavbarComponent {
   logOut() {
     this.authService.logout();
     this.router.navigate(['/']);
+    this.onLogout();
   }
 
   triggerLoginModal() {
@@ -107,5 +113,8 @@ export class NavbarComponent {
     if (target.tagName === 'A') {
       this.showProfileMenu = false;
     }
+  }
+  onLogout() {
+    this.notificationsService.showInfo('Uloskirjauduttu.', '');
   }
 }
