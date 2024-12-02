@@ -1,3 +1,5 @@
+//npm test -- src/app/core/services/auth.service.spec.ts
+
 import { TestBed } from '@angular/core/testing';
 import { EventService } from './event.service';
 import { AuthService } from '../../core/services/auth.service';
