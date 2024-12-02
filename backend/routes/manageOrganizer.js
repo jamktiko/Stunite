@@ -1,25 +1,25 @@
 const express = require('express');
-const Organizer = require('../models/organizer'); // Malli tiedostosta, johon skeema on tallennettu
+const Organizer = require('../models/organizer');
 const verifyToken = require('../verifytoken');
 
+// Luodaan reitit
 const router = express.Router();
 
-// GET reitti kaikkien järjestäjien hakemiseen
+// GET-reitti kaikkien järjestäjien hakemiseen
 router.get('/', async (req, res) => {
   try {
-    const organizers = await Organizer.find(); // Hakee kaikki järjestäjät
+    const organizers = await Organizer.find();
     res.status(200).json(organizers);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// GET reitti yhden organizerin hakemiseen ID:n perusteella
+// GET-reitti yhden järjestäjän hakemiseen ID:n perusteella
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    // Hakee organizerin ID:n perusteella
     const organizer = await Organizer.findById(id);
 
     if (!organizer) {
@@ -32,7 +32,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// DELETE reitti järjestäjän poistamiseksi ID:n perusteella
+// DELETE-reitti järjestäjän poistamiseksi ID:n perusteella
 router.delete('/:id', verifyToken, async (req, res) => {
   const { id } = req.params;
 
@@ -52,15 +52,15 @@ router.delete('/:id', verifyToken, async (req, res) => {
   }
 });
 
-// PUT reitti järjestäjän muokkaamiseksi ID:n perusteella
+// PUT-reitti järjestäjän muokkaamiseksi ID:n perusteella
 router.put('/:id', verifyToken, async (req, res) => {
   const { id } = req.params;
   const updates = req.body;
 
   try {
     const updatedOrganizer = await Organizer.findByIdAndUpdate(id, updates, {
-      new: true, // Palauttaa päivitetyn dokumentin
-      runValidators: true, // Varmistaa skeeman mukaisuuden
+      new: true,
+      runValidators: true,
     });
 
     if (!updatedOrganizer) {

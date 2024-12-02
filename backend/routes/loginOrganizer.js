@@ -1,41 +1,46 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const Organizer = require('../models/organizer');
-const createToken = require('../createtoken'); // Lisää createToken
+const createToken = require('../createtoken');
 
+// Luodaan reitit
 const router = express.Router();
 
+// Kirjautumisreitti
 router.post('/', async (req, res) => {
+  // Puretaan sähköposti ja salasana pyynnön rungosta
   const { email, password } = req.body;
 
-  // Tarkista, että sähköposti ja salasana on annettu
+  // Tarkistetaan, että sähköposti ja salasana on annettu
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password are required' });
   }
 
   try {
-    // Etsi järjestäjä sähköpostin perusteella
+    // Etsitään järjestäjä sähköpostin perusteella
     const organizer = await Organizer.findOne({ email });
 
     if (!organizer) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    // Tarkista, vastaako annettu salasana hashattua salasanaa
+    // Tarkistetaan, että annettu salasana vastaa tietokannassa olevaa hashattua salasanaa
     const passwordMatch = await bcrypt.compare(password, organizer.password);
 
+    // Jos salasanat eivät täsmää, palautetaan virhe
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
-    // Luo token kirjautumisen jälkeen
+
+    // Luo JWT-token kirjautumisen jälkeen
     const token = createToken({
-      username: email, // Voit käyttää esim. emailia tai muuta yksilöivää kenttää
+      username: email,
     });
 
-    // Kirjautuminen onnistui
+    // Palautetaan onnistunut kirjautuminen ja käyttäjän tiedot
     res.status(200).json({
       message: 'Login successful',
-      token, // Palauta token vastauksessa
+      token,
       organizer: {
         id: organizer._id,
         organizerId: organizer.organizerId,

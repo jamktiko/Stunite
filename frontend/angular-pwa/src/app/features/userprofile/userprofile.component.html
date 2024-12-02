@@ -9,44 +9,83 @@
             <img src="../../../assets/unicorn.webp" alt="Profiilikuva" />
             <p>
               Foorumilla näkyvä nimi:
-              <strong>{{ lomake.get("etunimi")?.value || "Tuntematon" }}</strong>
+              <strong>{{
+                lomake.get("etunimi")?.value || "Tuntematon"
+              }}</strong>
             </p>
           </div>
 
           <div class="info-fields">
             <div class="form-field">
               <label for="etunimi">Etunimi:</label>
-              <input id="etunimi" formControlName="etunimi" type="text" placeholder="Syötä etunimi"
-                [readonly]="!canEdit" />
+              <input
+                id="etunimi"
+                formControlName="etunimi"
+                type="text"
+                placeholder="Syötä etunimi"
+                [readonly]="!canEdit"
+              />
             </div>
             <div class="form-field">
               <label for="sukunimi">Sukunimi:</label>
-              <input id="sukunimi" formControlName="sukunimi" type="text" placeholder="Syötä sukunimi"
-                [readonly]="!canEdit" />
+              <input
+                id="sukunimi"
+                formControlName="sukunimi"
+                type="text"
+                placeholder="Syötä sukunimi"
+                [readonly]="!canEdit"
+              />
             </div>
             <div class="form-field">
               <label for="sahkoposti">Sähköposti:</label>
-              <input id="sahkoposti" formControlName="sahkoposti" type="email" placeholder="Syötä sähköposti"
-                [readonly]="!canEdit" />
+              <input
+                id="sahkoposti"
+                formControlName="sahkoposti"
+                type="email"
+                placeholder="Syötä sähköposti"
+                [readonly]="!canEdit"
+              />
             </div>
             <div class="form-field">
               <label for="puhelin">Puhelinnumero:</label>
-              <input id="puhelin" formControlName="puhelin" type="tel" placeholder="Syötä numero"
-                [readonly]="!canEdit" />
+              <input
+                id="puhelin"
+                formControlName="puhelin"
+                type="tel"
+                placeholder="Syötä numero"
+                [readonly]="!canEdit"
+              />
             </div>
-            <div class="form-field">
+            <!-- <div class="form-field">
               <label for="koulu">Koulu:</label>
-              <input id="koulu" formControlName="koulu" type="text" placeholder="Syötä koulu" [readonly]="!canEdit" />
+              <input
+                id="koulu"
+                formControlName="koulu"
+                type="text"
+                placeholder="Syötä koulu"
+                [readonly]="!canEdit"
+              />
             </div>
             <div class="form-field">
               <label for="ala">Koulutusala:</label>
-              <input id="ala" formControlName="ala" type="text" placeholder="Syötä koulutusala" [readonly]="!canEdit" />
+              <input
+                id="ala"
+                formControlName="ala"
+                type="text"
+                placeholder="Syötä koulutusala"
+                [readonly]="!canEdit"
+              />
             </div>
             <div class="form-field">
               <label for="paikallisyhdistys">Paikallisyhdistys:</label>
-              <input id="paikallisyhdistys" formControlName="paikallisyhdistys" type="text"
-                placeholder="Syötä paikallisyhdistys" [readonly]="!canEdit" />
-            </div>
+              <input
+                id="paikallisyhdistys"
+                formControlName="paikallisyhdistys"
+                type="text"
+                placeholder="Syötä paikallisyhdistys"
+                [readonly]="!canEdit"
+              />
+            </div> -->
           </div>
         </div>
 
@@ -72,7 +111,9 @@
             Yhdistys
           </button>
           <button type="button" (click)="selectKohde('bileet')">Bileet</button>
-          <button type="button" (click)="selectKohde('urheilu')">Urheilu</button>
+          <button type="button" (click)="selectKohde('urheilu')">
+            Urheilu
+          </button>
           <button type="button" (click)="selectKohde('opiskelu')">
             Opiskelu
           </button>

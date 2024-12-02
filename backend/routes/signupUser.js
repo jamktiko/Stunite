@@ -2,9 +2,12 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
+// Luodaan reitit
 const router = express.Router();
 
+// POST-reitti uuden käyttäjän rekisteröimiseen
 router.post('/', async (req, res) => {
+  // Haetaan pyynnöstä kaikki tarvittavat kentät
   const {
     firstName,
     lastName,
@@ -15,38 +18,38 @@ router.post('/', async (req, res) => {
     supporterPayment,
   } = req.body;
 
-  // Tarkista, että kaikki vaaditut kentät on annettu
+  // Tarkistetaan, että kaikki pakolliset kentät on täytetty
   if (!firstName || !lastName || !email || !password || !phoneNumber) {
     return res
       .status(400)
       .json({ error: 'All required fields must be filled' });
   }
 
-  // Tarkista, onko käyttäjä jo olemassa
   try {
+    // Tarkistetaan, onko käyttäjä jo olemassa tietokannassa
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ error: 'Email already in use' });
     }
 
-    // Salasanan suolaus ja hash
+    // Salasanan suolaaminen ja hashaminen
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // Luo uusi käyttäjä
+    // Luodaan uusi User-objekti käyttäen pyyntöä
     const newUser = new User({
       firstName,
       lastName,
       email,
       password: hashedPassword,
       phoneNumber,
-      supporterMember: supporterMember || false, // Oletusarvo false
-      supporterPayment: supporterMember ? supporterPayment : null, // Vain jos jäsenyys on true
+      supporterMember: supporterMember || false,
+      supporterPayment: supporterMember ? supporterPayment : null,
     });
 
+    // Tallennetaan uusi käyttäjä tietokantaan
     await newUser.save();
 
-    // Palauta token vastauksessa
     return res.status(201).json({
       message: 'User registered successfully',
     });

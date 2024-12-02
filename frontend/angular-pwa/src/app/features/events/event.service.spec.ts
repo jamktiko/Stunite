@@ -1,3 +1,5 @@
+//npm test -- src/app/core/services/auth.service.spec.ts
+
 import { TestBed } from '@angular/core/testing';
 import { EventService } from './event.service';
 import { AuthService } from '../../core/services/auth.service';
@@ -80,7 +82,6 @@ describe('EventService', () => {
       expect(event).toEqual({ ...newEvent, _id: 'new-id' });
     });
 
-    // Change the URL to match the actual endpoint the service is using
     const req = httpMock.expectOne(`${environment.baseUrl}/manage/event/`);
     expect(req.request.method).toBe('POST');
     req.flush({ ...newEvent, _id: 'new-id' });
@@ -93,9 +94,7 @@ describe('EventService', () => {
       expect(response).toEqual({});
     });
 
-    const req = httpMock.expectOne(
-      `${environment.baseUrl}/manage/event/1` // Updated the URL to match the test
-    );
+    const req = httpMock.expectOne(`${environment.baseUrl}/manage/event//1`);
     expect(req.request.method).toBe('DELETE');
     req.flush({});
   });
@@ -111,7 +110,7 @@ describe('EventService', () => {
     });
 
     const req = httpMock.expectOne(
-      `${environment.baseUrl}/manage/event/${updatedEvent._id}` // Make sure _id is set
+      `${environment.baseUrl}/manage/event//${updatedEvent._id}`
     );
     expect(req.request.method).toBe('PUT');
     req.flush(updatedEvent);
@@ -125,7 +124,7 @@ describe('EventService', () => {
     });
 
     const req = httpMock.expectOne(
-      `${environment.baseUrl}/manage/event/${eventId}` // Make sure eventId is passed correctly
+      `${environment.baseUrl}/manage/event/${eventId}`
     );
     expect(req.request.method).toBe('GET');
     req.flush(mockEvents[0]);

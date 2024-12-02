@@ -139,4 +139,12 @@
     display: block; /* Kuvan esitys */
     margin: 0 auto; /* Keskittää kuvan */
   }
+  .events {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .future-events p {
+    text-align: center;
+  }
 }
