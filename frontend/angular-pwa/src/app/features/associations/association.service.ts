@@ -22,7 +22,7 @@ export class AssociationService {
   }
 
   getAssociationById(id: string): Observable<Organizer | null> {
-    const url = `${this.apiUrl}/${id}`;
+    const url = `${this.apiUrl}${id}`;
     return this.http.get<Organizer>(url);
   }
 }
