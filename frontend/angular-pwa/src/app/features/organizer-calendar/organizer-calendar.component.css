@@ -208,6 +208,16 @@
   .event-list-line {
     font-size: 18px;
   }
+
+  .full-calendar {
+    max-width: 1500px;
+    max-height: 500px;
+  }
+  .color-info-hover {
+    z-index: 0;
+    left: 70%;
+    bottom: -75%;
+  }
 }
 @media (max-width: 768px) {
   h1 {
@@ -253,6 +263,11 @@
     align-self: center;
     max-width: 40%;
     gap: 12px;
+  }
+  .color-info-hover {
+    z-index: 0;
+    left: 70%;
+    bottom: -75%;
   }
 }
 @media (max-width: 460px) {
