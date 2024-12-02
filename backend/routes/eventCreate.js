@@ -4,26 +4,29 @@ const path = require('path');
 const Event = require('../models/event');
 const verifyToken = require('../verifytoken');
 
+// Luodaan reitit
 const router = express.Router();
 
-// Asetetaan multer tallentamaan kuvat `uploads`-kansioon
+// **Multer-konfiguraatio kuvien lataamista varten**
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    cb(null, 'uploads/'); // Määritetään latausten kansio
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Luodaan uniikki tiedostonimi
+    cb(null, Date.now() + path.extname(file.originalname)); // Luodaan uniikki tiedostonimi aikaleiman avulla
   },
 });
 
+// Luodaan multer-middleware yksittäisen kuvan lataamiseen
 const upload = multer({ storage }).single('image');
 
-// Tapahtuman luontireitti
+// **Tapahtuman luontireitti**
 router.post('/', verifyToken, upload, async (req, res) => {
-  console.log('Received event data:', req.body); // Tämä kertoo, mitä dataa palvelin saa
-  console.log('Received file:', req.file); // Tämä tarkistaa, että kuva on saapunut
+  // Lokitetaan vastaanotetut tiedot virheiden vianmääritystä varten
+  console.log('Received event data:', req.body); // Näyttää lähetetyn tapahtumatiedon
+  console.log('Received file:', req.file); // Näyttää ladatun tiedoston tiedot
 
-  // Tarkistetaan, että kaikki pakolliset kentät ovat mukana
+  // Puretaan pyynnön rungosta tarvittavat tiedot
   const {
     eventName,
     date,
@@ -47,7 +50,7 @@ router.post('/', verifyToken, upload, async (req, res) => {
     eventTags,
   } = req.body;
 
-  // Tulostetaan jokainen kenttä erikseen
+  // Lokitetaan jokainen kenttä erikseen vianmäärityksen helpottamiseksi
   console.log('eventName:', eventName);
   console.log('date:', date);
   console.log('startingTime:', startingTime);
@@ -69,7 +72,7 @@ router.post('/', verifyToken, upload, async (req, res) => {
   console.log('organizationName:', organizationName);
   console.log('eventTags:', eventTags);
 
-  // Tarkistetaan, että pakolliset kentät ovat mukana
+  // Tarkistetaan, että kaikki pakolliset kentät ovat mukana
   if (
     !eventName ||
     !date ||
@@ -84,14 +87,14 @@ router.post('/', verifyToken, upload, async (req, res) => {
     return res.status(400).json({ error: 'Pakolliset kentät puuttuvat' });
   }
 
-  // Käytetään kuvaa, jos se on mukana
+  // Luodaan kuvan URL, jos kuva on lähetetty
   const imageUrl = req.file
     ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
     : '';
   console.log('Image URL:', imageUrl);
 
   try {
-    // Luodaan uusi tapahtuma
+    // Luodaan uusi tapahtuma tietomallia käyttäen
     const newEvent = new Event({
       eventName,
       date,

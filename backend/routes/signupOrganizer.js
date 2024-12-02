@@ -2,9 +2,12 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const Organizer = require('../models/organizer');
 
+// Luodaan reitit
 const router = express.Router();
 
+// POST-reitti uuden järjestäjän luomiseksi
 router.post('/', async (req, res) => {
+  // Haetaan pyynnöstä kaikki tarvittavat kentät
   const {
     organizerId,
     firstName,
@@ -28,7 +31,7 @@ router.post('/', async (req, res) => {
     fieldsOfStudy,
   } = req.body;
 
-  // Tarkista pakolliset kentät
+  // Tarkistetaan, että kaikki pakolliset kentät on täytetty
   if (
     !organizerId ||
     !firstName ||
@@ -53,11 +56,11 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    // Salasanan suolaus ja hash
+    // Salasanan suolaaminen ja hashaminen
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // Luo uusi järjestäjä
+    // Luodaan uusi Organizer-objekti käyttäen pyyntöä
     const newOrganizer = new Organizer({
       organizerId,
       firstName,
@@ -81,6 +84,7 @@ router.post('/', async (req, res) => {
       fieldsOfStudy,
     });
 
+    // Tallennetaan uusi järjestäjä tietokantaan
     await newOrganizer.save();
     res.status(201).json({ message: 'Organizer created successfully' });
   } catch (error) {
