@@ -115,3 +115,19 @@ button {
     margin-bottom: 10px;
   }
 }
+@media (max-width: 460px) {
+  h1 {
+    font-size: 3.5em;
+  }
+  .eye {
+    right: 10%;
+  }
+}
+@media (max-width: 315px) {
+  h1 {
+    font-size: 2.5em;
+  }
+  .eye {
+    right: 5%;
+  }
+}
