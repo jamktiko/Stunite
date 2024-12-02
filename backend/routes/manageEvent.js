@@ -1,20 +1,20 @@
 const express = require('express');
 const Event = require('../models/event');
 const verifyToken = require('../verifytoken');
-
 const multer = require('multer');
 const path = require('path');
 const mongoose = require('mongoose');
 
+// Luodaan reitit
 const router = express.Router();
 
 // Multerin konfiguraatio tiedostojen tallentamiseen
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Määritä latauskansion sijainti
+    cb(null, 'uploads/'); // Määritetään latauskansion sijainti
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Uniikki tiedostonimi aikaleimalla
+    cb(null, Date.now() + path.extname(file.originalname)); // Luodaan uniikki tiedostonimi aikaleimalla ja alkuperäisellä tiedostotunnisteella
   },
 });
 
@@ -36,7 +36,7 @@ const upload = multer({
   },
 }).single('image');
 
-// GET route to fetch all events
+// GET-reitti kaikkien tapahtumien hakemiseen
 router.get('/', async (req, res) => {
   try {
     const events = await Event.find();
@@ -46,7 +46,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET reitti yhden tapahtuman hakemiseen ID:n perusteella
+// GET-reitti yhden tapahtuman hakemiseen ID:n perusteella
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
 
@@ -67,7 +67,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// DELETE reitti tapahtuman poistamiseksi ID:n perusteella
+// DELETE-reitti tapahtuman poistamiseksi ID:n perusteella
 router.delete('/:id', verifyToken, async (req, res) => {
   const { id } = req.params;
 
@@ -82,15 +82,16 @@ router.delete('/:id', verifyToken, async (req, res) => {
       return res.status(404).json({ error: 'Event not found' });
     }
 
-    res
-      .status(200)
-      .json({ message: 'Event deleted successfully', event: deletedEvent });
+    res.status(200).json({
+      message: 'Event deleted successfully',
+      event: deletedEvent,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// PUT reitti tapahtuman muokkaamiseksi ID:n perusteella
+// PUT-reitti tapahtuman muokkaamiseksi ID:n perusteella
 router.put('/:id', verifyToken, upload, async (req, res) => {
   const { id } = req.params;
 
@@ -98,7 +99,7 @@ router.put('/:id', verifyToken, upload, async (req, res) => {
     return res.status(400).json({ error: 'Invalid ID format' });
   }
 
-  const updates = req.body; // Päivitettävät kentät tulevat pyynnön rungosta
+  const updates = req.body;
 
   // Jos kuva on ladattu, päivitetään `imageUrl`
   let imageUrl;
@@ -113,8 +114,8 @@ router.put('/:id', verifyToken, upload, async (req, res) => {
       id,
       { ...updates, imageUrl },
       {
-        new: true, // Palauttaa päivitetyn dokumentin
-        runValidators: true, // Varmistaa, että kenttien arvot ovat validit
+        new: true,
+        runValidators: true,
       }
     );
 
