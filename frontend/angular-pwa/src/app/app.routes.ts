@@ -15,6 +15,8 @@ import { EventGuard } from './core/guards/event-guard.guard';
 import { MobileLoginComponent } from './shared/mobile-login/mobile-login.component';
 import { MobileOrganizerLoginComponent } from './shared/mobile-organizer-login/mobile-organizer-login.component';
 import { EventArchiveComponent } from './features/events/event-archive/event-archive.component';
+import { AboutUsComponent } from './features/about-us/about-us.component';
+
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'events', component: EventsComponent },
@@ -23,6 +25,7 @@ export const routes: Routes = [
   { path: 'mobile-login', component: MobileLoginComponent },
   { path: 'mobile-organizer-login', component: MobileOrganizerLoginComponent },
   { path: 'userprofile', component: UserprofileComponent },
+  { path: 'about-us', component: AboutUsComponent },
   {
     path: 'events/:id',
     component: EventDetailsComponent,
