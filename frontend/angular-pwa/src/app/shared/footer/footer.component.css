@@ -3,3 +3,16 @@
   text-align: center;
   margin-top: 42px;
 }
+
+.ig-logo {
+  width: 30px;
+  height: 30px;
+}
+
+.socialmedia {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+}

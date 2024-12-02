@@ -77,6 +77,7 @@ export class UserprofileComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.router.navigate(['/']);
+    this.onLogout();
   }
 
   selectKohde(kohde: string) {
@@ -145,5 +146,9 @@ export class UserprofileComponent implements OnInit {
       'Käyttäjätietojen muokkaus onnistui.',
       ''
     );
+  }
+
+  onLogout() {
+    this.notificationService.showInfo('Uloskirjauduttu', '');
   }
 }
