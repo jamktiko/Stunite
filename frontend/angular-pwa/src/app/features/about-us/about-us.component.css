@@ -1,0 +1,54 @@
+.about-us-img {
+  margin: 50px 0 10px 0;
+  width: 140%;
+}
+
+h2 {
+  margin: 0;
+}
+
+p {
+  font-family: "Noto Sans", sans-serif;
+}
+
+.left {
+  text-align: center;
+  width: 75%;
+  margin: auto;
+}
+
+.lootat {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 50px;
+}
+
+.loota {
+  display: grid;
+  grid-template-rows: 60px;
+  justify-items: center;
+}
+
+.loota-text {
+  width: 100%;
+  text-align: center;
+}
+
+.twerk-img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  width: 50%;
+}
+
+.end-text {
+  font-size: 2.5em;
+  text-align: center;
+}
+
+@media (max-width: 870px) {
+  p {
+    width: 100%;
+  }
+}
