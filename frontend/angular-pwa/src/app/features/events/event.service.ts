@@ -137,7 +137,7 @@ export class EventService {
     const headers = token
       ? new HttpHeaders().set('x-access-token', token)
       : undefined;
-    const url = `${this.apiUrl}${eventId}`;
+    const url = `${this.apiUrl}/${eventId}`;
     return this.http.get<Event>(url, { headers });
   }
 
