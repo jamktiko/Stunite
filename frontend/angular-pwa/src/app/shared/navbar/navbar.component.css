@@ -22,6 +22,11 @@ a {
 .nav-link {
   font-weight: 650;
 }
+.nav-link:hover {
+  background-color: rgba(144, 144, 144, 0.04);
+  box-shadow: 0 3px 8px 1px rgba(0, 0, 0, 0.19) inset;
+  padding: 20.5px 12%;
+}
 
 .nav-link.active {
   font-weight: 750;
@@ -63,6 +68,7 @@ div {
 .login-icon {
   position: absolute;
   right: 25px;
+  cursor: pointer;
 }
 
 .material-symbols-outlined {

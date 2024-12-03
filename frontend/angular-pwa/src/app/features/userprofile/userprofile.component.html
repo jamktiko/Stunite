@@ -7,12 +7,6 @@
           <h3>Omat tiedot:</h3>
           <div class="profile-image">
             <img src="../../../assets/unicorn.webp" alt="Profiilikuva" />
-            <p>
-              Foorumilla näkyvä nimi:
-              <strong>{{
-                lomake.get("etunimi")?.value || "Tuntematon"
-              }}</strong>
-            </p>
           </div>
 
           <div class="info-fields">
@@ -23,7 +17,7 @@
                 formControlName="etunimi"
                 type="text"
                 placeholder="Syötä etunimi"
-                [readonly]="!canEdit"
+                [class.disabled]="!canEdit"
               />
             </div>
             <div class="form-field">
@@ -33,7 +27,7 @@
                 formControlName="sukunimi"
                 type="text"
                 placeholder="Syötä sukunimi"
-                [readonly]="!canEdit"
+                [class.disabled]="!canEdit"
               />
             </div>
             <div class="form-field">
@@ -43,7 +37,7 @@
                 formControlName="sahkoposti"
                 type="email"
                 placeholder="Syötä sähköposti"
-                [readonly]="!canEdit"
+                [class.disabled]="!canEdit"
               />
             </div>
             <div class="form-field">
@@ -53,7 +47,7 @@
                 formControlName="puhelin"
                 type="tel"
                 placeholder="Syötä numero"
-                [readonly]="!canEdit"
+                [class.disabled]="!canEdit"
               />
             </div>
             <!-- <div class="form-field">
@@ -63,7 +57,7 @@
                 formControlName="koulu"
                 type="text"
                 placeholder="Syötä koulu"
-                [readonly]="!canEdit"
+                [class.disabled]="!canEdit"
               />
             </div>
             <div class="form-field">
@@ -73,7 +67,7 @@
                 formControlName="ala"
                 type="text"
                 placeholder="Syötä koulutusala"
-                [readonly]="!canEdit"
+                [class.disabled]="!canEdit"
               />
             </div>
             <div class="form-field">
@@ -83,7 +77,7 @@
                 formControlName="paikallisyhdistys"
                 type="text"
                 placeholder="Syötä paikallisyhdistys"
-                [readonly]="!canEdit"
+                [class.disabled]="!canEdit"
               />
             </div> -->
           </div>

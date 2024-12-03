@@ -49,6 +49,11 @@
   font-size: 14px;
 }
 
+input.disabled {
+  pointer-events: none;
+  cursor: default; 
+}
+
 .profile-image {
   text-align: center;
   width: 30%;
