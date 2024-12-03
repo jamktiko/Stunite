@@ -20,13 +20,22 @@
 }
 
 .eventimage {
-  max-width: 100%;
+  width: 600px;
+  height: 400px;
   border-radius: 10px;
 }
 .event-infobox p {
   display: flex;
+  font-size: 20px;
   align-items: center;
   gap: 8px;
+}
+.event-infobox {
+  display: flex;
+  flex-direction: column;
+}
+.info-box .material-symbols-outlined {
+  font-size: 34px;
 }
 
 .info-box {
@@ -36,7 +45,8 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  max-width: 100%;
+  width: 400px;
+  padding: 14px;
 }
 
 #map {
@@ -51,8 +61,24 @@ button {
   padding: 10px;
   cursor: pointer;
 }
+@media (max-width: 1100px) {
+  .info-box {
+    width: 300px;
+    height: 300px;
+  }
+  .info-box .material-symbols-outlined {
+    font-size: 24px;
+  }
+  .event-infobox p {
+    font-size: 16px;
+  }
+  .eventimage {
+    width: 500px;
+    height: 300px;
+  }
+}
 
-@media (max-width: 768px) {
+@media (max-width: 930px) {
   .grid-container {
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: 250px 250px 220px auto 400px;
@@ -89,13 +115,34 @@ button {
   }
 
   .eventimage {
-    max-width: 100%;
+    width: 500px;
     display: block;
     margin: 0 auto;
   }
 
   .info-box {
-    width: 100%;
+    width: 500px;
+    margin-top: 24px;
+  }
+  #sales-g4.grid-item {
+    margin-top: 50px;
+  }
+}
+@media (max-width: 530px) {
+  .eventimage {
+    width: 290px;
+    height: 190px;
+    display: block;
     margin: 0 auto;
+  }
+  .info-box {
+    width: 290px;
+    margin-top: 0px;
+  }
+  .grid-container {
+    gap: 0;
+  }
+  #details-g3 {
+    text-align: center;
   }
 }

@@ -21,6 +21,7 @@
     </p>
     <div class="grid-container">
       <div class="grid-item" id="image-g1">
+        <!-- If event doesnt have image, use placeholder image -->
         <img
           [src]="event.imageUrl || 'assets/placeholder.png'"
           alt="Event image"
@@ -41,7 +42,6 @@
             {{ event.date }}
           </p>
 
-          <!-- Always show the starting time and ending time -->
           <p>
             <span class="material-symbols-outlined">
               nest_clock_farsight_analog

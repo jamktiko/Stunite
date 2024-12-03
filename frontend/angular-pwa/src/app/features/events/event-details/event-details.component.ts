@@ -9,7 +9,6 @@ import { AuthService } from '../../../core/services/auth.service';
 import { Event } from '../../../shared/models/event.model';
 import { RouterModule } from '@angular/router';
 
-
 @Component({
   selector: 'app-event-details',
   standalone: true,
@@ -29,12 +28,16 @@ export class EventDetailsComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: object,
     private eventService: EventService,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
+
+      // eventId from url
       const eventId = this.activatedRoute.snapshot.paramMap.get('id');
+
+      // if eventId found, call getEventById(eventId), else console.log error
       if (eventId) {
         this.eventService.getEventById(eventId).subscribe({
           next: (event: Event) => {
@@ -51,6 +54,7 @@ export class EventDetailsComponent implements OnInit {
     }
   }
 
+  // leaflet map, load map
   private async loadMap(): Promise<void> {
     if (!this.event || !this.event.address) return;
 
@@ -97,7 +101,10 @@ export class EventDetailsComponent implements OnInit {
     }
   }
 
-  // formats ticketsale times to ->  hh:mm dd.mm.yyyy
+  /**
+   * Formats ticketsale times to -> hh:mm dd.mm.yyyy
+   * @param dateTime
+   */
   formatDateTime(dateTime: string): string {
     if (!dateTime) return '';
     const date = new Date(dateTime);
