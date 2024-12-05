@@ -20,7 +20,8 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
 }
-
+.button2:hover {
+}
 .close {
   position: absolute;
   top: 10px;
@@ -65,4 +66,8 @@ p {
   align-items: center;
   flex-direction: column;
   margin-bottom: 52px;
+}
+
+.link {
+  cursor: pointer;
 }

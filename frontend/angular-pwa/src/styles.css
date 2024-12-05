@@ -37,7 +37,7 @@ button {
   -webkit-text-stroke-color: white;
 }
 /* Button with white background */
-.button2 {
+/* .button2 {
   padding: 10px 16px;
   border-radius: 18px;
   text-align: center;
@@ -55,6 +55,38 @@ button {
   font-family: "Noto Sans", sans-serif;
   font-size: 1em;
   border: 3px solid transparent;
+
+} */
+
+.button2 {
+  padding: 10px 16px;
+  border-radius: 18px;
+  text-align: center;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(90deg, #f3afab, #ebdfaf, #c6f1ba, #ace8f0, #c9b6f0, #f1b8e5)
+      border-box;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1em;
+  border: 3px solid transparent;
+  background-size: 200% 200%;
+  background-position: 0 0;
+  cursor: pointer;
+  transition: background-position 0.5s ease;
+}
+
+.button2:hover {
+  animation: rotateGradient 5s linear infinite;
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes rotateGradient {
+  0% {
+    background-position: 0% 300%;
+  }
+  100% {
+    background-position: 200% 0%;
+  }
 }
 
 .important-button {

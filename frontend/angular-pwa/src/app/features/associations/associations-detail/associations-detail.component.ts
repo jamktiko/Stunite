@@ -27,13 +27,17 @@ export class AssociationsDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // id from url
     const id = this.route.snapshot.paramMap.get('id');
+
+    // if id found, call getAssociationById(id), else console.log error
     if (id) {
       this.associationService.getAssociationById(id).subscribe({
         next: (organizer: any) => {
           if (organizer) {
             this.association = organizer;
             this.organizerId = organizer.organizerId;
+            // load organizers events
             this.loadEvents();
           } else {
             console.error('Järjestäjää ei löydy');
@@ -46,11 +50,16 @@ export class AssociationsDetailComponent implements OnInit {
     }
   }
 
+  /**
+   * Gets organizer specific events by calling getEventsByOrganizerId(this.organizerId)
+   */
   loadEvents(): void {
+    // if organizerId is found, call hetEventsByOrganizerId, else console.log error
     if (this.organizerId) {
       this.eventService.getEventsByOrganizerId(this.organizerId).subscribe({
         next: (events: Event[]) => {
           this.allEvents = events;
+          // update the list of filtered events
           this.updateFilteredEvents();
         },
         error: (err) => {
@@ -60,22 +69,34 @@ export class AssociationsDetailComponent implements OnInit {
     }
   }
 
+  /**
+   * Filters events to be future events, starting from the next upcoming event
+   */
   updateFilteredEvents(): void {
+    // creates a computed signal that updates automatically when dependencies change
     this.filteredEventsSignal = computed(() => {
+      // defines date and set time to midnight
       const currentDate = new Date();
       currentDate.setHours(0, 0, 0, 0);
 
+      // filters events to have only future / ongoing events
       const futureEvents = this.allEvents.filter((event) => {
+        // uses ending date, or starting date if ending date is not provided
         const eventEndDate = this.parseCustomDate(
           event.endingDate || event.date
         );
         eventEndDate.setHours(0, 0, 0, 0);
+
+        // returns events that ending date is today or in the future
         return eventEndDate >= currentDate;
       });
-
+      // sorts future events in ascending order using dates
       return futureEvents.sort((a, b) => {
+        // converts a and b dates to a Date objects
         const dateA = this.parseCustomDate(a.date);
         const dateB = this.parseCustomDate(b.date);
+        // compares timestamps of the dates and sorts events
+        // returns negative value if a is before b
         return dateA.getTime() - dateB.getTime();
       });
     });
