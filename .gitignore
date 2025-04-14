@@ -3,6 +3,7 @@ node_modules
 dist
 cypress.env.json
 backend/Procfile
+backend/uploads
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
