@@ -5,33 +5,34 @@
     <div *ngIf="association" class="association-container">
       <div class="pic">
         <img
-          src="../../../../assets/placeholder.png"
+          [src]="association?.imageUrl || 'assets/placeholder.png'"
           alt="Association image"
           class="associationimage"
         />
       </div>
       <div class="association-info">
-        <p>
-          <span class="material-symbols-outlined"> school </span>
-          Koulu tähän ?
-        </p>
-        <!-- <p>
-          <span></span>
-          {{ association.organizationType }}
-        </p> -->
 
         <p>
           <span class="material-symbols-outlined"> distance </span>
-          {{ association.city }}, {{ association.address }}
+          {{ association.address }}, {{ association.city }}
+        </p>
+
+        <!-- https://www.sivu.com halutaan muotoon www.sivu.com -->
+        <p>
+          <span class="material-symbols-outlined"> captive_portal </span>
+          <a
+            *ngIf="association.website"
+            [attr.href]="formatUrl(association.website)"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ getHostname(association.website) }}
+          </a>
         </p>
 
         <p>
-          <span class="material-symbols-outlined"> captive_portal </span>
-          {{ association.website }}
-        </p>
-        <p>
           <span class="material-symbols-outlined"> mail </span>
-          {{ association.email }}
+          {{ association.customerServiceEmail }}
         </p>
       </div>
     </div>
@@ -40,7 +41,7 @@
       <p>{{ association?.description }}</p>
     </div>
     <div class="association-fields">
-      <p><strong>Koulutusalat</strong></p>
+      <p><strong>Järjestäjän tyyppi:</strong></p>
 
       <ul>
         <li *ngFor="let field of association.fieldsOfStudy">
@@ -49,14 +50,17 @@
       </ul>
     </div>
 
-    <div class="overall-picture">
-      <p>[Tähän vois tulla vaikka haalarikuva]</p>
-    </div>
+
+      <!-- <img
+      src="assets/BestEventsImg.png"
+      class="overall-picture"
+    /> -->
+ 
 
     <div class="future-events">
       <p><strong>Tulevat tapahtumat</strong></p>
       <div class="events">
-        <div *ngFor="let event of filteredEventsSignal()">
+        <div *ngFor="let event of filteredFutureEventsSignal()">
           <app-eventcard [event]="event"></app-eventcard>
         </div>
       </div>
@@ -67,7 +71,17 @@
     </div>
 
     <div class="past-events">
-      <p><strong>Menneet tapahtumat </strong>(jos aikaa laittaa nää)</p>
+      <p><strong>Menneet tapahtumat</strong></p>
+      <div class="events">
+        <div *ngIf="filteredPastEventsSignal().length > 0; else noPastEvents">
+          <div *ngFor="let event of filteredPastEventsSignal()">
+            <app-eventcard [event]="event"></app-eventcard>
+          </div>
+        </div>
+        <ng-template #noPastEvents>
+          <p>Ei menneitä tapahtumia.</p>
+        </ng-template>
+      </div>
     </div>
   </div>
 </div>

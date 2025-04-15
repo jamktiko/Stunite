@@ -44,21 +44,22 @@
 }
 
 .associationimage {
-  max-width: 100%; /* Kuvan leveys 100% */
-  height: 300px; /* Määritellään korkeus, jotta kaikki kuvat ovat saman kokoisia */
-  object-fit: cover; /* Varmistaa, että kuva täyttää tilan oikein */
-  border-radius: 20px; /* Pyöristetyt kulmat */
+  width: 600px;
+  height: 400px;
+  border-radius: 10px;
 }
 
 .association-info {
   background-color: #fff5f9;
   border: 1px solid #ffc3d9;
+  justify-content: center;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 100%;
-  margin: 0 auto;
+  width: 400px;
+  padding: 14px;
+  font-size: 20px;
 }
 
 .association-info p {
@@ -68,7 +69,7 @@
   margin-left: 30px;
 }
 
-.association-info p:last-child {
+.association-info a {
   color: #15395f; /* Linkin väri */
   text-decoration: underline; /* Korostaa sähköpostia */
   cursor: pointer; /* Hiiren osoittimen muutos */
@@ -82,15 +83,14 @@
   grid-area: association-fields;
 }
 
-.overall-picture {
+/* .overall-picture {
   grid-area: overall-picture;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 100px;
   border: #b2b2b2 solid 2px;
   border-radius: 20px;
-}
+} */
 
 .future-events {
   grid-area: future-events;
@@ -117,7 +117,26 @@
   margin: 5px 0; /* Lisää vähän tilaa listakohteiden väliin */
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1250px) {
+  .association-info {
+    width: 300px;
+    height: 300px;
+    padding: 0;
+  }
+  .association-info .material-symbols-outlined {
+    font-size: 24px;
+  }
+  .association-info p {
+    font-size: 16px;
+  }
+  .associationimage {
+    width: 500px;
+    height: 300px;
+  }
+
+}
+
+@media (max-width: 850px) {
   .association-page {
     grid-template-columns: 1fr;
     grid-template-areas:

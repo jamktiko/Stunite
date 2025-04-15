@@ -37,6 +37,7 @@ const organizerSchema = new mongoose.Schema({
   fieldsOfStudy: {
     type: [String],
   },
+  imageUrl:{ type: String}
 });
 
 const Organizer = mongoose.model('Organizer', organizerSchema);
