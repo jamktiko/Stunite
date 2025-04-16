@@ -11,6 +11,7 @@ import {
   ReactiveFormsModule,
   AbstractControl,
 } from '@angular/forms';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-register',
@@ -27,11 +28,14 @@ export class RegisterComponent {
   //
   showPass: boolean = false;
   showPass2: boolean = false;
+  phoneNumber: any;
   //
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
-    private location: Location
+    private location: Location,
+    private router: Router,
+    private notificationService: NotificationService
   ) {
     this.registerForm = this.fb.group(
       {
@@ -40,7 +44,10 @@ export class RegisterComponent {
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(6)]],
         password2: ['', Validators.required],
-        phoneNumber: ['', Validators.required],
+        phoneNumber: [
+          '',
+          [Validators.required, Validators.pattern(/^\+\d{1,3}\s?\d{7,10}$/)],
+        ],
         supporterMember: [false],
         supporterPayment: [null],
       },
@@ -75,6 +82,8 @@ export class RegisterComponent {
           this.success = response.message;
           this.error = null;
           this.registerForm.reset();
+          this.router.navigate(['/']);
+          this.onRegisterSuccess();
         },
         (error) => {
           // if backend gives error 'Email alredy in use'
@@ -91,5 +100,8 @@ export class RegisterComponent {
         }
       );
     }
+  }
+  onRegisterSuccess() {
+    this.notificationService.showSuccess('Rekisteröityminen onnistui.', '');
   }
 }
