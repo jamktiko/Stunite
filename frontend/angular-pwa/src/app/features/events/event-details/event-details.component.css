@@ -1,3 +1,22 @@
+.oragnizer-info {
+  display: flex;
+  width: auto;
+  gap: 40px;
+  background-color: #fff5f9;
+  justify-self: center;
+  padding: 15px 40px;
+  margin: 20px 0px;
+  border: 1px solid #ffc3d9;
+  border-radius: 20px;
+  grid-column: 1 / span 2;
+  grid-row: 1;
+}
+
+.o-info-item {
+  display: flex;
+  gap: 10px;
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -14,9 +33,27 @@
 }
 
 #details-g3 {
-  grid-row: 2 / span 2;
+  grid-area: 3/1/3/1;
   align-items: flex-start;
   justify-content: flex-start;
+}
+#image-g1 {
+  grid-area: 2/1/2/1;
+}
+
+#info-g2 {
+  grid-area: 2/2/2/2;
+}
+
+#details-g3 {
+  grid-area: 3/1/3/1;
+}
+#sales-map {
+  grid-area: 3/2/3/2;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
 }
 
 .eventimage {
@@ -53,7 +90,7 @@
   position: relative;
   z-index: 0;
   margin-top: 15px;
-  grid-area: 3/2/3/2;
+  grid-area: 4/2/4/2;
 }
 
 button {
@@ -65,7 +102,6 @@ button {
   .info-box {
     width: 300px;
     height: 300px;
-  
   }
   .info-box .material-symbols-outlined {
     font-size: 24px;
@@ -82,20 +118,20 @@ button {
 @media (max-width: 930px) {
   .grid-container {
     grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: 250px 250px 220px auto 400px;
+    grid-template-rows: auto auto auto auto 700px;
+  }
+
+  .oragnizer-info {
+    grid-column: 1 / span 1;
+    grid-row: 1;
   }
 
   #image-g1 {
-    grid-row: 1 / span 1;
-    grid-column: 1;
-  }
-
-  #info-g2 {
     grid-row: 2 / span 1;
     grid-column: 1;
   }
 
-  #sales-g4 {
+  #info-g2 {
     grid-row: 3 / span 1;
     grid-column: 1;
   }
@@ -103,11 +139,18 @@ button {
   #details-g3 {
     grid-row: 4 / span 1;
     grid-column: 1;
+    margin-top: 20px;
   }
 
+  #sales-map {
+    grid-area: 5/1/5/1;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+  }
   #map {
-    grid-row: 5 / span 1;
-    grid-column: 1;
+    height: 900px;
   }
 
   .grid-item {

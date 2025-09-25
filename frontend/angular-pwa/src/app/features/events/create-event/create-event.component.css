@@ -1,3 +1,47 @@
+/* Tekstieditori */
+::ng-deep .ql-toolbar {
+  border-radius: 20px 20px 0 0;
+  background-color: #ffffff;
+}
+
+::ng-deep .ql-container {
+  border-radius: 0 0 20px 20px;
+  background-color: #ffffff;
+}
+
+/* Hoverattava teksti */
+.info-hover {
+  visibility: hidden;
+  background-color: #ffffff;
+  padding: 5px 8px;
+  border: solid 2px #cccccc;
+  border-radius: 6px;
+  position: absolute;
+  margin-top: 40px;
+  z-index: 1;
+  width: 740px;
+  margin-left: -30px;
+}
+.material-symbols-outlined.info {
+  margin-left: -22px;
+  margin-right: 0px;
+}
+
+.material-symbols-outlined.info:hover + .info-hover {
+  visibility: visible;
+}
+
+.info-hover-label {
+  display: flex;
+  align-items: center;
+}
+
+.free-checkbox {
+  display: flex;
+  text-align: center;
+  align-items: center;
+}
+
 .page-container {
   display: flex;
   flex-direction: column;
@@ -9,8 +53,8 @@
 }
 
 h1 {
-  margin-bottom: 10px;
-  padding-top: 10px;
+  margin-bottom: 40px;
+  padding-top: 50px;
   font-size: 1.5em;
   font-weight: 600;
   font-family: "Noto Sans", sans-serif;
@@ -42,8 +86,8 @@ h1 {
 }
 
 label {
-  width: 200px;
-  margin-right: 10px;
+  width: 230px;
+  margin-right: 30px;
   text-align: left;
   font-weight: bold;
   font-size: 1em;
@@ -52,12 +96,13 @@ label {
 input,
 select,
 textarea {
-  width: 100%;
+  width: 900px;
   padding: 8px;
   border: 2px solid #b2b2b2;
   border-radius: 20px;
-  background-color: #fff5f9;
+  background-color: #ffffff;
   font-size: 1em;
+  margin: 12px;
 }
 
 textarea {
@@ -73,9 +118,10 @@ input[type="time"] {
 .error {
   color: red;
   font-size: 0.9em;
-  margin-top: 4px;
-  right: 35px;
-  position: absolute;
+
+  margin-top: -20px;
+  padding-bottom: 10px;
+  margin-left: 220px;
 }
 
 .form-buttons {
@@ -213,6 +259,8 @@ label[for] {
   cursor: pointer;
   color: #333;
   transition: color 0.3s;
+  width: 170px;
+  margin-right: 0;
 }
 
 /* Hover-efekti labelille */

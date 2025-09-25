@@ -11,7 +11,6 @@
         />
       </div>
       <div class="association-info">
-
         <p>
           <span class="material-symbols-outlined"> distance </span>
           {{ association.address }}, {{ association.city }}
@@ -50,24 +49,23 @@
       </ul>
     </div>
 
-
-      <!-- <img
+    <!-- <img
       src="assets/BestEventsImg.png"
       class="overall-picture"
     /> -->
- 
 
     <div class="future-events">
       <p><strong>Tulevat tapahtumat</strong></p>
       <div class="events">
-        <div *ngFor="let event of filteredFutureEventsSignal()">
-          <app-eventcard [event]="event"></app-eventcard>
+        <div *ngIf="filteredFutureEventsSignal().length > 0; else noEvents">
+          <div *ngFor="let event of filteredFutureEventsSignal()">
+            <app-eventcard [event]="event"></app-eventcard>
+          </div>
         </div>
+        <ng-template #noEvents>
+          <p>Ei tulevia tapahtumia.</p>
+        </ng-template>
       </div>
-
-      <ng-template #noEvents>
-        <p>Ei tulevia tapahtumia.</p>
-      </ng-template>
     </div>
 
     <div class="past-events">

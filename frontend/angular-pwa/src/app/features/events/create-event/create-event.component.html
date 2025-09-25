@@ -11,12 +11,12 @@
           #eventNameModel="ngModel"
           required
         />
-        <div
-          class="error"
-          *ngIf="eventNameModel.invalid && eventNameModel.touched"
-        >
-          Tapahtuman nimi on pakollinen.
-        </div>
+      </div>
+      <div
+        class="error"
+        *ngIf="eventNameModel.invalid && eventNameModel.touched"
+      >
+        Tapahtuman nimi on pakollinen.
       </div>
 
       <div class="form-field form-field-two">
@@ -29,6 +29,7 @@
             #eventDateModel="ngModel"
             required
             (click)="openCalendar($event)"
+            style="width: 305px"
           />
 
           <input
@@ -38,17 +39,18 @@
             #eventTimeModel="ngModel"
             required
             (click)="openCalendar($event)"
+            style="width: 305px"
           />
         </div>
-        <div
-          class="error"
-          *ngIf="
-            (eventDateModel.invalid || eventTimeModel.invalid) &&
-            (eventDateModel.touched || eventTimeModel.touched)
-          "
-        >
-          Päivämäärä ja aloitusaika ovat pakollisia.
-        </div>
+      </div>
+      <div
+        class="error"
+        *ngIf="
+          (eventDateModel.invalid || eventTimeModel.invalid) &&
+          (eventDateModel.touched || eventTimeModel.touched)
+        "
+      >
+        Päivämäärä ja aloitusaika ovat pakollisia.
       </div>
       <div class="form-field form-field-two">
         <label>Lopetus päivämäärä ja aika*</label>
@@ -60,6 +62,7 @@
             #endingDateModel="ngModel"
             required
             (click)="openCalendar($event)"
+            style="width: 305px"
           />
           <input
             type="time"
@@ -68,18 +71,20 @@
             #endingTimeModel="ngModel"
             required
             (click)="openCalendar($event)"
+            style="width: 305px"
           />
         </div>
-        <div
-          class="error"
-          *ngIf="
-            (endingTimeModel.invalid || endingTimeModel.invalid) &&
-            (endingDateModel.touched || endingDateModel.touched)
-          "
-        >
-          Lopetus päivämäärä ja aika ovat pakollisia.
-        </div>
       </div>
+      <div
+        class="error"
+        *ngIf="
+          (endingTimeModel.invalid || endingTimeModel.invalid) &&
+          (endingDateModel.touched || endingDateModel.touched)
+        "
+      >
+        Lopetus päivämäärä ja aika ovat pakollisia.
+      </div>
+
       <div class="form-field">
         <label>Kaupunki*</label>
         <input
@@ -89,9 +94,9 @@
           #cityModel="ngModel"
           required
         />
-        <div class="error" *ngIf="cityModel.invalid && cityModel.touched">
-          Kaupunki on pakollinen.
-        </div>
+      </div>
+      <div class="error" *ngIf="cityModel.invalid && cityModel.touched">
+        Kaupunki on pakollinen.
       </div>
 
       <div class="form-field">
@@ -103,9 +108,9 @@
           #addressModel="ngModel"
           required
         />
-        <div class="error" *ngIf="addressModel.invalid && addressModel.touched">
-          Osoite on pakollinen.
-        </div>
+      </div>
+      <div class="error" *ngIf="addressModel.invalid && addressModel.touched">
+        Osoite on pakollinen.
       </div>
 
       <div class="form-field">
@@ -117,22 +122,28 @@
           #venueModel="ngModel"
           required
         />
-        <div class="error" *ngIf="venueModel.invalid && venueModel.touched">
-          Tapahtumapaikka on pakollinen.
-        </div>
       </div>
-      <div class="form-field">
+      <div class="error" *ngIf="venueModel.invalid && venueModel.touched">
+        Tapahtumapaikka on pakollinen.
+      </div>
+
+      <div class="form-field" style="margin-bottom: 60px">
         <label>Tapahtuman kuvaus</label>
-        <textarea
-          placeholder="Tapahtuman kuvaus"
-          [(ngModel)]="details"
+        <quill-editor
           name="details"
-          rows="4"
-        ></textarea>
+          [(ngModel)]="details"
+          [modules]="editorModules"
+          (onEditorCreated)="onEditorCreated($event)"
+          [style]="{ height: '250px', width: '900px', margin: '12px' }"
+          placeholder=""
+        >
+        </quill-editor>
       </div>
+
       <div class="form-field">
-        <label>Lipun hinta (min-max)*</label>
-        <div class="two-inputs">
+        <label>Lipun hinta*</label>
+
+        <div class="two-inputs" *ngIf="!freeEvent" style="margin-left: 47px">
           <input
             type="number"
             placeholder="min"
@@ -140,6 +151,7 @@
             name="ticketpriceMin"
             #ticketMinModel="ngModel"
             required
+            style="width: 200px"
           />
           <input
             type="number"
@@ -148,61 +160,84 @@
             name="ticketpriceMax"
             #ticketMaxModel="ngModel"
             required
+            style="width: 200px"
           />
         </div>
-        <div
-          class="error"
-          *ngIf="
-            (ticketMinModel.invalid || ticketMaxModel.invalid) &&
-            (ticketMinModel.touched || ticketMaxModel.touched)
-          "
-        >
-          Lipun hinta on pakollinen.
+
+        <!-- valintaruutu, onko tapahtuma ilmainen -->
+        <!-- [(ngModel)]="freeEvent": valinnan arvo sidottu freeEvent muuttujaan (boolean) -->
+        <!-- (change)="onFreeCheckboxChange()": tapahtumankäsittelijä, joka kutsuu onFreeCheckboxChange() kun valintaruudun tila muuttuu-->
+        <input
+          type="checkbox"
+          [(ngModel)]="freeEvent"
+          name="freeEvent"
+          (change)="onFreeCheckboxChange()"
+        />
+        <label>Ilmainen</label>
+      </div>
+
+      <div class="form-field form-field-two">
+        <label>Lipunmyynnin aloitus- ja lopetusaika*</label>
+        <div class="two-inputs">
+          <input
+            type="datetime-local"
+            placeholder="Lipunmyynnin aloitusaika"
+            [(ngModel)]="ticketSaleStart"
+            name="ticketSaleStart"
+            #ticketSaleStartModel="ngModel"
+            required
+            (click)="openCalendar($event)"
+            style="width: 305px"
+          />
+          <input
+            type="datetime-local"
+            placeholder="Lipunmyynnin loppumisaika"
+            [(ngModel)]="ticketSaleEnd"
+            name="ticketSaleEnd"
+            #ticketSaleEndModel="ngModel"
+            required
+            (click)="openCalendar($event)"
+            style="width: 305px"
+          />
         </div>
       </div>
-      <div class="form-field">
-        <label>Lipunmyynnin aloitusaika*</label>
-        <input
-          type="datetime-local"
-          placeholder="Lipunmyynnin aloitusaika"
-          [(ngModel)]="ticketSaleStart"
-          name="ticketSaleStart"
-          #ticketSaleStartModel="ngModel"
-          required
-          (click)="openCalendar($event)"
-        />
+      <div class="two-inputs" style="margin-left: 25%; gap: 80px">
         <div
           class="error"
           *ngIf="ticketSaleStartModel.invalid && ticketSaleStartModel.touched"
+          style="margin-left: 0px"
         >
           Lipunmyynnin aloitusaika on pakollinen.
         </div>
-      </div>
-
-      <div class="form-field">
-        <label>Lipunmyynnin loppumisaika*</label>
-        <input
-          type="datetime-local"
-          placeholder="Lipunmyynnin loppumisaika"
-          [(ngModel)]="ticketSaleEnd"
-          name="ticketSaleEnd"
-          #ticketSaleEndModel="ngModel"
-          required
-          (click)="openCalendar($event)"
-        />
         <div
           class="error"
           *ngIf="ticketSaleEndModel.invalid && ticketSaleEndModel.touched"
+          style="margin-left: 0px"
         >
           Lipunmyynnin loppumisaika on pakollinen.
         </div>
       </div>
 
       <div class="form-field">
-        <label
-          >Onko tapahtuma alustava suunnitelma vai vahvistettu tapahtuma?*
-          :</label
-        >
+        <label class="info-hover-label"
+          >Vahvistettu vai alustava?* :
+          <div class="info-hover-div">
+            <span class="material-symbols-outlined info"> help </span>
+            <span class="info-hover">
+              <p>Alustava:</p>
+              <p style="font-weight: lighter">
+                Suunnitelma, joka ei ole valmis julkaistavaksi. Näkyy kaikille
+                järjestäjille järjestäjäkalenterissa.
+              </p>
+              <p>Vahvistettu:</p>
+              <p style="font-weight: lighter">
+                Tapahtuma on valmis julkaistavaksi. Tietoja voi muokata vielä
+                julkaisun jälkeen.
+              </p>
+            </span>
+          </div>
+        </label>
+
         <!-- <p>
           Vahvistetun tapahtuman tiedot on ns. lyöty lukkoon ja on sille voi
           asettaa julkaisupäivän. Voit kuitenkin muokata vielä tapahtuman
@@ -218,11 +253,20 @@
           Huomioithan, että julkaistujen tapahtumien tietojen muokkaamisesta
           kertominen yhteisöllesi on järjestäjän vastuulla.
         </p> -->
-        <select [(ngModel)]="status" name="status" required>
+        <select
+          [(ngModel)]="status"
+          name="status"
+          #statusModel="ngModel"
+          required
+        >
           <option value="Varattu">Vahvistettu</option>
           <option value="Tuotannossa">Alustava</option>
         </select>
       </div>
+      <div class="error" *ngIf="statusModel.invalid && statusModel.touched">
+        Tapahtumalle on pakko antaa status.
+      </div>
+
       <div class="form-field">
         <label>Tapahtuman julkaisupäivä ja kellonaika*</label>
         <input
@@ -238,18 +282,17 @@
         </small>
       </div>
 
-
       <div class="form-field">
         <label>Linkki lipunmyyntiin</label>
         <input type="text" [(ngModel)]="ticketLink" name="ticketLink" />
       </div>
 
       <div class="form-field">
-        <label>Tapahtuman tagit*</label>
+        <label>Tapahtuman tunnisteet</label>
         <div class="tags-container">
           <div *ngFor="let tag of availableEventTags" class="tag-checkbox">
             <input
-            class="checkbox"
+              class="checkbox"
               type="checkbox"
               [id]="tag"
               [value]="tag"
@@ -258,11 +301,6 @@
             />
             <label [for]="tag">{{ tag }}</label>
           </div>
-        </div>
-        <div class="error" *ngIf="eventTags.length === 0">
-          <p>Valitse</p>
-          <p>vähintään</p>
-          <p>yksi tagi.</p>
         </div>
       </div>
 
@@ -284,6 +322,6 @@
         </button>
       </div>
     </form>
-      <button class="button2 cancel" (click)="onCancel()">Peruuta</button>
+    <button class="button2 cancel" (click)="onCancel()">Peruuta</button>
   </div>
 </div>

@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
+import { DomSanitizer } from '@angular/platform-browser';
+
 import { EventService } from '../event.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -8,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { Event } from '../../../shared/models/event.model';
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-details',
@@ -17,10 +20,12 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./event-details.component.css'],
 })
 export class EventDetailsComponent implements OnInit {
+  sanitizedDetails: any;
+
   event: Event | undefined;
   isOrganizer: boolean = false;
 
-  organizer: any;
+  currentUser: any;
 
   private map: any;
 
@@ -28,12 +33,13 @@ export class EventDetailsComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: object,
     private eventService: EventService,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private sanitizer: DomSanitizer,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-
       // eventId from url
       const eventId = this.activatedRoute.snapshot.paramMap.get('id');
 
@@ -42,6 +48,13 @@ export class EventDetailsComponent implements OnInit {
         this.eventService.getEventById(eventId).subscribe({
           next: (event: Event) => {
             this.event = event;
+
+            if (this.event?.details) {
+              this.sanitizedDetails = this.sanitizer.bypassSecurityTrustHtml(
+                this.event.details
+              );
+            }
+
             this.loadMap();
           },
           error: (err) => {
@@ -51,6 +64,7 @@ export class EventDetailsComponent implements OnInit {
       }
 
       this.isOrganizer = this.authService.getIsOrganizer();
+      this.currentUser = this.authService.getCurrUser();
     }
   }
 
@@ -101,20 +115,40 @@ export class EventDetailsComponent implements OnInit {
     }
   }
 
+
+  // Tarkoituksena muutta ISO muodossa olevat ajat selkeämmässä muodossa
   /**
-   * Formats ticketsale times to -> hh:mm dd.mm.yyyy
-   * @param dateTime
+   * Muotoilee ajan muotoon -> arkipäivän lyhenne vv.kk klo tt:mm
+   * @param dateTime - Päivämäärä ja aika merkkijonona (esim. ISO formaatissa)
    */
   formatDateTime(dateTime: string): string {
-    if (!dateTime) return '';
-    const date = new Date(dateTime);
+    if (!dateTime) return ''; // palauttaa tyjän merkkijonon, jos parametriä ei anneta
 
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
+    const date = new Date(dateTime); // luodaan date muuttujaan Date muotoinen olio annetusta merkkijonosta
 
-    return `${hours}:${minutes} ${day}.${month}.${year}`;
+    const weekdays = ['Su', 'Ma', 'Ti', 'Ke', 'To', 'Pe', 'La']; // määritetään viikonpäivien lyhenteet
+    const dayOfWeek = weekdays[date.getDay()]; // hakee viikonpäivän numeron ja asettaa lyhenteen (0 = SU, 1 = MA ...)
+
+    const hours = date.getHours().toString().padStart(2, '0'); // tunnit kaksinumeroisena
+    const minutes = date.getMinutes().toString().padStart(2, '0'); // minuutit kaksinumeroisena
+    const day = date.getDate().toString().padStart(2, '0'); // päivä kaksinumeroisena
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // kuukausi kaksinumeroisena
+
+
+    // palautetaan aika selkeässä muodossa
+    return `${dayOfWeek} ${day}.${month}. klo ${hours}:${minutes}`;
+  }
+
+  editEvent(event: Event) {
+    this.router.navigate(['/organizer-view/edit-event', event._id]);
+  }
+
+  isPublic(): boolean {
+    if (!this.event?.publishDateTime) return false;
+
+    const publishDate = new Date(this.event.publishDateTime);
+    const now = new Date();
+
+    return publishDate <= now;
   }
 }

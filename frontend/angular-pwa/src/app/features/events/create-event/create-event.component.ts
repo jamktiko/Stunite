@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventService } from '../event.service';
 import { Event } from '../../../shared/models/event.model';
@@ -8,14 +8,24 @@ import { CommonModule } from '@angular/common';
 import { Location } from '@angular/common';
 import { NotificationService } from '../../../core/services/notification.service';
 
+import Quill from 'quill';
+import { QuillModule } from 'ngx-quill';
+import { QuillEditorComponent } from 'ngx-quill';
+
+
 @Component({
   selector: 'app-create-event',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, QuillModule],
   templateUrl: './create-event.component.html',
   styleUrls: ['./create-event.component.css'],
 })
 export class CreateEventComponent implements OnInit {
+  private quillInstance: Quill | null = null;
+
+  @ViewChild(QuillEditorComponent) quillEditor: QuillEditorComponent | undefined;
+
+  
   originalEventData: any = {};
 
   eventName: string = '';
@@ -30,10 +40,23 @@ export class CreateEventComponent implements OnInit {
   minticketprice: number | null = null;
   theme: string = '';
   isFavorite: boolean = false;
+
   details: string = '';
+  editorModules = {
+    toolbar: [
+      ['bold', 'italic', 'underline'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['link'],
+      ['clean'],
+    ],
+  };
+
   ticketLink: string = '';
   ticketSaleStart: string = '';
   ticketSaleEnd: string = '';
+
+  freeEvent: boolean = false;
+
   publishDateTime: string = '';
   status: string = '';
   imageUrl: string = '';
@@ -90,6 +113,7 @@ export class CreateEventComponent implements OnInit {
       this.eventService.getEventById(this.eventId).subscribe({
         next: (event: Event) => {
           this.populateFormFields(event);
+
           this.originalEventData = { ...event };
         },
         error: (err) => {
@@ -97,6 +121,10 @@ export class CreateEventComponent implements OnInit {
         },
       });
     }
+  }
+  onEditorCreated(quill: Quill) {
+    this.quillInstance = quill;
+    // Voit nyt käyttää quillInstance-muuttujaa muissa metodeissa
   }
 
   private populateFormFields(event: Event) {
@@ -108,9 +136,23 @@ export class CreateEventComponent implements OnInit {
     this.address = event.address;
     this.minticketprice = event.ticketprice.minticketprice;
     this.maxticketprice = event.ticketprice.maxticketprice;
+
+    if (this.minticketprice === 0 && this.maxticketprice === 0) {
+      this.freeEvent = true;
+    } else {
+      this.freeEvent = false;
+    }
+
     this.theme = event.theme;
     this.isFavorite = event.isFavorite;
-    this.details = event.details;
+    this.details = event.details || '';
+    setTimeout(() => {
+      if (this.quillInstance) {
+        const delta = this.quillInstance.clipboard.convert({ html: this.details });
+        this.quillInstance.setContents(delta, 'api');
+      }
+    }, 0);
+
     this.ticketLink = event.ticketLink;
     this.ticketSaleStart = event.ticketSaleStart;
     this.ticketSaleEnd = event.ticketSaleEnd;
@@ -124,6 +166,7 @@ export class CreateEventComponent implements OnInit {
     if (event.imageUrl) {
       this.imagePreview = event.imageUrl;
     }
+
   }
 
   private formatDateForInput(dateStr: string): string {
@@ -175,10 +218,18 @@ export class CreateEventComponent implements OnInit {
       !this.eventDate ||
       !this.eventTime ||
       !this.venue ||
-      !this.city
+      !this.city ||
+      !this.status
     ) {
       this.errorMessage = 'Tähdelliset kentät ovat pakollisia.';
       console.error(this.errorMessage);
+      alert(this.errorMessage);
+      return;
+    }
+
+    if (!this.freeEvent && (!this.minticketprice || !this.maxticketprice)) {
+      this.errorMessage =
+        'Lipun hinta on pakollinen, jos tapahtuma ei ole ilmainen.';
       alert(this.errorMessage);
       return;
     }
@@ -209,10 +260,12 @@ export class CreateEventComponent implements OnInit {
       venue: this.venue,
       city: this.city,
       address: this.address,
-      ticketprice: {
-        minticketprice: this.minticketprice || 0,
-        maxticketprice: this.maxticketprice || 0,
-      },
+      ticketprice: this.freeEvent
+        ? { minticketprice: 0, maxticketprice: 0 }
+        : {
+            minticketprice: this.minticketprice || 0,
+            maxticketprice: this.maxticketprice || 0,
+          },
       theme: this.theme,
       isFavorite: this.isFavorite,
       details: this.details,
@@ -364,6 +417,14 @@ export class CreateEventComponent implements OnInit {
         // Poista tagi valituista
         this.eventTags = this.eventTags.filter((tag) => tag !== tagValue);
       }
+    }
+  }
+
+  // Asettaa lippun min ja max hinnaksi 0, jos tapahtuma on ilmainen (eli freeEvent = true)
+  onFreeCheckboxChange() {
+    if (this.freeEvent) {
+      this.minticketprice = 0;
+      this.maxticketprice = 0;
     }
   }
   onCreateSuccess() {

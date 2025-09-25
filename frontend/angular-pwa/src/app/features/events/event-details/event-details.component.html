@@ -1,6 +1,6 @@
 <link
   rel="stylesheet"
-  href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css "
 />
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
@@ -19,7 +19,58 @@
     >
       {{ event.date }} {{ event.city }}
     </p>
+
+    <!-- Järjestäjille näkyvissä oleva osio -->
     <div class="grid-container">
+      <div *ngIf="isOrganizer" class="oragnizer-info">
+
+
+        <!-- Tapahtuman tilan näyttäminen -->
+        <div class="o-info-item">
+          <p><strong>Tapahtuman tila: </strong></p>
+
+          <!-- Jos tapahtuman status "Tuotannossa" eli alustava  -->
+          <p *ngIf="event.status === 'Tuotannossa'">Alustava suunnitelma</p> 
+
+          <!-- Jos tapahtuman status "Varattu" eli vahvistettu ja ei vielä julkaistu -->
+          <p *ngIf="event.status === 'Varattu' && !isPublic()">
+            Vahvistettu suunnitelma
+          </p>
+          
+          <!-- Jos tapahtuman status "Varattu" eli vahvistettu ja on julkaistu -->
+          <p *ngIf="event.status === 'Varattu' && isPublic()">Julkaistu</p>
+        </div>
+
+        <!-- Tapahtuman julkaisuajan näyttäminen -->
+        <div class="o-info-item">
+          <p><strong>Tapahtuman julkaisuaika: </strong></p>
+
+          <!-- Jos tapahtumalla on julkaisuaika -->
+          <p *ngIf="event.publishDateTime">
+            <!-- formatoidaan julkaisuaika selkeään muotoon -->
+            {{ formatDateTime(event.publishDateTime) }}
+          </p>
+
+          <!-- Jos tapahtumalla ei ole julkaisu aikaa -->
+          <p *ngIf="!event.publishDateTime">Ei julkaisuaikaa</p>
+
+        </div>
+
+        <!-- Näytetään "Muokkaa tapahtumaa" napii vain järjestäjälle, joka on luonut tapahtuman -->
+        <div
+          class="o-info-item"
+          *ngIf="event.organizerId === currentUser.organizerId"
+        >
+          <button
+            class="button2"
+            style="width: auto; padding: 10px 20px"
+            (click)="editEvent(event)"
+          >
+            Muokkaa tapahtumaa
+          </button>
+        </div>
+      </div>
+
       <div class="grid-item" id="image-g1">
         <!-- If event doesnt have image, use placeholder image -->
         <img
@@ -88,32 +139,38 @@
           </p>
         </div>
       </div>
+
       <div class="grid-item" id="details-g3">
-        <p>{{ event.details }}</p>
+        <div [innerHTML]="sanitizedDetails"></div>
       </div>
-      <div
-        class="grid-item"
-        id="sales-g4"
-        style="display: flex; flex-direction: column; text-align: center"
-      >
-        <p *ngIf="isOrganizer">
-          Tapahtuman julkaisuaika: <br />
-          {{ formatDateTime(event.publishDateTime) }}
-        </p>
-        <p>
-          <strong>Lipunmyynti käynnissä:</strong><br />
-          klo {{ formatDateTime(event.ticketSaleStart) }} - klo
-          {{ formatDateTime(event.ticketSaleEnd) }}
-        </p>
-        <a [href]="event.ticketLink" target="_blank">
-          <button><strong>Osta liput</strong></button>
-        </a>
+
+      <div id="sales-map">
+        <div
+          *ngIf="event.ticketLink"
+          class="grid-item"
+          id="sales-g4"
+          style="display: flex; flex-direction: column; text-align: center"
+        >
+          <p>
+            <strong>Liput saatavilla:</strong><br />
+            {{ formatDateTime(event.ticketSaleStart) }} ━
+            {{ formatDateTime(event.ticketSaleEnd) }}
+          </p>
+          <a [href]="event.ticketLink" target="_blank">
+            <button
+              class="button2"
+              style="padding: 12px 30px; font-size: larger"
+            >
+              <strong>Hanki liput</strong>
+            </button>
+          </a>
+        </div>
+        <div
+          class="grid-item"
+          id="map"
+          style="height: 400px; width: 100%; margin-bottom: 20px"
+        ></div>
       </div>
-      <div
-        class="grid-item"
-        id="map"
-        style="height: 400px; width: 100%; margin-bottom: 20px"
-      ></div>
     </div>
   </div>
 </div>
